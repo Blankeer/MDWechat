@@ -50,22 +50,23 @@ public class WeChatHelper {
         loadPackageParam = lpparam;
         WCVersion.versionNumber = versionNumber;
         WCVersion.version = ver;
-        WCClasses.init(lpparam);
-        WCMethods.init();
-        WCId.init();
-        WCDrawable.init();
         colorPrimary = Color.parseColor("#ff009688");
         initHookUis();
-        initApplication();
+        initApplication(lpparam);
         return true;
     }
 
-    private static void initApplication() {
+    private static void initApplication(final XC_LoadPackage.LoadPackageParam lpparam) {
         findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                WCClasses.init(lpparam);
+                WCMethods.init();
+                WCId.init();
+                WCDrawable.init();
                 findAndHookMethod(LauncherUI,
-                        "onCreate", Bundle.class, new XC_MethodHook() {
+                        "onCreate", Bundle.class,
+                        new XC_MethodHook() {
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 WECHAT_LAUNCHER = (Activity) param.thisObject;
                                 MD_CONTEXT = WECHAT_LAUNCHER.createPackageContext(MY_APPLICATION_PACKAGE, Context.CONTEXT_IGNORE_SECURITY);
@@ -123,24 +124,41 @@ public class WeChatHelper {
         public static Class MMFragmentActivity;//大部分 activity 的基类
         public static final String LauncherUIName = "com.tencent.mm.ui.LauncherUI";
         private static String MM_UI_PACKAGENAME = "com.tencent.mm.ui.";
-        private static String MM_PLUGINSDK_UI_PACKNAME = "com.tencent.mm.pluginsdk.ui.";
+        public static String MM_PLUGINSDK_UI_PACKNAME = "com.tencent.mm.pluginsdk.ui.";
         private static String MM_MODEL_PACKAGENAME = "com.tencent.mm.model.";
-
+        private static final String AddressViewName = MM_UI_PACKAGENAME + "AddressView";//通讯录条目
+        public static Class AddressView;
+        private static String AvatarDrawableName;
+        private static final String AvatarDrawableNames[] = {"", "j"};
+        public static Class AvatarDrawable;
+        public static Class AvatarUtil;
+        public static String AvatarUtilName;
+        public static String AvatarUtilNames[] = {"", "com.tencent.mm.v.b"};
+        public static Class TouchImageView;
 
         private static void init(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+            int index = WCVersion.versionNumber;
             LauncherUI = XposedHelpers.findClass(LauncherUIName, lpparam.classLoader);
             MMFragmentActivity = XposedHelpers.findClass(MM_UI_PACKAGENAME + "MMFragmentActivity", lpparam.classLoader);
-
-
+            AddressView = XposedHelpers.findClass(AddressViewName, lpparam.classLoader);
+            AvatarDrawableName = MM_PLUGINSDK_UI_PACKNAME + AvatarDrawableNames[index];
+            AvatarDrawable = XposedHelpers.findClass(AvatarDrawableName, lpparam.classLoader);
+            AvatarUtilName = AvatarUtilNames[index];
+            AvatarUtil = XposedHelpers.findClass(AvatarUtilName, lpparam.classLoader);
+            TouchImageView = XposedHelpers.findClass("com.tencent.mm.plugin.sns.ui.TouchImageView", lpparam.classLoader);
         }
     }
 
     public static class WCMethods {
         private static String[] startMainUINames = {"bFE", "bNP"};
         public static String startMainUI;
+        public static String getAvatarBitmap;
+        public static String getAvatarBitmaps[] = {"", "a"};
 
         private static void init() throws Throwable {
-            startMainUI = startMainUINames[WCVersion.versionNumber];
+            int index = WCVersion.versionNumber;
+            startMainUI = startMainUINames[index];
+            getAvatarBitmap = getAvatarBitmaps[index];
         }
     }
 
@@ -153,6 +171,11 @@ public class WeChatHelper {
         public static String Conversation_ListView_Item_Avatar_Ids[] = {"", "j9"};
         public static String Firends_ListView_Item_Avatar_Id;
         public static String Firends_ListView_Item_Avatar_Ids[] = {"", "cr3"};
+        public static String Message_ListView_Item_Avator_Id;
+        public static String Message_ListView_Item_Avator_Ids[] = {"", "ih"};
+        public static String Discover_Avatar_Id;
+        public static String Discover_Avatar_Ids[] = {"", "bx8"};
+
 
         private static void init() {
             int index = WCVersion.versionNumber;
@@ -160,6 +183,8 @@ public class WeChatHelper {
             Conversation_ListView_Item_Id = Conversation_ListView_Item_Ids[index];
             Conversation_ListView_Item_Avatar_Id = Conversation_ListView_Item_Avatar_Ids[index];
             Firends_ListView_Item_Avatar_Id = Firends_ListView_Item_Avatar_Ids[index];
+            Message_ListView_Item_Avator_Id = Message_ListView_Item_Avator_Ids[index];
+            Discover_Avatar_Id = Discover_Avatar_Ids[index];
         }
     }
 

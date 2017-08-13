@@ -19,6 +19,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class ConversationHook extends BaseHookUi{
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        //会话列表分割线
         findAndHookMethod(View.class,
                 "setBackground", Drawable.class, new XC_MethodHook() {
                     @Override
@@ -26,7 +27,7 @@ public class ConversationHook extends BaseHookUi{
                         View view = (View) param.thisObject;
                         if (view.getId() ==
                                 getId(view.getContext(), WeChatHelper.WCId.Conversation_ListView_Item_Id)) {
-                            log("hook view id= aie setBackground");
+//                            log("hook view id= aie setBackground");
                             Drawable drawable = new ColorDrawable(Color.WHITE);
                             param.args[0] = drawable;
                         }
