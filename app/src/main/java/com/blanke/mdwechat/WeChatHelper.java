@@ -64,6 +64,7 @@ public class WeChatHelper {
                 WCMethods.init();
                 WCId.init();
                 WCDrawable.init();
+                WCField.init();
                 findAndHookMethod(LauncherUI,
                         "onCreate", Bundle.class,
                         new XC_MethodHook() {
@@ -135,6 +136,11 @@ public class WeChatHelper {
         public static String AvatarUtilName;
         public static String AvatarUtilNames[] = {"", "com.tencent.mm.v.b"};
         public static Class TouchImageView;
+        public static Class ChattingUInonActivity;//聊天列表
+        public static String ChattingUInonActivityName;
+        public static String ChattingUInonActivityNames[] = {"", MM_UI_PACKAGENAME + "chatting.En_5b8fbb1e"};
+        public static Class ChattingUInonFragment;//聊天列表
+        public static Class WebViewUI;
 
         private static void init(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
             int index = WCVersion.versionNumber;
@@ -146,6 +152,10 @@ public class WeChatHelper {
             AvatarUtilName = AvatarUtilNames[index];
             AvatarUtil = XposedHelpers.findClass(AvatarUtilName, lpparam.classLoader);
             TouchImageView = XposedHelpers.findClass("com.tencent.mm.plugin.sns.ui.TouchImageView", lpparam.classLoader);
+            ChattingUInonActivityName = ChattingUInonActivityNames[index];
+            ChattingUInonActivity = XposedHelpers.findClass(ChattingUInonActivityName, lpparam.classLoader);
+            ChattingUInonFragment = XposedHelpers.findClass(ChattingUInonActivityName + "$a", lpparam.classLoader);
+            WebViewUI = XposedHelpers.findClass("com.tencent.mm.plugin.webview.ui.tools.WebViewUI", lpparam.classLoader);
         }
     }
 
@@ -154,11 +164,17 @@ public class WeChatHelper {
         public static String startMainUI;
         public static String getAvatarBitmap;
         public static String getAvatarBitmaps[] = {"", "a"};
+        public static String getActionBarActivity;
+        public static String getActionBarActivitys[] = {"", "cO"};
+        public static String getActionBar;
+        public static String getActionBars[] = {"", "cP"};
 
         private static void init() throws Throwable {
             int index = WCVersion.versionNumber;
             startMainUI = startMainUINames[index];
             getAvatarBitmap = getAvatarBitmaps[index];
+            getActionBarActivity = getActionBarActivitys[index];
+            getActionBar = getActionBars[index];
         }
     }
 
@@ -175,6 +191,12 @@ public class WeChatHelper {
         public static String Message_ListView_Item_Avator_Ids[] = {"", "ih"};
         public static String Discover_Avatar_Id;
         public static String Discover_Avatar_Ids[] = {"", "bx8"};
+        public static String ActionBar_id;
+        public static String ActionBar_ids[] = {"", "g7"};
+        public static String WebViewUI_ActionBar_id;
+        public static String WebViewUI_ActionBar_ids[] = {"", "g7"};
+        public static String ActionBar_Divider_id;
+        public static String ActionBar_Divider_ids[] = {"", "gm"};
 
 
         private static void init() {
@@ -185,6 +207,8 @@ public class WeChatHelper {
             Firends_ListView_Item_Avatar_Id = Firends_ListView_Item_Avatar_Ids[index];
             Message_ListView_Item_Avator_Id = Message_ListView_Item_Avator_Ids[index];
             Discover_Avatar_Id = Discover_Avatar_Ids[index];
+            ActionBar_id = ActionBar_ids[index];
+            ActionBar_Divider_id = ActionBar_Divider_ids[index];
         }
     }
 
@@ -194,6 +218,16 @@ public class WeChatHelper {
 
         private static void init() {
             Conference_ListView_Item_Background = Conference_ListView_Item_Backgrounds[WCVersion.versionNumber];
+        }
+    }
+
+    public static class WCField {
+        public static String ActionBarContainer_mBackground;
+        public static String ActionBarContainer_mBackgrounds[] = {"", "Qd"};
+
+        private static void init() {
+            int index = WCVersion.versionNumber;
+            ActionBarContainer_mBackground = ActionBarContainer_mBackgrounds[index];
         }
     }
 }

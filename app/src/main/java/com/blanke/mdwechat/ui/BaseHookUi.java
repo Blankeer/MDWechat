@@ -87,4 +87,12 @@ public abstract class BaseHookUi {
     protected void log(Throwable e) {
         XposedBridge.log(e);
     }
+
+    protected void logSuperClass(Class clazz) {
+        if (clazz == Object.class) {
+            return;
+        }
+        log(clazz.getName());
+        logSuperClass(clazz.getSuperclass());
+    }
 }

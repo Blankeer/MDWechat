@@ -28,7 +28,7 @@ public class MainHook extends BaseHookUi {
     private void hookWechatMain() {
         findAndHookMethod(LauncherUI, WeChatHelper.WCMethods.startMainUI, new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                log("LauncherUI startMainUI isMainInit=" + isMainInit);
+//                log("LauncherUI startMainUI isMainInit=" + isMainInit);
                 if (isMainInit) {
                     return;
                 }
