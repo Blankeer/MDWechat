@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -31,14 +32,20 @@ public class MainActivity extends Activity {
         FloatingActionMenu actionMenu = new FloatingActionMenu(context);
         actionMenu.setMenuButtonColorNormal(primaryColor);
         actionMenu.setMenuButtonColorPressed(primaryColor);
-        actionMenu.setMenuIcon(ContextCompat.getDrawable(context,R.drawable.ic_add));
+        actionMenu.setMenuIcon(ContextCompat.getDrawable(context, R.drawable.ic_add));
         actionMenu.initMenuButton();
 
+        actionMenu.setFloatButtonClickListener(new FloatingActionMenu.FloatButtonClickListener() {
+            @Override
+            public void onClick(FloatingActionButton fab, int index) {
+                Log.d("click ", "fab=" + fab + ",index=" + index + ",label" + fab.getLabelText());
+            }
+        });
 
-        addFloatButton(actionMenu,context,"扫一扫",R.drawable.ic_scan,primaryColor);
-        addFloatButton(actionMenu,context,"收付款",R.drawable.ic_money,primaryColor);
-        addFloatButton(actionMenu,context,"群聊",R.drawable.ic_chat,primaryColor);
-        addFloatButton(actionMenu,context,"添加好友",R.drawable.ic_friend_add,primaryColor);
+        addFloatButton(actionMenu, context, "扫一扫", R.drawable.ic_scan, primaryColor);
+        addFloatButton(actionMenu, context, "收付款", R.drawable.ic_money, primaryColor);
+        addFloatButton(actionMenu, context, "群聊", R.drawable.ic_chat, primaryColor);
+        addFloatButton(actionMenu, context, "添加好友", R.drawable.ic_friend_add, primaryColor);
 
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -48,6 +55,7 @@ public class MainActivity extends Activity {
         params.gravity = Gravity.END | Gravity.BOTTOM;
         contentView.addView(actionMenu, params);
     }
+
     private void addFloatButton(FloatingActionMenu actionMenu, Context context, String label, int drawable, int primaryColor) {
         FloatingActionButton fab = new FloatingActionButton(context);
         fab.setImageDrawable(ContextCompat.getDrawable(context, drawable));
@@ -58,6 +66,7 @@ public class MainActivity extends Activity {
         actionMenu.addMenuButton(fab);
         fab.setLabelColors(primaryColor, primaryColor, primaryColor);
     }
+
     @Override
     protected void onResume() {
         super.onResume();

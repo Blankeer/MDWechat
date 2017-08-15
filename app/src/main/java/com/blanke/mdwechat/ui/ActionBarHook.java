@@ -61,18 +61,18 @@ public class ActionBarHook extends BaseHookUi {
             }
         });
         //设置状态栏颜色 actionbar
-        XC_MethodHook hookActionBarListener = new XC_MethodHook() {
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Activity activity = (Activity) param.thisObject;
-                refreshPrefs();
-                int statusColor = WeChatHelper.colorPrimary;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    activity.getWindow().setStatusBarColor(statusColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    Activity activity = (Activity) param.thisObject;
+                    refreshPrefs();
+                    int statusColor = WeChatHelper.colorPrimary;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        activity.getWindow().setStatusBarColor(statusColor);
+                    }
                 }
-            }
-        };
-        findAndHookMethod(Activity.class, "onResume", hookActionBarListener);
-
+            });
+        }
         //chat fragment 单独处理
 //        findAndHookMethod("android.support.v4.app.Fragment", lpparam.classLoader,
 //                "onResume",

@@ -3,9 +3,11 @@ package com.blanke.mdwechat.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,14 +18,23 @@ import com.blanke.mdwechat.util.ConvertUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import java.lang.reflect.Constructor;
+
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.blanke.mdwechat.WeChatHelper.MD_CONTEXT;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.LauncherUI;
+import static com.blanke.mdwechat.WeChatHelper.WCClasses.PopWindowAdapter_Bean_C;
+import static com.blanke.mdwechat.WeChatHelper.WCClasses.PopWindowAdapter_Bean_D;
+import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter;
+import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter_SparseArray;
+import static com.blanke.mdwechat.WeChatHelper.WCField.LauncherUI_mHomeUi;
 import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_Add_id;
 import static com.github.clans.fab.FloatingActionButton.SIZE_MINI;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 /**
  * Created by blanke on 2017/8/1.
@@ -31,6 +42,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class MainHook extends BaseHookUi {
     private static boolean isMainInit = false;//主界面初始化 hook 完毕
+    private static AdapterView.OnItemClickListener hookPopWindowAdapter;
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -55,9 +67,32 @@ public class MainHook extends BaseHookUi {
                 if (tabView != null && tabView instanceof RelativeLayout) {
                     linearLayoutContent.removeView(tabView);
                 }
-
+                //添加 floatbutton
                 ViewGroup contentFrameLayout = (ViewGroup) linearLayoutContent.getParent();
                 addFloatButton(contentFrameLayout);
+
+                // hook floatbutton click
+                Object mHomeUi = getObjectField(activity, LauncherUI_mHomeUi);
+//                log("mHomeUI=" + mHomeUi);
+                if (mHomeUi != null) {
+                    Object popWindowAdapter = XposedHelpers.getObjectField(mHomeUi, HomeUi_PopWindowAdapter);
+//                    log("popWindowAdapter=" + popWindowAdapter);
+                    if (popWindowAdapter != null) {
+                        hookPopWindowAdapter = (AdapterView.OnItemClickListener) popWindowAdapter;
+                        SparseArray hookArrays = new SparseArray();
+                        int[] mapping = {10, 20, 2, 1};
+//                        log("mapping:" + Arrays.toString(mapping));
+                        Constructor dConstructor = PopWindowAdapter_Bean_D.getConstructor(int.class, String.class, String.class, int.class, int.class);
+                        Constructor cConstructor = PopWindowAdapter_Bean_C.getConstructor(PopWindowAdapter_Bean_D);
+                        for (int i = 0; i < mapping.length; i++) {
+                            Object d = dConstructor.newInstance(mapping[i], "", "", mapping[i], mapping[i]);
+                            Object c = cConstructor.newInstance(d);
+                            hookArrays.put(i, c);
+                        }
+//                        log("hookArrays=" + hookArrays);
+                        XposedHelpers.setObjectField(popWindowAdapter, HomeUi_PopWindowAdapter_SparseArray, hookArrays);
+                    }
+                }
 
 //                TextView tv2 = new TextView(activity);
 //                tv2.setText(myContexxt.getString(R.string.test_string2));
@@ -89,13 +124,13 @@ public class MainHook extends BaseHookUi {
                 if (view instanceof ImageView
                         && view.getId() == getId(view.getContext(), ActionBar_Add_id)) {
 //                    log("view ActionBar_Add hook success");
-                    View addParentView = (View) view.getParent();
-                    if (addParentView != null) {
-                        ViewGroup addParentParentView = (ViewGroup) addParentView.getParent();
-                        if (addParentParentView != null) {
-                            addParentParentView.removeView(addParentView);
-                        }
-                    }
+//                    View addParentView = (View) view.getParent();
+//                    if (addParentView != null) {
+//                        ViewGroup addParentParentView = (ViewGroup) addParentView.getParent();
+//                        if (addParentParentView != null) {
+//                            addParentParentView.removeView(addParentView);
+//                        }
+//                    }
                 }
             }
         });
@@ -110,6 +145,15 @@ public class MainHook extends BaseHookUi {
         actionMenu.setMenuIcon(ContextCompat.getDrawable(context, R.drawable.ic_add));
         actionMenu.initMenuButton();
 
+        actionMenu.setFloatButtonClickListener(new FloatingActionMenu.FloatButtonClickListener() {
+            @Override
+            public void onClick(FloatingActionButton fab, int index) {
+                log("click fab,index=" + index + ",label" + fab.getLabelText());
+                if (hookPopWindowAdapter != null) {
+                    hookPopWindowAdapter.onItemClick(null, null, index, 0);
+                }
+            }
+        });
 
         addFloatButton(actionMenu, context, "扫一扫", R.drawable.ic_scan, primaryColor);
         addFloatButton(actionMenu, context, "收付款", R.drawable.ic_money, primaryColor);
@@ -124,7 +168,8 @@ public class MainHook extends BaseHookUi {
         frameLayout.addView(actionMenu, params);
     }
 
-    private void addFloatButton(FloatingActionMenu actionMenu, Context context, String label, int drawable, int primaryColor) {
+    private FloatingActionButton addFloatButton(FloatingActionMenu actionMenu, Context context,
+                                                String label, int drawable, int primaryColor) {
         FloatingActionButton fab = new FloatingActionButton(context);
         fab.setImageDrawable(ContextCompat.getDrawable(context, drawable));
         fab.setColorNormal(primaryColor);
@@ -133,6 +178,7 @@ public class MainHook extends BaseHookUi {
         fab.setLabelText(label);
         actionMenu.addMenuButton(fab);
         fab.setLabelColors(primaryColor, primaryColor, primaryColor);
+        return fab;
     }
 
     private int getPrimaryColor() {

@@ -141,6 +141,13 @@ public class WeChatHelper {
         public static String ChattingUInonActivityNames[] = {"", MM_UI_PACKAGENAME + "chatting.En_5b8fbb1e"};
         public static Class ChattingUInonFragment;//聊天列表
         public static Class WebViewUI;
+        public static Class HomeUI;
+        public static Class PopWindowAdapter_Bean_C;
+        public static String PopWindowAdapter_Bean_C_Name;
+        public static String PopWindowAdapter_Bean_C_Names[] = {"", "c"};
+        public static Class PopWindowAdapter_Bean_D;
+        public static String PopWindowAdapter_Bean_D_Name;
+        public static String PopWindowAdapter_Bean_D_Names[] = {"", "d"};
 
         private static void init(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
             int index = WCVersion.versionNumber;
@@ -156,6 +163,12 @@ public class WeChatHelper {
             ChattingUInonActivity = XposedHelpers.findClass(ChattingUInonActivityName, lpparam.classLoader);
             ChattingUInonFragment = XposedHelpers.findClass(ChattingUInonActivityName + "$a", lpparam.classLoader);
             WebViewUI = XposedHelpers.findClass("com.tencent.mm.plugin.webview.ui.tools.WebViewUI", lpparam.classLoader);
+            HomeUI = XposedHelpers.findClass(MM_UI_PACKAGENAME + "HomeUI", lpparam.classLoader);
+            PopWindowAdapter_Bean_C_Name = MM_UI_PACKAGENAME + "u$" + PopWindowAdapter_Bean_C_Names[index];
+            PopWindowAdapter_Bean_C = XposedHelpers.findClass(PopWindowAdapter_Bean_C_Name, lpparam.classLoader);
+            PopWindowAdapter_Bean_D_Name = MM_UI_PACKAGENAME + "u$" + PopWindowAdapter_Bean_D_Names[index];
+            PopWindowAdapter_Bean_D = XposedHelpers.findClass(PopWindowAdapter_Bean_D_Name, lpparam.classLoader);
+
         }
     }
 
@@ -227,10 +240,22 @@ public class WeChatHelper {
     public static class WCField {
         public static String ActionBarContainer_mBackground;
         public static String ActionBarContainer_mBackgrounds[] = {"", "Qd"};
+        public static String LauncherUI_mHomeUi;
+        public static String LauncherUI_mHomeUis[] = {"", "uyW"};
+        public static String HomeUi_PopWindowAdapter;
+        public static String HomeUi_PopWindowAdapters[] = {"", "uxq"};
+        public static String HomeUi_PopWindowAdapter_SparseArray;
+        public static String HomeUi_PopWindowAdapter_SparseArrays[] = {"", "uCY"};
+        public static String HomeUi_PopWindowAdapter_Mapping;
+        public static String HomeUi_PopWindowAdapter_Mappings[] = {"", "uDc"};
 
         private static void init() {
             int index = WCVersion.versionNumber;
             ActionBarContainer_mBackground = ActionBarContainer_mBackgrounds[index];
+            LauncherUI_mHomeUi = LauncherUI_mHomeUis[index];
+            HomeUi_PopWindowAdapter = HomeUi_PopWindowAdapters[index];
+            HomeUi_PopWindowAdapter_SparseArray = HomeUi_PopWindowAdapter_SparseArrays[index];
+            HomeUi_PopWindowAdapter_Mapping = HomeUi_PopWindowAdapter_Mappings[index];
         }
     }
 }

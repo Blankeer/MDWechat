@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,12 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.KeyEvent.KEYCODE_BACK;
+
 public class FloatingActionMenu extends ViewGroup {
+    public interface FloatButtonClickListener {
+        void onClick(FloatingActionButton fab, int index);
+    }
 
     private static final int ANIMATION_DURATION = 300;
     private static final float CLOSED_PLUS_ROTATION = 0f;
@@ -105,6 +111,7 @@ public class FloatingActionMenu extends ViewGroup {
     private Context mLabelsContext;
     private String mMenuLabelText;
     private boolean mUsingMenuLabel;
+    private FloatButtonClickListener floatButtonClickListener;
 
     public interface OnMenuToggleListener {
         void onMenuToggle(boolean opened);
@@ -195,6 +202,9 @@ public class FloatingActionMenu extends ViewGroup {
         initMenuButtonAnimations(attr);
 
         attr.recycle();
+
+        this.requestFocus();
+        this.setFocusableInTouchMode(true);
     }
 
     private void initMenuButtonAnimations(TypedArray attr) {
@@ -969,29 +979,26 @@ public class FloatingActionMenu extends ViewGroup {
         return mMenuColorRipple;
     }
 
-    public void addMenuButton(FloatingActionButton fab) {
+    public void addMenuButton(final FloatingActionButton fab) {
         addView(fab, mButtonsCount - 2);
+        final int index = mButtonsCount - 2;
         mButtonsCount++;
         addLabel(fab);
+        fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (floatButtonClickListener != null) {
+                    floatButtonClickListener.onClick(fab, index);
+                    close(true);
+                }
+            }
+        });
     }
 
     public void removeMenuButton(FloatingActionButton fab) {
         removeView(fab.getLabelView());
         removeView(fab);
         mButtonsCount--;
-    }
-
-    public void addMenuButton(FloatingActionButton fab, int index) {
-        int size = mButtonsCount - 2;
-        if (index < 0) {
-            index = 0;
-        } else if (index > size) {
-            index = size;
-        }
-
-        addView(fab, index);
-        mButtonsCount++;
-        addLabel(fab);
     }
 
     public void removeAllMenuButtons() {
@@ -1023,5 +1030,18 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void setOnMenuButtonLongClickListener(OnLongClickListener longClickListener) {
         mMenuButton.setOnLongClickListener(longClickListener);
+    }
+
+    public void setFloatButtonClickListener(FloatButtonClickListener buttonClickListener) {
+        floatButtonClickListener = buttonClickListener;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (KEYCODE_BACK == keyCode && isOpened()) {
+            close(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
