@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.blanke.mdwechat.util.ConvertUtils;
+import com.blanke.mdwechat.widget.MaterialSearchView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -17,12 +19,14 @@ import static com.github.clans.fab.FloatingActionButton.SIZE_MINI;
 
 public class MainActivity extends Activity {
     private FrameLayout contentView;
+    private MaterialSearchView materialSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         contentView = (FrameLayout) findViewById(R.id.main_content);
+        materialSearchView = (MaterialSearchView) findViewById(R.id.searchView);
         addFab(contentView);
     }
 
@@ -67,8 +71,7 @@ public class MainActivity extends Activity {
         fab.setLabelColors(primaryColor, primaryColor, primaryColor);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void clickButton(View view) {
+        materialSearchView.show();
     }
 }

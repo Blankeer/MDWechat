@@ -2,9 +2,11 @@ package com.blanke.mdwechat.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.SparseArray;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.blanke.mdwechat.R;
 import com.blanke.mdwechat.WeChatHelper;
 import com.blanke.mdwechat.util.ConvertUtils;
+import com.blanke.mdwechat.widget.MaterialSearchView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -32,6 +35,7 @@ import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter;
 import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter_SparseArray;
 import static com.blanke.mdwechat.WeChatHelper.WCField.LauncherUI_mHomeUi;
 import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_Add_id;
+import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_id;
 import static com.github.clans.fab.FloatingActionButton.SIZE_MINI;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -43,6 +47,7 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 public class MainHook extends BaseHookUi {
     private static boolean isMainInit = false;//主界面初始化 hook 完毕
     private static AdapterView.OnItemClickListener hookPopWindowAdapter;
+    private MaterialSearchView searchView;
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -67,6 +72,9 @@ public class MainHook extends BaseHookUi {
                 if (tabView != null && tabView instanceof RelativeLayout) {
                     linearLayoutContent.removeView(tabView);
                 }
+                /******************
+                 *hook floatButton
+                 *****************/
                 //添加 floatbutton
                 ViewGroup contentFrameLayout = (ViewGroup) linearLayoutContent.getParent();
                 addFloatButton(contentFrameLayout);
@@ -93,6 +101,29 @@ public class MainHook extends BaseHookUi {
                         XposedHelpers.setObjectField(popWindowAdapter, HomeUi_PopWindowAdapter_SparseArray, hookArrays);
                     }
                 }
+                /******************
+                 *hook SearchView
+                 *****************/
+//                ViewGroup actionFrameLayout = (ViewGroup) contentFrameLayout.getParent();
+//                ViewGroup rootFrameLayout = (ViewGroup) actionFrameLayout.getParent();
+//                logSuperClass(rootFrameLayout.getClass());
+                ViewGroup actionLayout = (ViewGroup) activity.findViewById(getId(activity, ActionBar_id));
+                addSearchView(actionLayout);
+                // hook click search
+                findAndHookMethod(LauncherUI, "onOptionsItemSelected", MenuItem.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        MenuItem menuItem = (MenuItem) param.args[0];
+                        if (menuItem.getItemId() == 1) {//search
+//                            log("hook launcherUi click action search icon success");
+                            if (searchView != null) {
+                                searchView.show();
+                            }
+                            param.setResult(true);
+                        }
+                    }
+                });
+
 
 //                TextView tv2 = new TextView(activity);
 //                tv2.setText(myContexxt.getString(R.string.test_string2));
@@ -112,7 +143,6 @@ public class MainHook extends BaseHookUi {
                 "onDestroy", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        super.afterHookedMethod(param);
 //                        log("LauncherUI onDestroy()");
                         isMainInit = false;
                     }
@@ -179,6 +209,15 @@ public class MainHook extends BaseHookUi {
         actionMenu.addMenuButton(fab);
         fab.setLabelColors(primaryColor, primaryColor, primaryColor);
         return fab;
+    }
+
+    private void addSearchView(ViewGroup frameLayout) {
+        Context context = MD_CONTEXT;
+        searchView = new MaterialSearchView(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            searchView.setElevation(10);
+        }
+        frameLayout.addView(searchView);
     }
 
     private int getPrimaryColor() {
