@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.blanke.mdwechat.R;
 import com.blanke.mdwechat.WeChatHelper;
+import com.blanke.mdwechat.util.ConvertUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -89,8 +90,12 @@ public class MainHook extends BaseHookUi {
                         && view.getId() == getId(view.getContext(), ActionBar_Add_id)) {
 //                    log("view ActionBar_Add hook success");
                     View addParentView = (View) view.getParent();
-                    ViewGroup addParentParentView = (ViewGroup) addParentView.getParent();
-                    addParentParentView.removeView(addParentView);
+                    if (addParentView != null) {
+                        ViewGroup addParentParentView = (ViewGroup) addParentView.getParent();
+                        if (addParentParentView != null) {
+                            addParentParentView.removeView(addParentView);
+                        }
+                    }
                 }
             }
         });
@@ -101,29 +106,33 @@ public class MainHook extends BaseHookUi {
         Context context = MD_CONTEXT;
         FloatingActionMenu actionMenu = new FloatingActionMenu(context);
         actionMenu.setMenuButtonColorNormal(primaryColor);
+        actionMenu.setMenuButtonColorPressed(primaryColor);
+        actionMenu.setMenuIcon(ContextCompat.getDrawable(context, R.drawable.ic_add));
         actionMenu.initMenuButton();
 
-        FloatingActionButton fab = new FloatingActionButton(context);
-        fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_accessible_black_24dp));
-        fab.setColorNormal(primaryColor);
-        fab.setButtonSize(SIZE_MINI);
-        fab.setLabelText("扫一扫");
-        actionMenu.addMenuButton(fab);
-        fab.setLabelColors(primaryColor, primaryColor, primaryColor);
 
-        FloatingActionButton fab2 = new FloatingActionButton(context);
-        fab2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_3d_rotation_red_800_24dp));
-        fab2.setColorNormal(primaryColor);
-        fab2.setButtonSize(SIZE_MINI);
-        fab2.setLabelText("好友");
-        actionMenu.addMenuButton(fab2);
-        fab2.setLabelColors(primaryColor, primaryColor, primaryColor);
+        addFloatButton(actionMenu, context, "扫一扫", R.drawable.ic_scan, primaryColor);
+        addFloatButton(actionMenu, context, "收付款", R.drawable.ic_money, primaryColor);
+        addFloatButton(actionMenu, context, "群聊", R.drawable.ic_chat, primaryColor);
+        addFloatButton(actionMenu, context, "添加好友", R.drawable.ic_friend_add, primaryColor);
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.rightMargin = 8;
-        params.bottomMargin = 8;
+        int margin = ConvertUtils.dp2px(frameLayout.getContext(), 12);
+        params.rightMargin = margin;
+        params.bottomMargin = margin;
         params.gravity = Gravity.END | Gravity.BOTTOM;
         frameLayout.addView(actionMenu, params);
+    }
+
+    private void addFloatButton(FloatingActionMenu actionMenu, Context context, String label, int drawable, int primaryColor) {
+        FloatingActionButton fab = new FloatingActionButton(context);
+        fab.setImageDrawable(ContextCompat.getDrawable(context, drawable));
+        fab.setColorNormal(primaryColor);
+        fab.setColorPressed(primaryColor);
+        fab.setButtonSize(SIZE_MINI);
+        fab.setLabelText(label);
+        actionMenu.addMenuButton(fab);
+        fab.setLabelColors(primaryColor, primaryColor, primaryColor);
     }
 
     private int getPrimaryColor() {

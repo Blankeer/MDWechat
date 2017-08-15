@@ -158,7 +158,7 @@ public class FloatingActionMenu extends ViewGroup {
         mAnimationDelayPerItem = attr.getInt(R.styleable.FloatingActionMenu_menu_animationDelayPerItem, 50);
         mIcon = attr.getDrawable(R.styleable.FloatingActionMenu_menu_icon);
         if (mIcon == null) {
-            mIcon = getResources().getDrawable(R.drawable.fab_add);
+//            mIcon = getResources().getDrawable(R.drawable.fab_add);
         }
         mLabelsSingleLine = attr.getBoolean(R.styleable.FloatingActionMenu_menu_labels_singleLine, false);
         mLabelsEllipsize = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_ellipsize, 0);
@@ -261,12 +261,19 @@ public class FloatingActionMenu extends ViewGroup {
         mMenuButton.setLabelText(mMenuLabelText);
 
         mImageToggle = new ImageView(getContext());
-        mImageToggle.setImageDrawable(mIcon);
+        if (mIcon != null) {
+            mImageToggle.setImageDrawable(mIcon);
+        }
 
         addView(mMenuButton, super.generateDefaultLayoutParams());
         addView(mImageToggle);
 
         createDefaultIconAnimation();
+    }
+
+    public void setMenuIcon(Drawable icon) {
+        mIcon = icon;
+        mImageToggle.setImageDrawable(mIcon);
     }
 
     private void createDefaultIconAnimation() {

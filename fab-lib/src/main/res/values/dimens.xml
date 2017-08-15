@@ -2,7 +2,7 @@
 <resources>
 
     <dimen name="fab_size_normal">56dp</dimen>
-    <dimen name="fab_size_mini">40dp</dimen>
+    <dimen name="fab_size_mini">45dp</dimen>
     <dimen name="labels_text_size">14sp</dimen>
 
 </resources>

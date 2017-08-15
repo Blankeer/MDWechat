@@ -50,7 +50,7 @@ public class WeChatHelper {
         loadPackageParam = lpparam;
         WCVersion.versionNumber = versionNumber;
         WCVersion.version = ver;
-        colorPrimary = Color.parseColor("#ff009688");
+        colorPrimary = Color.parseColor("#3ea43f");
         initHookUis();
         initApplication(lpparam);
         return true;
