@@ -197,6 +197,8 @@ public class WeChatHelper {
         public static String WebViewUI_ActionBar_ids[] = {"", "g7"};
         public static String ActionBar_Divider_id;
         public static String ActionBar_Divider_ids[] = {"", "gm"};
+        public static String ActionBar_Add_id;
+        public static String ActionBar_Add_ids[] = {"", "fk"};
 
 
         private static void init() {
@@ -209,6 +211,7 @@ public class WeChatHelper {
             Discover_Avatar_Id = Discover_Avatar_Ids[index];
             ActionBar_id = ActionBar_ids[index];
             ActionBar_Divider_id = ActionBar_Divider_ids[index];
+            ActionBar_Add_id = ActionBar_Add_ids[index];
         }
     }
 

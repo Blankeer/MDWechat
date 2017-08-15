@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.clans.fab.FloatingActionMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_marginBottom="8dp"
+    android:layout_marginRight="8dp"
+    app:menu_colorNormal="@color/colorPrimary"
+    app:menu_fab_size="normal"
+    app:menu_labels_colorNormal="@color/colorPrimary"
+    app:menu_showShadow="true">
+
+    <com.github.clans.fab.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_label="friend"
+        app:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_label="wechat"
+        app:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_label="hahaha"
+        app:fab_size="mini" />
+</com.github.clans.fab.FloatingActionMenu>
