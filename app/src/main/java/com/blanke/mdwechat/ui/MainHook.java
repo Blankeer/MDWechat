@@ -2,14 +2,16 @@ package com.blanke.mdwechat.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,11 +33,14 @@ import static com.blanke.mdwechat.WeChatHelper.MD_CONTEXT;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.LauncherUI;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.PopWindowAdapter_Bean_C;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.PopWindowAdapter_Bean_D;
+import static com.blanke.mdwechat.WeChatHelper.WCClasses.Search_FTSMainUI;
 import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter;
 import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter_SparseArray;
 import static com.blanke.mdwechat.WeChatHelper.WCField.LauncherUI_mHomeUi;
 import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_Add_id;
 import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_id;
+import static com.blanke.mdwechat.WeChatHelper.WCId.SearchUI_EditText_id;
+import static com.blanke.mdwechat.WeChatHelper.WCMethods.HomeUi_StartSearch;
 import static com.github.clans.fab.FloatingActionButton.SIZE_MINI;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -48,6 +53,8 @@ public class MainHook extends BaseHookUi {
     private static boolean isMainInit = false;//主界面初始化 hook 完毕
     private static AdapterView.OnItemClickListener hookPopWindowAdapter;
     private MaterialSearchView searchView;
+    private Object mHomeUi;
+    private String searchKey;
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -80,7 +87,7 @@ public class MainHook extends BaseHookUi {
                 addFloatButton(contentFrameLayout);
 
                 // hook floatbutton click
-                Object mHomeUi = getObjectField(activity, LauncherUI_mHomeUi);
+                mHomeUi = getObjectField(activity, LauncherUI_mHomeUi);
 //                log("mHomeUI=" + mHomeUi);
                 if (mHomeUi != null) {
                     Object popWindowAdapter = XposedHelpers.getObjectField(mHomeUi, HomeUi_PopWindowAdapter);
@@ -154,13 +161,14 @@ public class MainHook extends BaseHookUi {
                 if (view instanceof ImageView
                         && view.getId() == getId(view.getContext(), ActionBar_Add_id)) {
 //                    log("view ActionBar_Add hook success");
-//                    View addParentView = (View) view.getParent();
-//                    if (addParentView != null) {
-//                        ViewGroup addParentParentView = (ViewGroup) addParentView.getParent();
-//                        if (addParentParentView != null) {
-//                            addParentParentView.removeView(addParentView);
-//                        }
-//                    }
+                    // TODO: 2017/8/16 bug,
+                    View addParentView = (View) view.getParent();
+                    if (addParentView != null) {
+                        ViewGroup addParentParentView = (ViewGroup) addParentView.getParent();
+                        if (addParentParentView != null) {
+                            addParentParentView.removeView(addParentView);
+                        }
+                    }
                 }
             }
         });
@@ -214,10 +222,48 @@ public class MainHook extends BaseHookUi {
     private void addSearchView(ViewGroup frameLayout) {
         Context context = MD_CONTEXT;
         searchView = new MaterialSearchView(context);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            searchView.setElevation(10);
-        }
-        frameLayout.addView(searchView);
+        searchView.setOnSearchListener(new MaterialSearchView.SimpleonSearchListener() {
+            @Override
+            public void onSearch(String query) {
+                searchKey = query;
+                if (mHomeUi != null) {
+                    XposedHelpers.callMethod(mHomeUi, HomeUi_StartSearch);
+                }
+                searchView.hide();
+            }
+        });
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        frameLayout.addView(searchView, params);
+        findAndHookMethod(Search_FTSMainUI, "onResume", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!TextUtils.isEmpty(searchKey)) {
+                    final Activity activity = (Activity) param.thisObject;
+                    log("searchkey=" + searchKey);
+                    final Handler handler = new Handler(activity.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int id = getId(activity, SearchUI_EditText_id);
+                            View editView = activity.getWindow().findViewById(id);
+                            log("id=" + id);
+                            if (editView == null) {
+//                                printActivityWindowViewTree(activity);
+                                handler.postDelayed(this, 200);
+                                return;
+                            }
+                            log("editview=" + editView);
+                            if (editView instanceof EditText) {
+                                EditText editText = (EditText) editView;
+                                log("editText=" + editText);
+                                editText.setText(searchKey);
+                            }
+                            searchKey = null;
+                        }
+                    }, 200);
+                }
+            }
+        });
     }
 
     private int getPrimaryColor() {

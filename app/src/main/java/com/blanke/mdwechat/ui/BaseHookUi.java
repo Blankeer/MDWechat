@@ -1,14 +1,10 @@
 package com.blanke.mdwechat.ui;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HeaderViewListAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.blanke.mdwechat.WeChatHelper;
 
@@ -40,41 +36,41 @@ public abstract class BaseHookUi {
      * @param level
      */
     protected void printViewTree(View rootView, int level) {
+        logSpace(level, getViewMsg(rootView));
         if (rootView instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup) rootView;
-            logSpace(level, rootView.getClass().getName());
-            if (rootView.getClass().getName().contains("ConversationOverscrollListView")) {
-                ListView listView = (ListView) rootView;
-                log("listview id=" + listView.getId() + ",bld=" + getId(listView.getContext(), "bld"));
-                ListAdapter adapter = listView.getAdapter();
-                log("adapter=" + adapter.getClass().getName());
-                if (adapter instanceof HeaderViewListAdapter) {
-                    HeaderViewListAdapter headerViewListAdapter = (HeaderViewListAdapter) adapter;
-                    ListAdapter realAdapter = headerViewListAdapter.getWrappedAdapter();
-                    log("realAdapter=" + realAdapter.getClass().getName());
-                }
-                View view = listView.getChildAt(0);
-                Drawable drawable = view.getBackground();
-                if (drawable != null) {
-                    log("listView.getChildAt(0).getBackground()!=null");
-                }
-                view.setBackground(new ColorDrawable(Color.TRANSPARENT));
-
-                return;
-            }
             for (int i = 0; i < vg.getChildCount(); i++) {
                 View v = vg.getChildAt(i);
                 printViewTree(v, level + 1);
             }
-        } else {
-            logSpace(level, rootView.getClass().getName());
         }
+    }
+
+    protected void printActivityViewTree(Activity activity) {
+        View contentView = activity.findViewById(android.R.id.content);
+        printViewTree(contentView, 0);
+    }
+
+    protected void printActivityWindowViewTree(Activity activity) {
+        printViewTree(activity.getWindow().getDecorView(), 0);
+    }
+
+    private String getViewMsg(View view) {
+        String className = view.getClass().getName();
+        int id = view.getId();
+        String text = "";
+        if (view instanceof TextView) {
+            TextView textView = (TextView) view;
+            text = textView.getText().toString();
+            text += "(" + textView.getHint() + ")";
+        }
+        return className + "," + id + "," + text + "," + view;
     }
 
     private void logSpace(int count, String msg) {
         StringBuilder sb = new StringBuilder();
         for (int j = 0; j < count; j++) {
-            sb.append("\t");
+            sb.append("----");
         }
         sb.append(msg);
         log(sb.toString());

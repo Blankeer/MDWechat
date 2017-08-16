@@ -36,6 +36,8 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
 
 public class MaterialSearchView extends FrameLayout implements View.OnClickListener {
+    private final InputMethodManager inputMethodManager;
+
     public interface onSearchListener {
         void onSearch(String query);
 
@@ -44,6 +46,29 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         void searchViewClosed();
 
         void onCancelSearch();
+    }
+
+    public static class SimpleonSearchListener implements onSearchListener {
+
+        @Override
+        public void onSearch(String query) {
+
+        }
+
+        @Override
+        public void searchViewOpened() {
+
+        }
+
+        @Override
+        public void searchViewClosed() {
+
+        }
+
+        @Override
+        public void onCancelSearch() {
+
+        }
     }
 
     private final EditText mSearchEditText;
@@ -61,9 +86,6 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
     public CardView getCardLayout() {
         return cardLayout;
     }
-
-//    final Animation fade_in;
-//    final Animation fade_out;
 
     public MaterialSearchView(final Context context) {
         this(context, null);
@@ -87,11 +109,11 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         backArrowImg = new ImageView(context);
 //        backArrowImg.setClickable(true);
 //        backArrowImg.setBackground(ContextCompat.getDrawable(context, android.R.attr.selectableItemBackgroundBorderless));
-        backArrowImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        backArrowImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_arrow_back));
         int p = 12;
         backArrowImg.setPadding(p, p, p, p);
-        int w = 48;
-        LinearLayout.LayoutParams backParams = new LinearLayout.LayoutParams(w, w);
+//        int w = 48;
+        LinearLayout.LayoutParams backParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         contentLayout.addView(backArrowImg, backParams);
 
         mSearchEditText = new EditText(context);
@@ -100,6 +122,9 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         mSearchEditText.setPadding(p, 0, p, 0);
         mSearchEditText.setLines(1);
         mSearchEditText.setBackgroundColor(Color.WHITE);
+        mSearchEditText.setTextColor(Color.BLACK);
+        mSearchEditText.setHint("搜索");
+        mSearchEditText.setHintTextColor(Color.GRAY);
         LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         editParams.weight = 1;
         contentLayout.addView(mSearchEditText, editParams);
@@ -107,20 +132,18 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         mClearSearch = new ImageView(context);
 //        mClearSearch.setClickable(true);
 //        mClearSearch.setBackground(ContextCompat.getDrawable(context, android.R.attr.selectableItemBackgroundBorderless));
-        mClearSearch.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.abc_ic_clear_mtrl_alpha));
+        mClearSearch.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_clear));
         mClearSearch.setVisibility(INVISIBLE);
         mClearSearch.setPadding(p, p, p, p);
-        LinearLayout.LayoutParams clearParams = new LinearLayout.LayoutParams(w, w);
+        LinearLayout.LayoutParams clearParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         contentLayout.addView(mClearSearch, clearParams);
 
         cardLayout.addView(contentLayout);
-        FrameLayout.LayoutParams cardParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        cardParams.leftMargin = cardParams.rightMargin = cardParams.topMargin = cardParams.bottomMargin = 4;
+        FrameLayout.LayoutParams cardParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        cardParams.leftMargin = cardParams.rightMargin = cardParams.topMargin = cardParams.bottomMargin = 6;
         addView(cardLayout, cardParams);
 
         mSearchEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-//        fade_in = AnimationUtils.loadAnimation(getContext().getApplicationContext(), android.R.anim.fade_in);
-//        fade_out = AnimationUtils.loadAnimation(getContext().getApplicationContext(), android.R.anim.fade_out);
 
         mClearSearch.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
         backArrowImg.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
@@ -161,6 +184,8 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         mClearSearch.setOnClickListener(this);
         setVisibility(View.GONE);
         clearAnimation();
+
+        inputMethodManager = ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE));
     }
 
     public void setOnSearchListener(final onSearchListener l) {
@@ -189,8 +214,8 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             final Animator animator = ViewAnimationUtils.createCircularReveal(cardLayout,
-                    cardLayout.getWidth() - 56,
-                    23,
+                    cardLayout.getWidth() - 20,
+                    cardLayout.getHeight()/2,
                     0,
                     (float) Math.hypot(cardLayout.getWidth(), cardLayout.getHeight()));
             animator.addListener(new Animator.AnimatorListener() {
@@ -200,7 +225,9 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-//                    ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    mSearchEditText.requestFocus();
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                            InputMethodManager.HIDE_IMPLICIT_ONLY);
                 }
 
                 @Override
@@ -222,7 +249,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         } else {
             cardLayout.setVisibility(View.VISIBLE);
             cardLayout.setEnabled(true);
-            ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         }
 
     }
@@ -234,8 +261,8 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             final Animator animatorHide = ViewAnimationUtils.createCircularReveal(cardLayout,
-                    cardLayout.getWidth() - 56,
-                    23,
+                    cardLayout.getWidth() - 20,
+                    cardLayout.getHeight()/2,
                     (float) Math.hypot(cardLayout.getWidth(), cardLayout.getHeight()),
                     0);
             animatorHide.addListener(new Animator.AnimatorListener() {
@@ -247,8 +274,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     cardLayout.setVisibility(View.GONE);
-//                    ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-//                            .hideSoftInputFromWindow(cardLayout.getWindowToken(), 0);
+                    inputMethodManager.hideSoftInputFromWindow(cardLayout.getWindowToken(), 0);
                     clearSearch();
                     setVisibility(View.GONE);
                 }
@@ -266,8 +292,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
             animatorHide.setDuration(300);
             animatorHide.start();
         } else {
-            ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                    .hideSoftInputFromWindow(cardLayout.getWindowToken(), 0);
+            inputMethodManager.hideSoftInputFromWindow(cardLayout.getWindowToken(), 0);
             cardLayout.setVisibility(View.GONE);
             clearSearch();
             setVisibility(View.GONE);

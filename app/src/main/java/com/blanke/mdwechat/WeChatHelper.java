@@ -148,6 +148,7 @@ public class WeChatHelper {
         public static Class PopWindowAdapter_Bean_D;
         public static String PopWindowAdapter_Bean_D_Name;
         public static String PopWindowAdapter_Bean_D_Names[] = {"", "d"};
+        public static Class Search_FTSMainUI;
 
         private static void init(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
             int index = WCVersion.versionNumber;
@@ -168,7 +169,7 @@ public class WeChatHelper {
             PopWindowAdapter_Bean_C = XposedHelpers.findClass(PopWindowAdapter_Bean_C_Name, lpparam.classLoader);
             PopWindowAdapter_Bean_D_Name = MM_UI_PACKAGENAME + "u$" + PopWindowAdapter_Bean_D_Names[index];
             PopWindowAdapter_Bean_D = XposedHelpers.findClass(PopWindowAdapter_Bean_D_Name, lpparam.classLoader);
-
+            Search_FTSMainUI = XposedHelpers.findClass("com.tencent.mm.plugin.search.ui.FTSMainUI", lpparam.classLoader);
         }
     }
 
@@ -181,6 +182,8 @@ public class WeChatHelper {
         public static String getActionBarActivitys[] = {"", "cO"};
         public static String getActionBar;
         public static String getActionBars[] = {"", "cP"};
+        public static String HomeUi_StartSearch;
+        public static String HomeUi_StartSearchs[] = {"", "bNw"};
 
         private static void init() throws Throwable {
             int index = WCVersion.versionNumber;
@@ -188,6 +191,7 @@ public class WeChatHelper {
             getAvatarBitmap = getAvatarBitmaps[index];
             getActionBarActivity = getActionBarActivitys[index];
             getActionBar = getActionBars[index];
+            HomeUi_StartSearch = HomeUi_StartSearchs[index];
         }
     }
 
@@ -212,6 +216,8 @@ public class WeChatHelper {
         public static String ActionBar_Divider_ids[] = {"", "gm"};
         public static String ActionBar_Add_id;
         public static String ActionBar_Add_ids[] = {"", "fk"};
+        public static String SearchUI_EditText_id;
+        public static String SearchUI_EditText_ids[] = {"", "h2"};
 
 
         private static void init() {
@@ -225,6 +231,7 @@ public class WeChatHelper {
             ActionBar_id = ActionBar_ids[index];
             ActionBar_Divider_id = ActionBar_Divider_ids[index];
             ActionBar_Add_id = ActionBar_Add_ids[index];
+            SearchUI_EditText_id = SearchUI_EditText_ids[index];
         }
     }
 
