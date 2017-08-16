@@ -7,13 +7,13 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.blanke.mdwechat.R;
@@ -37,7 +37,6 @@ import static com.blanke.mdwechat.WeChatHelper.WCClasses.Search_FTSMainUI;
 import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter;
 import static com.blanke.mdwechat.WeChatHelper.WCField.HomeUi_PopWindowAdapter_SparseArray;
 import static com.blanke.mdwechat.WeChatHelper.WCField.LauncherUI_mHomeUi;
-import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_Add_id;
 import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_id;
 import static com.blanke.mdwechat.WeChatHelper.WCId.SearchUI_EditText_id;
 import static com.blanke.mdwechat.WeChatHelper.WCMethods.HomeUi_StartSearch;
@@ -69,6 +68,7 @@ public class MainHook extends BaseHookUi {
                     return;
                 }
                 final Activity activity = (Activity) param.thisObject;
+                printActivityWindowViewTree(activity);
 
                 View viewPager = activity.findViewById(
                         getId(activity, WeChatHelper.WCId.LauncherUI_ViewPager_Id));
@@ -154,21 +154,16 @@ public class MainHook extends BaseHookUi {
                         isMainInit = false;
                     }
                 });
-        //remove add more view
-        findAndHookMethod(View.class, "onAttachedToWindow", new XC_MethodHook() {
+        //hide more icon in actionBar
+        findAndHookMethod(LauncherUI, "onCreateOptionsMenu", Menu.class, new XC_MethodHook() {
+            @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                View view = (View) param.thisObject;
-                if (view instanceof ImageView
-                        && view.getId() == getId(view.getContext(), ActionBar_Add_id)) {
-//                    log("view ActionBar_Add hook success");
-                    // TODO: 2017/8/16 bug,
-                    View addParentView = (View) view.getParent();
-                    if (addParentView != null) {
-                        ViewGroup addParentParentView = (ViewGroup) addParentView.getParent();
-                        if (addParentParentView != null) {
-                            addParentParentView.removeView(addParentView);
-                        }
-                    }
+//                log("homeUI=" + mHomeUi);
+                if (mHomeUi != null) {
+                    //hide actionbar more add icon
+                    MenuItem moreMenuItem = (MenuItem) getObjectField(mHomeUi, "uxE");
+//                    log("moreMenuItem=" + moreMenuItem);
+                    moreMenuItem.setVisible(false);
                 }
             }
         });

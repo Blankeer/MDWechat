@@ -11,7 +11,6 @@ import com.blanke.mdwechat.ui.AvatarHook;
 import com.blanke.mdwechat.ui.BaseHookUi;
 import com.blanke.mdwechat.ui.ConversationHook;
 import com.blanke.mdwechat.ui.MainHook;
-import com.blanke.mdwechat.ui.StatusBarHook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +80,6 @@ public class WeChatHelper {
     private static void initHookUis() {
         hookUis = new ArrayList<>();
         hookUis.add(new MainHook());
-        hookUis.add(new StatusBarHook());
         hookUis.add(new ActionBarHook());
         hookUis.add(new ConversationHook());
         hookUis.add(new AvatarHook());
