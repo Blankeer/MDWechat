@@ -2,6 +2,7 @@ package com.blanke.mdwechat;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.res.XModuleResources;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -45,11 +46,13 @@ public class WechatHook extends XC_MethodHook
         if (!resparam.packageName.equals(Common.WECHAT_PACKAGENAME)) {
             return;
         }
-        if (WeChatHelper.WCDrawable.Conference_ListView_Item_Background == null) {
-            return;
-        }
 //        log("handleInitPackageResources");
-//        XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
+        XModuleResources modRes = XModuleResources.createInstance(MODULE_PATH, resparam.res);
+//        WeChatHelper.WCId.ic_add = resparam.res.addResource(modRes, R.drawable.ic_add);
+
+
+//        resparam.res.setReplacement(Common.WECHAT_PACKAGENAME,
+//                "color", "z", Color.RED);
 //        resparam.res.setReplacement(Common.WECHAT_PACKAGENAME,
 //                "drawable", WeChatHelper.WCDrawable.Conference_ListView_Item_Background,
 //                modRes.fwd(R.drawable.selector_item));

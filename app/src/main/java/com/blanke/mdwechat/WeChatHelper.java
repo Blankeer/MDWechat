@@ -24,6 +24,7 @@ import static com.blanke.mdwechat.Common.MY_APPLICATION_PACKAGE;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.LauncherUI;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.findClass;
 
 /**
  * Created by blanke on 2017/7/29.
@@ -49,7 +50,7 @@ public class WeChatHelper {
         loadPackageParam = lpparam;
         WCVersion.versionNumber = versionNumber;
         WCVersion.version = ver;
-        colorPrimary = Color.parseColor("#3ea43f");
+        colorPrimary = Color.parseColor("#009688");
         initHookUis();
         initApplication(lpparam);
         return true;
@@ -67,7 +68,7 @@ public class WeChatHelper {
                 findAndHookMethod(LauncherUI,
                         "onCreate", Bundle.class,
                         new XC_MethodHook() {
-                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 WECHAT_LAUNCHER = (Activity) param.thisObject;
                                 MD_CONTEXT = WECHAT_LAUNCHER.createPackageContext(MY_APPLICATION_PACKAGE, Context.CONTEXT_IGNORE_SECURITY);
                                 executeHookUi();
@@ -139,6 +140,7 @@ public class WeChatHelper {
         public static String ChattingUInonActivityNames[] = {"", MM_UI_PACKAGENAME + "chatting.En_5b8fbb1e"};
         public static Class ChattingUInonFragment;//聊天列表
         public static Class WebViewUI;
+        public static String HomeUI_Name = MM_UI_PACKAGENAME + "HomeUI";
         public static Class HomeUI;
         public static Class PopWindowAdapter_Bean_C;
         public static String PopWindowAdapter_Bean_C_Name;
@@ -147,6 +149,14 @@ public class WeChatHelper {
         public static String PopWindowAdapter_Bean_D_Name;
         public static String PopWindowAdapter_Bean_D_Names[] = {"", "d"};
         public static Class Search_FTSMainUI;
+        public static Class ViewPager_SimpleOnPageChangeListener;
+        public static String ViewPager_SimpleOnPageChangeListener_Name;
+        public static String ViewPager_SimpleOnPageChangeListener_Names[] = {"", "android.support.v4.view.ViewPager$h"};
+        public static Class HomeUI_ViewPagerChangeListener;
+        public static String HomeUI_ViewPagerChangeListener_Name;
+        public static String HomeUI_ViewPagerChangeListener_Names[] = {"", HomeUI_Name + "$c"};
+        public static Class LauncherUIBottomTabView;
+
 
         private static void init(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
             int index = WCVersion.versionNumber;
@@ -162,12 +172,17 @@ public class WeChatHelper {
             ChattingUInonActivity = XposedHelpers.findClass(ChattingUInonActivityName, lpparam.classLoader);
             ChattingUInonFragment = XposedHelpers.findClass(ChattingUInonActivityName + "$a", lpparam.classLoader);
             WebViewUI = XposedHelpers.findClass("com.tencent.mm.plugin.webview.ui.tools.WebViewUI", lpparam.classLoader);
-            HomeUI = XposedHelpers.findClass(MM_UI_PACKAGENAME + "HomeUI", lpparam.classLoader);
+            HomeUI = XposedHelpers.findClass(HomeUI_Name, lpparam.classLoader);
             PopWindowAdapter_Bean_C_Name = MM_UI_PACKAGENAME + "u$" + PopWindowAdapter_Bean_C_Names[index];
             PopWindowAdapter_Bean_C = XposedHelpers.findClass(PopWindowAdapter_Bean_C_Name, lpparam.classLoader);
             PopWindowAdapter_Bean_D_Name = MM_UI_PACKAGENAME + "u$" + PopWindowAdapter_Bean_D_Names[index];
             PopWindowAdapter_Bean_D = XposedHelpers.findClass(PopWindowAdapter_Bean_D_Name, lpparam.classLoader);
             Search_FTSMainUI = XposedHelpers.findClass("com.tencent.mm.plugin.search.ui.FTSMainUI", lpparam.classLoader);
+            ViewPager_SimpleOnPageChangeListener_Name = ViewPager_SimpleOnPageChangeListener_Names[index];
+            ViewPager_SimpleOnPageChangeListener = findClass(ViewPager_SimpleOnPageChangeListener_Name, lpparam.classLoader);
+            HomeUI_ViewPagerChangeListener_Name = HomeUI_ViewPagerChangeListener_Names[index];
+            HomeUI_ViewPagerChangeListener = findClass(HomeUI_ViewPagerChangeListener_Name, lpparam.classLoader);
+            LauncherUIBottomTabView = findClass(MM_UI_PACKAGENAME + "LauncherUIBottomTabView", lpparam.classLoader);
         }
     }
 
@@ -182,6 +197,18 @@ public class WeChatHelper {
         public static String getActionBars[] = {"", "cP"};
         public static String HomeUi_StartSearch;
         public static String HomeUi_StartSearchs[] = {"", "bNw"};
+        public static String WxViewPager_setCurrentItem;
+        public static String WxViewPager_setCurrentItems[] = {"", "Y"};
+        public static String WxViewPager_onPageScrolled;
+        public static String WxViewPager_onPageScrolleds[] = {"", "a"};
+        public static String WxViewPager_onPageSelected;
+        public static String WxViewPager_onPageSelecteds[] = {"", "V"};
+        public static String LauncherUiTabView_setMainTabUnread;
+        public static String LauncherUiTabView_setMainTabUnreads[] = {"", "yA"};
+        public static String LauncherUiTabView_setContactTabUnread;
+        public static String LauncherUiTabView_setContactTabUnreads[] = {"", "yB"};
+        public static String LauncherUiTabView_setFriendTabUnread;
+        public static String LauncherUiTabView_setFriendTabUnreads[] = {"", "yC"};
 
         private static void init() throws Throwable {
             int index = WCVersion.versionNumber;
@@ -190,6 +217,12 @@ public class WeChatHelper {
             getActionBarActivity = getActionBarActivitys[index];
             getActionBar = getActionBars[index];
             HomeUi_StartSearch = HomeUi_StartSearchs[index];
+            WxViewPager_setCurrentItem = WxViewPager_setCurrentItems[index];
+            WxViewPager_onPageScrolled = WxViewPager_onPageScrolleds[index];
+            WxViewPager_onPageSelected = WxViewPager_onPageSelecteds[index];
+            LauncherUiTabView_setMainTabUnread = LauncherUiTabView_setMainTabUnreads[index];
+            LauncherUiTabView_setContactTabUnread = LauncherUiTabView_setContactTabUnreads[index];
+            LauncherUiTabView_setFriendTabUnread = LauncherUiTabView_setFriendTabUnreads[index];
         }
     }
 
@@ -216,6 +249,7 @@ public class WeChatHelper {
         public static String ActionBar_Add_ids[] = {"", "fk"};
         public static String SearchUI_EditText_id;
         public static String SearchUI_EditText_ids[] = {"", "h2"};
+        public static int ic_add;
 
 
         private static void init() {

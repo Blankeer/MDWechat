@@ -1,13 +1,9 @@
 package com.blanke.mdwechat.widget;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -21,8 +17,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -101,7 +95,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         mContext = context;
         cardLayout = new CardView(context);
         cardLayout.setCardBackgroundColor(Color.WHITE);
-        cardLayout.setRadius(2);
+        cardLayout.setRadius(dp2px(2));
 
         LinearLayout contentLayout = new LinearLayout(context);
         contentLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -110,7 +104,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
 //        backArrowImg.setClickable(true);
 //        backArrowImg.setBackground(ContextCompat.getDrawable(context, android.R.attr.selectableItemBackgroundBorderless));
         backArrowImg.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_arrow_back));
-        int p = 12;
+        int p = dp2px(8);
         backArrowImg.setPadding(p, p, p, p);
 //        int w = 48;
         LinearLayout.LayoutParams backParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -140,7 +134,8 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
 
         cardLayout.addView(contentLayout);
         FrameLayout.LayoutParams cardParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        cardParams.leftMargin = cardParams.rightMargin = cardParams.topMargin = cardParams.bottomMargin = 6;
+        cardParams.leftMargin = cardParams.rightMargin =
+                cardParams.topMargin = cardParams.bottomMargin = dp2px(6);
         addView(cardLayout, cardParams);
 
         mSearchEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
@@ -215,7 +210,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             final Animator animator = ViewAnimationUtils.createCircularReveal(cardLayout,
                     cardLayout.getWidth() - 20,
-                    cardLayout.getHeight()/2,
+                    cardLayout.getHeight() / 2,
                     0,
                     (float) Math.hypot(cardLayout.getWidth(), cardLayout.getHeight()));
             animator.addListener(new Animator.AnimatorListener() {
@@ -262,7 +257,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             final Animator animatorHide = ViewAnimationUtils.createCircularReveal(cardLayout,
                     cardLayout.getWidth() - 20,
-                    cardLayout.getHeight()/2,
+                    cardLayout.getHeight() / 2,
                     (float) Math.hypot(cardLayout.getWidth(), cardLayout.getHeight()),
                     0);
             animatorHide.addListener(new Animator.AnimatorListener() {
@@ -303,27 +298,27 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         return mSearchEditText;
     }
 
-    public static WindowManager.LayoutParams getSearchViewLayoutParams(final Activity activity) {
-        final Rect rect = new Rect();
-        final Window window = activity.getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rect);
-        final int statusBarHeight = rect.top;
-
-        final TypedArray actionBarSize = activity.getTheme().obtainStyledAttributes(
-                new int[]{R.attr.actionBarSize});
-        actionBarSize.recycle();
-        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                rect.right /* This ensures we don't go under the navigation bar in landscape */,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
-
-        params.gravity = Gravity.TOP | Gravity.START;
-        params.x = 0;
-        params.y = statusBarHeight;
-        return params;
-    }
+//    public static WindowManager.LayoutParams getSearchViewLayoutParams(final Activity activity) {
+//        final Rect rect = new Rect();
+//        final Window window = activity.getWindow();
+//        window.getDecorView().getWindowVisibleDisplayFrame(rect);
+//        final int statusBarHeight = rect.top;
+//
+//        final TypedArray actionBarSize = activity.getTheme().obtainStyledAttributes(
+//                new int[]{R.attr.actionBarSize});
+//        actionBarSize.recycle();
+//        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+//                rect.right /* This ensures we don't go under the navigation bar in landscape */,
+//                WindowManager.LayoutParams.WRAP_CONTENT,
+//                WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
+//                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+//                PixelFormat.TRANSLUCENT);
+//
+//        params.gravity = Gravity.TOP | Gravity.START;
+//        params.x = 0;
+//        params.y = statusBarHeight;
+//        return params;
+//    }
 
     private void toggleClearSearchButton(final CharSequence query) {
         mClearSearch.setVisibility(!TextUtils.isEmpty(query) ? View.VISIBLE : View.INVISIBLE);
@@ -358,5 +353,10 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         } else if (v == mClearSearch) {
             clearSearch();
         }
+    }
+
+    protected int dp2px(float dp) {
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
     }
 }

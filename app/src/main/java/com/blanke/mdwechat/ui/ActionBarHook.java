@@ -1,10 +1,8 @@
 package com.blanke.mdwechat.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.AttributeSet;
 import android.view.View;
 
 import com.blanke.mdwechat.WeChatHelper;
@@ -48,8 +46,14 @@ public class ActionBarHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-        XposedHelpers.findAndHookConstructor("android.support.v7.widget.ActionBarContainer",
-                lpparam.classLoader, Context.class, AttributeSet.class, new XC_MethodHook() {
+//        XposedHelpers.findAndHookConstructor("android.support.v7.widget.ActionBarContainer",
+//                lpparam.classLoader, Context.class, AttributeSet.class, new XC_MethodHook() {
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                        setObjectField(param.thisObject, ActionBarContainer_mBackground, getActionBarColorDrawable());
+//                    }
+//                });
+        XposedHelpers.findAndHookMethod("android.support.v7.widget.ActionBarContainer",
+                lpparam.classLoader, "onFinishInflate", new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         setObjectField(param.thisObject, ActionBarContainer_mBackground, getActionBarColorDrawable());
                     }

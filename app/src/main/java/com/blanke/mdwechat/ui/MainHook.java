@@ -2,6 +2,7 @@ package com.blanke.mdwechat.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -14,23 +15,30 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.blanke.mdwechat.R;
 import com.blanke.mdwechat.WeChatHelper;
 import com.blanke.mdwechat.util.ConvertUtils;
 import com.blanke.mdwechat.widget.MaterialSearchView;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.blanke.mdwechat.WeChatHelper.MD_CONTEXT;
+import static com.blanke.mdwechat.WeChatHelper.WCClasses.HomeUI_ViewPagerChangeListener;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.LauncherUI;
+import static com.blanke.mdwechat.WeChatHelper.WCClasses.LauncherUIBottomTabView;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.PopWindowAdapter_Bean_C;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.PopWindowAdapter_Bean_D;
 import static com.blanke.mdwechat.WeChatHelper.WCClasses.Search_FTSMainUI;
@@ -40,7 +48,14 @@ import static com.blanke.mdwechat.WeChatHelper.WCField.LauncherUI_mHomeUi;
 import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_id;
 import static com.blanke.mdwechat.WeChatHelper.WCId.SearchUI_EditText_id;
 import static com.blanke.mdwechat.WeChatHelper.WCMethods.HomeUi_StartSearch;
+import static com.blanke.mdwechat.WeChatHelper.WCMethods.LauncherUiTabView_setContactTabUnread;
+import static com.blanke.mdwechat.WeChatHelper.WCMethods.LauncherUiTabView_setFriendTabUnread;
+import static com.blanke.mdwechat.WeChatHelper.WCMethods.LauncherUiTabView_setMainTabUnread;
+import static com.blanke.mdwechat.WeChatHelper.WCMethods.WxViewPager_onPageScrolled;
+import static com.blanke.mdwechat.WeChatHelper.WCMethods.WxViewPager_onPageSelected;
+import static com.blanke.mdwechat.WeChatHelper.WCMethods.WxViewPager_setCurrentItem;
 import static com.github.clans.fab.FloatingActionButton.SIZE_MINI;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
@@ -58,6 +73,45 @@ public class MainHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         hookWechatMain();
+//        XposedHelpers.findAndHookConstructor("android.support.v7.widget.ActionBarContainer",
+//                lpparam.classLoader, Context.class, AttributeSet.class, new XC_MethodHook() {
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//
+//                    }
+//                });
+//        XposedHelpers.findAndHookMethod("android.support.v7.widget.ActionBarContainer",
+//                lpparam.classLoader, "l", Drawable.class, new XC_MethodHook() {
+//                    @Override
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                        Drawable drawable = (Drawable) param.args[0];
+//                        log("ActionBarContainer setBackground=" + drawable);
+//                        if (drawable instanceof ColorDrawable) {
+//                            ColorDrawable colorDrawable = (ColorDrawable) drawable;
+//                            log("colorDrawable=" + colorDrawable.getColor());
+//                        }
+//                    }
+//                });
+//        findAndHookMethod(Resources.class, "getColor", int.class, new XC_MethodHook() {
+//            @Override
+//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                int id = (int) param.args[0];
+//                int color = (int) param.getResult();
+//                Resources resources = (Resources) param.thisObject;
+//                log("id=" + id + ",color=" + color);
+//                int primaryColor = getPrimaryColor();
+//                param.setResult(0x55FF0000);
+////                if (getColorId(resources, "z") == id) {
+////                    log("hook z id=" + id + " success");
+////                    int primaryColor = getPrimaryColor();
+////                    param.setResult(primaryColor);
+////                }
+////                if (id == 2131689497) {
+////                    log("hook id=2131689497 success");
+////                    int primaryColor = getPrimaryColor();
+////                    param.setResult(primaryColor);
+////                }
+//            }
+//        });
     }
 
     private void hookWechatMain() {
@@ -68,7 +122,7 @@ public class MainHook extends BaseHookUi {
                     return;
                 }
                 final Activity activity = (Activity) param.thisObject;
-                printActivityWindowViewTree(activity);
+//                printActivityWindowViewTree(activity);
 
                 View viewPager = activity.findViewById(
                         getId(activity, WeChatHelper.WCId.LauncherUI_ViewPager_Id));
@@ -130,18 +184,10 @@ public class MainHook extends BaseHookUi {
                         }
                     }
                 });
-
-
-//                TextView tv2 = new TextView(activity);
-//                tv2.setText(myContexxt.getString(R.string.test_string2));
-//
-//                linearLayoutContent.addView(tv2, 0);
-//
-//                ImageView iv = new ImageView(activity);
-//                Drawable drawable = ContextCompat.getDrawable(myContexxt, R.drawable.ic_book_blue_800_24dp);
-//                iv.setImageDrawable(drawable);
-//                LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(100, 100);
-//                linearLayoutContent.addView(iv, 1, params2);
+                /******************
+                 *hook tabLayout
+                 *****************/
+                addTabLayout(linearLayoutContent, viewPager);
 
                 isMainInit = true;
             }
@@ -250,6 +296,7 @@ public class MainHook extends BaseHookUi {
                             log("editview=" + editView);
                             if (editView instanceof EditText) {
                                 EditText editText = (EditText) editView;
+                                editText.setHintTextColor(Color.WHITE);
                                 log("editText=" + editText);
                                 editText.setText(searchKey);
                             }
@@ -259,6 +306,106 @@ public class MainHook extends BaseHookUi {
                 }
             }
         });
+    }
+
+    private void addTabLayout(ViewGroup viewPagerLinearLayout, final View pager) {
+        Context context = MD_CONTEXT;
+        final CommonTabLayout tabLayout = new CommonTabLayout(context);
+        int primaryColor = getPrimaryColor();
+        tabLayout.setBackgroundColor(primaryColor);
+        tabLayout.setTextSelectColor(Color.WHITE);
+        tabLayout.setTextUnselectColor(0xaaffffff);
+        int dp2 = ConvertUtils.dp2px(pager.getContext(), 1.5F);
+        tabLayout.setIndicatorHeight(dp2);
+        tabLayout.setIndicatorColor(Color.WHITE);
+        tabLayout.setIndicatorCornerRadius(dp2);
+        tabLayout.setIndicatorAnimDuration(200);
+        tabLayout.setElevation(5);
+        tabLayout.setTextsize(context.getResources().getDimension(R.dimen.tabTextSize));
+        tabLayout.setUnreadBackground(Color.WHITE);
+        tabLayout.setUnreadTextColor(primaryColor);
+        tabLayout.setSelectIconColor(Color.WHITE);
+        tabLayout.setUnSelectIconColor(Color.parseColor("#1acccccc"));
+
+//        String[] titles = {"消息", "通讯录", "朋友圈", "设置"};
+        final int[] tabIcons = {R.drawable.ic_chat_tab, R.drawable.ic_contact_tab,
+                R.drawable.ic_explore_tab, R.drawable.ic_person_tab};
+        ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+        for (int i = 0; i < tabIcons.length; i++) {
+            final int finalI = i;
+            mTabEntities.add(new CustomTabEntity() {
+                @Override
+                public String getTabTitle() {
+                    return null;
+                }
+
+                @Override
+                public int getTabSelectedIcon() {
+                    return tabIcons[finalI];
+                }
+
+                @Override
+                public int getTabUnselectedIcon() {
+                    return 0;
+                }
+            });
+        }
+        tabLayout.setTabData(mTabEntities);
+        tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+//                log("tab click position=" + position);
+                callMethod(pager, WxViewPager_setCurrentItem, position);
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+        findAndHookMethod(HomeUI_ViewPagerChangeListener, WxViewPager_onPageScrolled,
+                int.class, float.class, int.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        float positionOffset = (float) param.args[1];
+                        int position = (int) param.args[0];
+                        tabLayout.setStartScrollPosition(position);
+                        tabLayout.setIndicatorOffset(positionOffset);
+                    }
+                });
+        findAndHookMethod(HomeUI_ViewPagerChangeListener, WxViewPager_onPageSelected,
+                int.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        int position = (int) param.args[0];
+                        tabLayout.setCurrentTab(position);
+                    }
+                });
+        findAndHookMethod(LauncherUIBottomTabView, LauncherUiTabView_setMainTabUnread,
+                int.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        tabLayout.showMsg(0, (Integer) param.args[0]);
+                    }
+                });
+        findAndHookMethod(LauncherUIBottomTabView, LauncherUiTabView_setContactTabUnread,
+                int.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        tabLayout.showMsg(1, (Integer) param.args[0]);
+                    }
+                });
+        findAndHookMethod(LauncherUIBottomTabView, LauncherUiTabView_setFriendTabUnread,
+                int.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        tabLayout.showMsg(2, (Integer) param.args[0]);
+                    }
+                });
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.height = ConvertUtils.dp2px(viewPagerLinearLayout.getContext(), 48);
+        viewPagerLinearLayout.addView(tabLayout, 0, params);
     }
 
     private int getPrimaryColor() {
