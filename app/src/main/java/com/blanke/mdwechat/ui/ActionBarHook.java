@@ -72,14 +72,14 @@ public class ActionBarHook extends BaseHookUi {
                 if (actionBar != null) {
                     //search
                     View divider = null;
-                    log("activity=" + activity.getClass().getName());
+//                    log("activity=" + activity.getClass().getName());
                     if (activity.getClass().getName().endsWith("FTSMainUI")) {
                         //todo
                         divider = actionBar.findViewById(getId(activity, "h0"));
                     } else {
                         divider = actionBar.findViewById(getId(activity, ActionBar_Divider_id));
                     }
-                    log("divider=" + divider);
+//                    log("divider=" + divider);
                     if (divider != null) {
                         divider.setVisibility(View.INVISIBLE);
                     }

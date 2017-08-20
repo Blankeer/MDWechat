@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +70,7 @@ public class MainHook extends BaseHookUi {
     private MaterialSearchView searchView;
     private Object mHomeUi;
     private String searchKey;
+    private FloatingActionMenu actionMenu;
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -213,12 +215,37 @@ public class MainHook extends BaseHookUi {
                 }
             }
         });
+        //hook onKeyEvent
+        findAndHookMethod(LauncherUI, "dispatchKeyEvent", KeyEvent.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                KeyEvent keyEvent = (KeyEvent) param.args[0];
+                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_MENU) {//hide menu
+                    param.setResult(true);
+                    return;
+                }
+                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK) {//hook back
+                    if (searchView != null && searchView.isSearchViewVisible()) {
+                        searchView.hide();
+                        param.setResult(true);
+                        return;
+                    }
+                    if (actionMenu != null && actionMenu.isOpened()) {
+                        actionMenu.close(true);
+                        param.setResult(true);
+                        return;
+                    }
+                }
+            }
+        });
+
+
     }
 
     private void addFloatButton(ViewGroup frameLayout) {
         int primaryColor = getPrimaryColor();
         Context context = MD_CONTEXT;
-        FloatingActionMenu actionMenu = new FloatingActionMenu(context);
+        actionMenu = new FloatingActionMenu(context);
         actionMenu.setMenuButtonColorNormal(primaryColor);
         actionMenu.setMenuButtonColorPressed(primaryColor);
         actionMenu.setMenuIcon(ContextCompat.getDrawable(context, R.drawable.ic_add));
@@ -287,17 +314,17 @@ public class MainHook extends BaseHookUi {
                         public void run() {
                             int id = getId(activity, SearchUI_EditText_id);
                             View editView = activity.getWindow().findViewById(id);
-                            log("id=" + id);
+//                            log("id=" + id);
                             if (editView == null) {
 //                                printActivityWindowViewTree(activity);
                                 handler.postDelayed(this, 200);
                                 return;
                             }
-                            log("editview=" + editView);
+//                            log("editview=" + editView);
                             if (editView instanceof EditText) {
                                 EditText editText = (EditText) editView;
                                 editText.setHintTextColor(Color.WHITE);
-                                log("editText=" + editText);
+//                                log("editText=" + editText);
                                 editText.setText(searchKey);
                             }
                             searchKey = null;
@@ -385,6 +412,7 @@ public class MainHook extends BaseHookUi {
                 int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        log("msg unread=" + param.args[0]);
                         tabLayout.showMsg(0, (Integer) param.args[0]);
                     }
                 });
@@ -392,6 +420,7 @@ public class MainHook extends BaseHookUi {
                 int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        log("contact unread=" + param.args[0]);
                         tabLayout.showMsg(1, (Integer) param.args[0]);
                     }
                 });
@@ -399,6 +428,7 @@ public class MainHook extends BaseHookUi {
                 int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        log("friend unread=" + param.args[0]);
                         tabLayout.showMsg(2, (Integer) param.args[0]);
                     }
                 });

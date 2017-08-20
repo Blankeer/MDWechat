@@ -2,8 +2,6 @@ package com.blanke.mdwechat.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.blanke.mdwechat.util.ImageHelper;
@@ -50,12 +48,13 @@ public class AvatarHook extends BaseHookUi {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 ImageView imageView = (ImageView) param.thisObject;
                 imageView.setBackgroundColor(Color.TRANSPARENT);
-                imageView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return false;
-                    }
-                });
+                // setOnTouchListener is no use,will throw exception
+//                imageView.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        return false;
+//                    }
+//                });
             }
         });
     }
