@@ -102,16 +102,50 @@ public class MainHook extends BaseHookUi {
 //                log("id=" + id + ",color=" + color);
 //                int primaryColor = getPrimaryColor();
 //                param.setResult(0x55FF0000);
-////                if (getColorId(resources, "z") == id) {
-////                    log("hook z id=" + id + " success");
-////                    int primaryColor = getPrimaryColor();
-////                    param.setResult(primaryColor);
-////                }
-////                if (id == 2131689497) {
-////                    log("hook id=2131689497 success");
-////                    int primaryColor = getPrimaryColor();
-////                    param.setResult(primaryColor);
-////                }
+//                if (getColorId("z") == id) {
+//                    log("hook z id=" + id + " success");
+//                    param.setResult(primaryColor);
+//                }
+//                if (id == 2131689497) {
+//                    log("hook id=2131689497 success");
+//                    param.setResult(primaryColor);
+//                }
+//            }
+//        });
+//        findAndHookMethod("com.tencent.mm.bf.a", lpparam.classLoader,
+//                "b", Resources.class, int.class, new XC_MethodHook() {
+//                    @Override
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                        Drawable drawable = (Drawable) param.getResult();
+//                        log("com.tencent.mm.bf.a # b()");
+//                        if (drawable instanceof ColorDrawable) {
+//                            log("com.tencent.mm.bf.a # b() ColorDrawable");
+//                            ColorDrawable colorDrawable = (ColorDrawable) drawable;
+//                            colorDrawable.setColor(0x5500FF00);
+//                            param.setResult(colorDrawable);
+//                        }
+//                    }
+//                });
+//        findAndHookMethod("com.tencent.mm.bf.a", lpparam.classLoader,
+//                "d", Drawable.class, int.class, new XC_MethodHook() {
+//                    @Override
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                        Drawable drawable = (Drawable) param.getResult();
+//                        log("com.tencent.mm.bf.a # d()");
+//                        if (drawable instanceof ColorDrawable) {
+//                            log("com.tencent.mm.bf.a # d() ColorDrawable");
+//                            ColorDrawable colorDrawable = (ColorDrawable) drawable;
+//                            colorDrawable.setColor(0x550000FF);
+//                            param.setResult(colorDrawable);
+//                        }
+//                    }
+//                });
+//        findAndHookMethod(Color.class, "parseColor", String.class, new XC_MethodHook() {
+//            @Override
+//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                String colorStr = (String) param.args[0];
+//                int color = (int) param.getResult();
+//                log("color=" + colorStr + "," + color);
 //            }
 //        });
     }
@@ -341,8 +375,8 @@ public class MainHook extends BaseHookUi {
         int primaryColor = getPrimaryColor();
         tabLayout.setBackgroundColor(primaryColor);
         tabLayout.setTextSelectColor(Color.WHITE);
-        tabLayout.setTextUnselectColor(0xaaffffff);
-        int dp2 = ConvertUtils.dp2px(pager.getContext(), 1.5F);
+        tabLayout.setTextUnselectColor(0x1acccccc);
+        int dp2 = ConvertUtils.dp2px(pager.getContext(), 1F);
         tabLayout.setIndicatorHeight(dp2);
         tabLayout.setIndicatorColor(Color.WHITE);
         tabLayout.setIndicatorCornerRadius(dp2);
@@ -352,7 +386,7 @@ public class MainHook extends BaseHookUi {
         tabLayout.setUnreadBackground(Color.WHITE);
         tabLayout.setUnreadTextColor(primaryColor);
         tabLayout.setSelectIconColor(Color.WHITE);
-        tabLayout.setUnSelectIconColor(Color.parseColor("#1acccccc"));
+        tabLayout.setUnSelectIconColor(0x1acccccc);
 
 //        String[] titles = {"消息", "通讯录", "朋友圈", "设置"};
         final int[] tabIcons = {R.drawable.ic_chat_tab, R.drawable.ic_contact_tab,

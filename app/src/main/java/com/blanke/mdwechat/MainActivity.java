@@ -84,8 +84,8 @@ public class MainActivity extends Activity {
         int color = getResources().getColor(R.color.colorPrimary);
         tabLayout.setBackgroundColor(color);
         tabLayout.setTextSelectColor(Color.WHITE);
-        tabLayout.setTextUnselectColor(0xaaffffff);
-        tabLayout.setIndicatorHeight(ConvertUtils.dp2px(this, 1.5F));
+        tabLayout.setTextUnselectColor(0x1acccccc);
+        tabLayout.setIndicatorHeight(ConvertUtils.dp2px(this, 1F));
         tabLayout.setIndicatorColor(Color.WHITE);
         tabLayout.setIndicatorCornerRadius(ConvertUtils.dp2px(this, 2));
         tabLayout.setIndicatorAnimDuration(200);
@@ -94,11 +94,14 @@ public class MainActivity extends Activity {
         tabLayout.setUnreadBackground(Color.WHITE);
         tabLayout.setUnreadTextColor(color);
         tabLayout.setSelectIconColor(Color.WHITE);
-        tabLayout.setUnSelectIconColor(Color.parseColor("#1acccccc"));
+        tabLayout.setUnSelectIconColor(0x1acccccc);
 
         String[] titles = {"消息", "通讯录", "朋友圈", "设置"};
+        final int[] tabIcons = {R.drawable.ic_chat_tab, R.drawable.ic_contact_tab,
+                R.drawable.ic_explore_tab, R.drawable.ic_person_tab};
         ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-        for (final String title : titles) {
+        for (int i = 0; i < tabIcons.length; i++) {
+            final int finalI = i;
             mTabEntities.add(new CustomTabEntity() {
                 @Override
                 public String getTabTitle() {
@@ -107,7 +110,7 @@ public class MainActivity extends Activity {
 
                 @Override
                 public int getTabSelectedIcon() {
-                    return R.drawable.ic_chat;
+                    return tabIcons[finalI];
                 }
 
                 @Override

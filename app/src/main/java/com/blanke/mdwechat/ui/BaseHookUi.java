@@ -2,7 +2,6 @@ package com.blanke.mdwechat.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,7 +12,6 @@ import com.blanke.mdwechat.WeChatHelper;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.blanke.mdwechat.Common.MY_APPLICATION_PACKAGE;
 import static com.blanke.mdwechat.WeChatHelper.MD_CONTEXT;
 
 /**
@@ -30,16 +28,17 @@ public abstract class BaseHookUi {
         WeChatHelper.XMOD_PREFS.reload();
     }
 
+    @Deprecated
     protected int getId(Context context, String idName) {
         return context.getResources().getIdentifier(context.getPackageName() + ":id/" + idName, null, null);
     }
 
-    protected int getColorId(Context context, String idName) {
-        return context.getResources().getIdentifier(context.getPackageName() + ":color/" + idName, null, null);
+    protected int getViewId(String name) {
+        return getResourceIdByName("id", name);
     }
 
-    protected int getColorId(Resources resources, String idName) {
-        return resources.getIdentifier(Common.WECHAT_PACKAGENAME + ":color/" + idName, null, null);
+    protected int getColorId(String idName) {
+        return getResourceIdByName("color", idName);
     }
 
     protected int getDrawableIdByName(String name) {
@@ -47,7 +46,7 @@ public abstract class BaseHookUi {
     }
 
     protected int getResourceIdByName(String resourceName, String name) {
-        return MD_CONTEXT.getResources().getIdentifier(name, resourceName, MY_APPLICATION_PACKAGE);
+        return MD_CONTEXT.getResources().getIdentifier(name, resourceName, Common.WECHAT_PACKAGENAME);
     }
 
     /**

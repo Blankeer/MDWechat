@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -253,7 +252,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             msgView.setTextColor(unreadTextColor);
             msgView.setIsRadiusHalfHeight(true);
             msgView.setBackgroundColor(unreadBackground);
-            msgView.setTextSize(sp2px(8F));
+            msgView.setTextSize(11F);
             msgView.setVisibility(GONE);
 //            msgView.setPadding(3, 3, 3, 3);
             if (mIconGravity == Gravity.LEFT) {
