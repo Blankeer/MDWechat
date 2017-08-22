@@ -68,7 +68,7 @@ public class WeChatHelper {
                 findAndHookMethod(LauncherUI,
                         "onCreate", Bundle.class,
                         new XC_MethodHook() {
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 WECHAT_LAUNCHER = (Activity) param.thisObject;
                                 MD_CONTEXT = WECHAT_LAUNCHER.createPackageContext(MY_APPLICATION_PACKAGE, Context.CONTEXT_IGNORE_SECURITY);
                                 executeHookUi();
