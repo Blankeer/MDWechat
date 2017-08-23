@@ -10,6 +10,7 @@ import com.blanke.mdwechat.ui.ActionBarHook;
 import com.blanke.mdwechat.ui.AvatarHook;
 import com.blanke.mdwechat.ui.BaseHookUi;
 import com.blanke.mdwechat.ui.ConversationHook;
+import com.blanke.mdwechat.ui.ListViewHook;
 import com.blanke.mdwechat.ui.MainHook;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class WeChatHelper {
     private static void initHookUis() {
         hookUis = new ArrayList<>();
         hookUis.add(new MainHook());
+        hookUis.add(new ListViewHook());
         hookUis.add(new ActionBarHook());
         hookUis.add(new ConversationHook());
         hookUis.add(new AvatarHook());
@@ -135,10 +137,10 @@ public class WeChatHelper {
         public static String AvatarUtilName;
         public static String AvatarUtilNames[] = {"", "com.tencent.mm.v.b"};
         public static Class TouchImageView;
-        public static Class ChattingUInonActivity;//聊天列表
+        public static Class ChattingUInonActivity;//聊天
         public static String ChattingUInonActivityName;
         public static String ChattingUInonActivityNames[] = {"", MM_UI_PACKAGENAME + "chatting.En_5b8fbb1e"};
-        public static Class ChattingUInonFragment;//聊天列表
+        public static Class ChattingUInonFragment;//聊天fragment
         public static Class WebViewUI;
         public static String HomeUI_Name = MM_UI_PACKAGENAME + "HomeUI";
         public static Class HomeUI;
@@ -156,6 +158,8 @@ public class WeChatHelper {
         public static String HomeUI_ViewPagerChangeListener_Name;
         public static String HomeUI_ViewPagerChangeListener_Names[] = {"", HomeUI_Name + "$c"};
         public static Class LauncherUIBottomTabView;
+        public static String ConversationOverscrollListView_Name = "ConversationOverscrollListView";
+        public static Class ConversationOverscrollListView;
 
 
         private static void init(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -183,6 +187,8 @@ public class WeChatHelper {
             HomeUI_ViewPagerChangeListener_Name = HomeUI_ViewPagerChangeListener_Names[index];
             HomeUI_ViewPagerChangeListener = findClass(HomeUI_ViewPagerChangeListener_Name, lpparam.classLoader);
             LauncherUIBottomTabView = findClass(MM_UI_PACKAGENAME + "LauncherUIBottomTabView", lpparam.classLoader);
+            ConversationOverscrollListView = findClass(MM_UI_PACKAGENAME + "conversation." + ConversationOverscrollListView_Name, lpparam.classLoader);
+
         }
     }
 
