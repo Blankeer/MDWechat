@@ -43,6 +43,8 @@ public class WxVersionConfig {
         public String LauncherUIBottomTabView;
         public String ActionBarContainer;
         public String ToolbarWidgetWrapper;
+        public String ActionBarSearchView;
+        public String ActionBarEditText;
     }
 
     public static class Fields {
@@ -65,6 +67,7 @@ public class WxVersionConfig {
         public String LauncherUIBottomTabView_setMainTabUnread;
         public String LauncherUIBottomTabView_setContactTabUnread;
         public String LauncherUIBottomTabView_setFriendTabUnread;
+        public String ActionBarSearchView_init;
     }
 
     public static class Views {
@@ -73,5 +76,6 @@ public class WxVersionConfig {
         public String ActionBar_Divider;
         public String ActionBar_BackImageView;
         public String SearchActionBar_Divider;
+        public String SearchActionBar_BackImageView;
     }
 }

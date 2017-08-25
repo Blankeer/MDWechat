@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.blanke.mdwechat.R;
-import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.util.ConvertUtils;
 import com.blanke.mdwechat.widget.MaterialSearchView;
 import com.flyco.tablayout.CommonTabLayout;
@@ -186,7 +185,7 @@ public class MainHook extends BaseHookUi {
     }
 
     private void addFloatButton(ViewGroup frameLayout) {
-        int primaryColor = getPrimaryColor();
+        int primaryColor = getColorPrimary();
         Context context = MD_CONTEXT;
         actionMenu = new FloatingActionMenu(context);
         actionMenu.setMenuButtonColorNormal(primaryColor);
@@ -282,7 +281,7 @@ public class MainHook extends BaseHookUi {
     private void addTabLayout(ViewGroup viewPagerLinearLayout, final View pager) {
         Context context = MD_CONTEXT;
         final CommonTabLayout tabLayout = new CommonTabLayout(context);
-        int primaryColor = getPrimaryColor();
+        int primaryColor = getColorPrimary();
         tabLayout.setBackgroundColor(primaryColor);
         tabLayout.setTextSelectColor(Color.WHITE);
         tabLayout.setTextUnselectColor(0x1acccccc);
@@ -386,9 +385,5 @@ public class MainHook extends BaseHookUi {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.height = ConvertUtils.dp2px(viewPagerLinearLayout.getContext(), 48);
         viewPagerLinearLayout.addView(tabLayout, 0, params);
-    }
-
-    private int getPrimaryColor() {
-        return HookConfig.colorPrimary;
     }
 }

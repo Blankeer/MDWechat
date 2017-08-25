@@ -1,10 +1,8 @@
 package com.blanke.mdwechat.ui;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
@@ -39,11 +37,7 @@ public class ListViewHook extends BaseHookUi {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         View view = (View) param.getResult();
                         Context context = view.getContext();
-                        int[] attrs = new int[]{android.R.attr.selectableItemBackground};
-                        TypedArray ta = context.obtainStyledAttributes(attrs);
-                        Drawable drawableFromTheme = ta.getDrawable(0);
-                        ta.recycle();
-                        view.setBackground(drawableFromTheme);
+                        view.setBackground(getRippleDrawable(context));
                     }
                 });
     }

@@ -2,7 +2,9 @@ package com.blanke.mdwechat.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public abstract class BaseHookUi {
     private final String TAG = getClass().getSimpleName();
+    private Drawable rippleDrawable;
 
     public abstract void hook(XC_LoadPackage.LoadPackageParam lpparam);
 
@@ -65,6 +68,21 @@ public abstract class BaseHookUi {
         return colorDrawable;
     }
 
+    protected int getColorPrimary() {
+        return HookConfig.colorPrimary;
+    }
+
+    protected Drawable getRippleDrawable(Context context) {
+        if (rippleDrawable == null) {
+            int[] attrs = new int[]{android.R.attr.selectableItemBackground};
+            TypedArray ta = context.obtainStyledAttributes(attrs);
+            rippleDrawable = ta.getDrawable(0);
+            ta.recycle();
+        } else {
+            return rippleDrawable.getConstantState().newDrawable().mutate();
+        }
+        return rippleDrawable;
+    }
 
     /**
      * 打印调试 view tree
