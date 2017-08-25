@@ -7,12 +7,10 @@ import android.view.View;
 import com.blanke.mdwechat.WeChatHelper;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.blanke.mdwechat.WeChatHelper.WCClasses.ChattingUInonFragment;
-import static com.blanke.mdwechat.WeChatHelper.WCField.ActionBarContainer_mBackground;
-import static com.blanke.mdwechat.WeChatHelper.WCId.ActionBar_Divider_id;
+import static com.blanke.mdwechat.WeChatHelper.wxConfig;
+import static com.blanke.mdwechat.WeChatHelper.xMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -42,12 +40,16 @@ public class ActionBarHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-        XposedHelpers.findAndHookMethod("android.support.v7.widget.ActionBarContainer",
-                lpparam.classLoader, "onFinishInflate", new XC_MethodHook() {
+        xMethod(wxConfig.classes.ActionBarContainer,
+                "onFinishInflate",
+                new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        setObjectField(param.thisObject, ActionBarContainer_mBackground, getActionBarColorDrawable());
+                        setObjectField(param.thisObject,
+                                wxConfig.fields.ActionBarContainer_mBackground,
+                                getActionBarColorDrawable());
                     }
                 });
+        //set statusBar color
         findAndHookMethod("com.android.internal.policy.PhoneWindow", lpparam.classLoader,
                 "setStatusBarColor", int.class, new XC_MethodHook() {
                     @Override
@@ -56,19 +58,30 @@ public class ActionBarHook extends BaseHookUi {
                         param.args[0] = statusColor;
                     }
                 });
-        //hide chat fragment divider
-        findAndHookMethod(ChattingUInonFragment, "bSZ", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                View actionBar = (View) XposedHelpers.getObjectField(param.thisObject, "vqP");
-                if (actionBar != null) {
-                    View divider = actionBar.findViewById(getId(actionBar.getContext(), ActionBar_Divider_id));
-                    if (divider != null) {
-                        divider.setVisibility(View.INVISIBLE);
+        //hook ToolbarWidgetWrapper
+        xMethod(wxConfig.classes.ToolbarWidgetWrapper,
+                "setCustomView", View.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        View view = (View) param.args[0];
+                        logViewTree(view);
+                        View backIv = findViewByIdName(view, wxConfig.views.ActionBar_BackImageView);
+                        if (backIv != null) {
+//                            log("backIv=" + getViewMsg(backIv));
+                        }
+                        View divider = findViewByIdName(view, wxConfig.views.ActionBar_Divider);
+                        if (divider != null) {
+//                            log("divider=" + getViewMsg(divider));
+                            divider.setVisibility(View.GONE);
+                        }
+                        View divider2 = findViewByIdName(view, wxConfig.views.SearchActionBar_Divider);
+                        if (divider2 != null) {
+                            log("search actionbar divider2=" + getViewMsg(divider2));
+                            divider2.setVisibility(View.GONE);
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     private boolean isSetActionBarActivity(String activity) {

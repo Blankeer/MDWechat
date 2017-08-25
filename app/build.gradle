@@ -29,4 +29,6 @@ dependencies {
 
     compile project(':fab-lib')
     compile project(':tablayout-lib')
+
+    compile 'com.google.code.gson:gson:2.8.1'
 }

@@ -6,13 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.blanke.mdwechat.Common;
 import com.blanke.mdwechat.WeChatHelper;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import static com.blanke.mdwechat.WeChatHelper.MD_CONTEXT;
 
 /**
  * Created by blanke on 2017/8/1.
@@ -28,25 +25,35 @@ public abstract class BaseHookUi {
         WeChatHelper.XMOD_PREFS.reload();
     }
 
+    protected View findViewByIdName(Activity activity, String idName) {
+        return activity.findViewById(getViewId(activity, idName));
+    }
+
+    protected View findViewByIdName(View view, String idName) {
+        return view.findViewById(getViewId(view.getContext(), idName));
+    }
+
     @Deprecated
     protected int getId(Context context, String idName) {
         return context.getResources().getIdentifier(context.getPackageName() + ":id/" + idName, null, null);
     }
 
-    protected int getViewId(String name) {
-        return getResourceIdByName("id", name);
+    protected int getViewId(Context context, String name) {
+        return getResourceIdByName(context, "id", name);
     }
 
-    protected int getColorId(String idName) {
-        return getResourceIdByName("color", idName);
+    protected int getColorId(Context context, String idName) {
+        return getResourceIdByName(context, "color", idName);
     }
 
-    protected int getDrawableIdByName(String name) {
-        return getResourceIdByName("drawable", name);
+    protected int getDrawableIdByName(Context context, String name) {
+        return getResourceIdByName(context, "drawable", name);
     }
 
-    protected int getResourceIdByName(String resourceName, String name) {
-        return MD_CONTEXT.getResources().getIdentifier(name, resourceName, Common.WECHAT_PACKAGENAME);
+    protected int getResourceIdByName(Context context, String resourceName, String name) {
+        return context.getResources().getIdentifier(
+                context.getPackageName() + ":" + resourceName + "/" + name,
+                null, null);
     }
 
     /**
@@ -66,6 +73,10 @@ public abstract class BaseHookUi {
         }
     }
 
+    protected void logViewTree(View view) {
+        printViewTree(view, 0);
+    }
+
     protected void printActivityViewTree(Activity activity) {
         View contentView = activity.findViewById(android.R.id.content);
         printViewTree(contentView, 0);
@@ -75,7 +86,7 @@ public abstract class BaseHookUi {
         printViewTree(activity.getWindow().getDecorView(), 0);
     }
 
-    private String getViewMsg(View view) {
+    protected String getViewMsg(View view) {
         String className = view.getClass().getName();
         int id = view.getId();
         String text = "";
@@ -96,6 +107,10 @@ public abstract class BaseHookUi {
         log(sb.toString());
     }
 
+    protected void log(View view) {
+        log(getViewMsg(view));
+    }
+
     protected void log(String msg) {
         XposedBridge.log(TAG + ":" + msg);
     }
@@ -110,5 +125,41 @@ public abstract class BaseHookUi {
         }
         log(clazz.getName());
         logSuperClass(clazz.getSuperclass());
+    }
+
+    protected void logStackTraces() {
+        logStackTraces(15);
+    }
+
+    protected void logStackTraces(int methodCount) {
+        logStackTraces(methodCount, 3);
+    }
+
+    protected void logStackTraces(int methodCount, int methodOffset) {
+        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+        String level = "";
+        log("---------logStackTraces start----------");
+        for (int i = methodCount; i > 0; i--) {
+            int stackIndex = i + methodOffset;
+            if (stackIndex >= trace.length) {
+                continue;
+            }
+            StringBuilder builder = new StringBuilder();
+            builder.append("|")
+                    .append(' ')
+                    .append(level)
+                    .append(trace[stackIndex].getClassName())
+                    .append(".")
+                    .append(trace[stackIndex].getMethodName())
+                    .append(" ")
+                    .append(" (")
+                    .append(trace[stackIndex].getFileName())
+                    .append(":")
+                    .append(trace[stackIndex].getLineNumber())
+                    .append(")");
+            level += "   ";
+            log(builder.toString());
+        }
+        log("---------logStackTraces end----------");
     }
 }

@@ -36,9 +36,7 @@ public class WechatHook extends XC_MethodHook
         PackageInfo wechatPackageInfo = context.getPackageManager().getPackageInfo(Common.WECHAT_PACKAGENAME, 0);
         String versionName = wechatPackageInfo.versionName;
         log("wechat version=" + versionName);
-        if (!WeChatHelper.init(versionName, lpparam)) {
-            log("不支持 wechat 版本:" + versionName);
-        }
+        WeChatHelper.init(versionName, lpparam);
     }
 
     @Override

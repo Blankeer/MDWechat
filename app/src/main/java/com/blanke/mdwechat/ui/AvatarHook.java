@@ -9,10 +9,8 @@ import com.blanke.mdwechat.util.ImageHelper;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.blanke.mdwechat.WeChatHelper.WCClasses.AvatarUtil;
-import static com.blanke.mdwechat.WeChatHelper.WCClasses.TouchImageView;
-import static com.blanke.mdwechat.WeChatHelper.WCMethods.getAvatarBitmap;
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static com.blanke.mdwechat.WeChatHelper.wxConfig;
+import static com.blanke.mdwechat.WeChatHelper.xMethod;
 
 /**
  * Created by blanke on 2017/8/1.
@@ -30,8 +28,10 @@ public class AvatarHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         // hook avatar bitmap
-        findAndHookMethod(AvatarUtil,
-                getAvatarBitmap, String.class, boolean.class, int.class, new XC_MethodHook() {
+        xMethod(wxConfig.classes.AvatarUtils,
+                wxConfig.methods.AvatarUtils_getAvatarBitmap,
+                String.class, boolean.class, int.class,
+                new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         Object res = param.getResult();
@@ -43,19 +43,21 @@ public class AvatarHook extends BaseHookUi {
                     }
                 });
         // hook sns avatar imageview
-        findAndHookMethod(TouchImageView, "init", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                ImageView imageView = (ImageView) param.thisObject;
-                imageView.setBackgroundColor(Color.TRANSPARENT);
-                // setOnTouchListener is no use,will throw exception
+        xMethod(wxConfig.classes.TouchImageView,
+                wxConfig.methods.TouchImageView_init,
+                new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        ImageView imageView = (ImageView) param.thisObject;
+                        imageView.setBackgroundColor(Color.TRANSPARENT);
+                        // setOnTouchListener is no use,will throw exception
 //                imageView.setOnTouchListener(new View.OnTouchListener() {
 //                    @Override
 //                    public boolean onTouch(View v, MotionEvent event) {
 //                        return false;
 //                    }
 //                });
-            }
-        });
+                    }
+                });
     }
 }
