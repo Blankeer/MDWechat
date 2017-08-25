@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.blanke.mdwechat.R;
-import com.blanke.mdwechat.WeChatHelper;
+import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.util.ConvertUtils;
 import com.blanke.mdwechat.widget.MaterialSearchView;
 import com.flyco.tablayout.CommonTabLayout;
@@ -64,6 +64,7 @@ public class MainHook extends BaseHookUi {
                 wxConfig.methods.LauncherUI_startMainUI,
                 new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        refreshPrefs();
                         if (isMainInit) {
                             return;
                         }
@@ -388,7 +389,6 @@ public class MainHook extends BaseHookUi {
     }
 
     private int getPrimaryColor() {
-        refreshPrefs();
-        return WeChatHelper.colorPrimary;
+        return HookConfig.colorPrimary;
     }
 }

@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 
-import com.blanke.mdwechat.WeChatHelper;
+import com.blanke.mdwechat.config.HookConfig;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -31,22 +31,16 @@ public class ActionBarHook extends BaseHookUi {
         actionBarSplitDrawable.setColor(Color.TRANSPARENT);
     }
 
-    private ColorDrawable getActionBarColorDrawable() {
-        refreshPrefs();
-        int statusColor = WeChatHelper.colorPrimary;
-        actionBarColorDrawable.setColor(statusColor);
-        return actionBarColorDrawable;
-    }
-
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        final int colorPrimary = HookConfig.colorPrimary;
         xMethod(wxConfig.classes.ActionBarContainer,
                 "onFinishInflate",
                 new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         setObjectField(param.thisObject,
                                 wxConfig.fields.ActionBarContainer_mBackground,
-                                getActionBarColorDrawable());
+                                getColorPrimaryDrawable());
                     }
                 });
         //set statusBar color
@@ -54,8 +48,7 @@ public class ActionBarHook extends BaseHookUi {
                 "setStatusBarColor", int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        int statusColor = WeChatHelper.colorPrimary;
-                        param.args[0] = statusColor;
+                        param.args[0] = colorPrimary;
                     }
                 });
         //hook ToolbarWidgetWrapper

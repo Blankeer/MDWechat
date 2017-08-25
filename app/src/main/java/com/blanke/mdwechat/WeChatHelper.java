@@ -2,8 +2,8 @@ package com.blanke.mdwechat;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Color;
 
+import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.config.WxVersionConfig;
 import com.blanke.mdwechat.ui.ActionBarHook;
 import com.blanke.mdwechat.ui.AvatarHook;
@@ -31,7 +31,6 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 public class WeChatHelper {
     private static XC_LoadPackage.LoadPackageParam loadPackageParam;
     public static XSharedPreferences XMOD_PREFS;
-    public static int colorPrimary;
     public static Context MD_CONTEXT;
     private static List<BaseHookUi> hookUis;
     public static WxVersionConfig wxConfig;
@@ -41,7 +40,6 @@ public class WeChatHelper {
         loadPackageParam = lpparam;
 //        versionNumber = versionNumber;
 //        WCVersion.version = ver;
-        colorPrimary = Color.parseColor("#009688");
     }
 
     private static void initApplication(final String ver, final XC_LoadPackage.LoadPackageParam lpparam) {
@@ -56,8 +54,11 @@ public class WeChatHelper {
                     log("不支持的版本:" + ver);
                     return;
                 }
-                initHookUis();
-                executeHookUi();
+                HookConfig.load(XMOD_PREFS);
+                if (HookConfig.hookSwitch) {
+                    initHookUis();
+                    executeHookUi();
+                }
             }
         });
     }

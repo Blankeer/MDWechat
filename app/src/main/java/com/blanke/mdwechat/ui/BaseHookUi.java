@@ -2,11 +2,13 @@ package com.blanke.mdwechat.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blanke.mdwechat.WeChatHelper;
+import com.blanke.mdwechat.config.HookConfig;
 
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -23,6 +25,7 @@ public abstract class BaseHookUi {
     //刷新设置
     protected void refreshPrefs() {
         WeChatHelper.XMOD_PREFS.reload();
+        HookConfig.load(WeChatHelper.XMOD_PREFS);
     }
 
     protected View findViewByIdName(Activity activity, String idName) {
@@ -55,6 +58,13 @@ public abstract class BaseHookUi {
                 context.getPackageName() + ":" + resourceName + "/" + name,
                 null, null);
     }
+
+    protected ColorDrawable getColorPrimaryDrawable() {
+        ColorDrawable colorDrawable = new ColorDrawable();
+        colorDrawable.setColor(HookConfig.colorPrimary);
+        return colorDrawable;
+    }
+
 
     /**
      * 打印调试 view tree
