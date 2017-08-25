@@ -3,8 +3,9 @@ package com.blanke.mdwechat.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,6 +41,7 @@ import static com.blanke.mdwechat.WeChatHelper.xClass;
 import static com.blanke.mdwechat.WeChatHelper.xMethod;
 import static com.github.clans.fab.FloatingActionButton.SIZE_MINI;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.findAndHookConstructor;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 /**
@@ -55,10 +58,10 @@ public class MainHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-        hookWechatMain();
+        hookWechatMain(lpparam);
     }
 
-    private void hookWechatMain() {
+    private void hookWechatMain(final XC_LoadPackage.LoadPackageParam lpparam) {
         xMethod(wxConfig.classes.LauncherUI,
                 wxConfig.methods.LauncherUI_startMainUI,
                 new XC_MethodHook() {
@@ -110,7 +113,7 @@ public class MainHook extends BaseHookUi {
                          *hook SearchView
                          *****************/
                         ViewGroup actionLayout = (ViewGroup) findViewByIdName(activity, wxConfig.views.ActionBarContainer);
-                        addSearchView(actionLayout);
+                        addSearchView(actionLayout, lpparam);
                         // hook click search
                         xMethod(wxConfig.classes.LauncherUI,
                                 "onOptionsItemSelected",
@@ -229,7 +232,7 @@ public class MainHook extends BaseHookUi {
         return fab;
     }
 
-    private void addSearchView(ViewGroup frameLayout) {
+    private void addSearchView(ViewGroup frameLayout, XC_LoadPackage.LoadPackageParam lpparam) {
         Context context = MD_CONTEXT;
         searchView = new MaterialSearchView(context);
         searchView.setOnSearchListener(new MaterialSearchView.SimpleonSearchListener() {
@@ -244,38 +247,23 @@ public class MainHook extends BaseHookUi {
         });
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         frameLayout.addView(searchView, params);
-        xMethod(wxConfig.classes.FTSMainUI, "onResume", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                if (!TextUtils.isEmpty(searchKey)) {
-                final Activity activity = (Activity) param.thisObject;
-                log("searchkey=" + searchKey);
-                final Handler handler = new Handler(activity.getMainLooper());
-                handler.postDelayed(new Runnable() {
+        findAndHookConstructor(wxConfig.classes.ActionBarEditText,
+                lpparam.classLoader, Context.class, AttributeSet.class,
+                new XC_MethodHook() {
                     @Override
-                    public void run() {
-//                            printActivityWindowViewTree(activity);
-//                            int id = getId(activity, SearchUI_EditText_id);
-//                            View editView = activity.getWindow().findViewById(id);
-////                            log("id=" + id);
-//                            if (editView == null) {
-////                                printActivityWindowViewTree(activity);
-//                                handler.postDelayed(this, 200);
-//                                return;
-//                            }
-////                            log("editview=" + editView);
-//                            if (editView instanceof EditText) {
-//                                EditText editText = (EditText) editView;
-//                                editText.setHintTextColor(Color.WHITE);
-////                                log("editText=" + editText);
-//                                editText.setText(searchKey);
-//                            }
-//                            searchKey = null;
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        if (!TextUtils.isEmpty(searchKey)) {
+                            final EditText editText = (EditText) param.thisObject;
+                            editText.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    editText.setText(searchKey);
+                                    searchKey = null;
+                                }
+                            }, 300);
+                        }
                     }
-                }, 8000);
-//                }
-            }
-        });
+                });
     }
 
     private void addTabLayout(ViewGroup viewPagerLinearLayout, final View pager) {
