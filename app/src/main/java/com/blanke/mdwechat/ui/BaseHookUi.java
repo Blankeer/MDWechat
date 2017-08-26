@@ -3,6 +3,7 @@ package com.blanke.mdwechat.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -115,7 +116,9 @@ public abstract class BaseHookUi {
         printViewTree(activity.getWindow().getDecorView(), 0);
         log("-------end----------");
     }
-
+    protected Drawable getTransparentDrawable(){
+        return new ColorDrawable(Color.TRANSPARENT);
+    }
     protected String getViewMsg(View view) {
         String className = view.getClass().getName();
         int id = view.getId();

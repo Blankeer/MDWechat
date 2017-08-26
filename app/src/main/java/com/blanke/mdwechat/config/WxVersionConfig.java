@@ -47,6 +47,7 @@ public class WxVersionConfig {
         public String ActionBarEditText;
         public String ConversationFragment;
         public String ContactFragment;
+        public String ContactAdapter;
     }
 
     public static class Fields {
