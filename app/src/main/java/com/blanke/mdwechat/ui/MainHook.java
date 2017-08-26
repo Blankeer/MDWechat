@@ -55,6 +55,7 @@ public class MainHook extends BaseHookUi {
     private Object mHomeUi;
     private String searchKey;
     private FloatingActionMenu actionMenu;
+    private Object mMainTabClickListener = null;
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -283,7 +284,7 @@ public class MainHook extends BaseHookUi {
         tabLayout.setUnreadBackground(Color.WHITE);
         tabLayout.setUnreadTextColor(primaryColor);
         tabLayout.setSelectIconColor(Color.WHITE);
-        tabLayout.setUnSelectIconColor(0x1acccccc);
+        tabLayout.setUnSelectIconColor(0x1aaaaaaa);
 
 //        String[] titles = {"消息", "通讯录", "朋友圈", "设置"};
         final int[] tabIcons = {R.drawable.ic_chat_tab, R.drawable.ic_contact_tab,
@@ -318,7 +319,12 @@ public class MainHook extends BaseHookUi {
 
             @Override
             public void onTabReselect(int position) {
-
+                if (mMainTabClickListener != null) {
+                    log("call mMainTabClickListener onDoubleClick");
+                    callMethod(mMainTabClickListener,
+                            wxConfig.methods.MainTabClickListener_onDoubleClick,
+                            position);
+                }
             }
         });
         xMethod(wxConfig.classes.HomeUiViewPagerChangeListener,
@@ -347,8 +353,12 @@ public class MainHook extends BaseHookUi {
                 int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        log("msg unread=" + param.args[0]);
+//                        log("msg unread=" + param.args[0]);
                         tabLayout.showMsg(0, (Integer) param.args[0]);
+                        if (mMainTabClickListener == null) {
+                            mMainTabClickListener = getObjectField(param.thisObject,
+                                    wxConfig.fields.LauncherUIBottomTabView_mTabClickListener);
+                        }
                     }
                 });
         xMethod(wxConfig.classes.LauncherUIBottomTabView,
@@ -356,7 +366,7 @@ public class MainHook extends BaseHookUi {
                 int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        log("contact unread=" + param.args[0]);
+//                        log("contact unread=" + param.args[0]);
                         tabLayout.showMsg(1, (Integer) param.args[0]);
                     }
                 });
@@ -365,10 +375,29 @@ public class MainHook extends BaseHookUi {
                 int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        log("friend unread=" + param.args[0]);
+//                        log("friend unread=" + param.args[0]);
                         tabLayout.showMsg(2, (Integer) param.args[0]);
                     }
                 });
+        xMethod(wxConfig.classes.LauncherUIBottomTabView,
+                wxConfig.methods.LauncherUIBottomTabView_showFriendTabUnreadPoint,
+                boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        boolean show = (boolean) param.args[0];
+                        tabLayout.showMsg(2, show ? -1 : 0);
+                    }
+                });
+
+        //settings unread ignore
+//        xMethod(wxConfig.classes.LauncherUIBottomTabView,
+//                "yD",
+//                int.class, new XC_MethodHook() {
+//                    @Override
+//                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                        log("yd unread=" + param.args[0]);
+//                    }
+//                });
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.height = ConvertUtils.dp2px(viewPagerLinearLayout.getContext(), 48);

@@ -54,6 +54,7 @@ public class WxVersionConfig {
         public String MenuAdapterManager_mMenuArray;
         public String MenuAdapterManager_mMenuMapping;
         public String ActionBarContainer_mBackground;
+        public String LauncherUIBottomTabView_mTabClickListener;
     }
 
     public static class Methods {
@@ -67,7 +68,9 @@ public class WxVersionConfig {
         public String LauncherUIBottomTabView_setMainTabUnread;
         public String LauncherUIBottomTabView_setContactTabUnread;
         public String LauncherUIBottomTabView_setFriendTabUnread;
+        public String LauncherUIBottomTabView_showFriendTabUnreadPoint;
         public String ActionBarSearchView_init;
+        public String MainTabClickListener_onDoubleClick;
     }
 
     public static class Views {

@@ -876,7 +876,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
      * 显示未读消息
      *
      * @param position 显示tab位置
-     * @param num      num小于等于0显示红点,num大于0显示数字
+     * @param num      num小于0显示红点,num大于0显示数字 ,=0 hide
      */
     public void showMsg(int position, int num) {
         if (position >= mTabCount) {
