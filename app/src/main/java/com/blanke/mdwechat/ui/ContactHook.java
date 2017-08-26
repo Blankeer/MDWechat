@@ -14,16 +14,16 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
  * Created by blanke on 2017/8/1.
  */
 
-public class ConversationHook extends BaseHookUi {
+public class ContactHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-        xMethod(wxConfig.classes.ConversationFragment,
+        xMethod(wxConfig.classes.ContactFragment,
                 wxConfig.methods.MainFragment_onTabCreate,
                 new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        View listView = (View) getObjectField(param.thisObject, wxConfig.fields.ConversationFragment_mListView);
-//                        listView.setBackground(getBackground());
+                        View listView = (View) getObjectField(param.thisObject, wxConfig.fields.ContactFragment_mListView);
+                        listView.setBackground(getBackground());
                     }
                 });
     }

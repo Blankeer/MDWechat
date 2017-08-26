@@ -8,9 +8,11 @@ import com.blanke.mdwechat.config.WxVersionConfig;
 import com.blanke.mdwechat.ui.ActionBarHook;
 import com.blanke.mdwechat.ui.AvatarHook;
 import com.blanke.mdwechat.ui.BaseHookUi;
+import com.blanke.mdwechat.ui.ContactHook;
 import com.blanke.mdwechat.ui.ConversationHook;
 import com.blanke.mdwechat.ui.ListViewHook;
 import com.blanke.mdwechat.ui.MainHook;
+import com.blanke.mdwechat.ui.UnreadViewHook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,8 @@ public class WeChatHelper {
         hookUis.add(new ActionBarHook());
         hookUis.add(new ConversationHook());
         hookUis.add(new AvatarHook());
+        hookUis.add(new ContactHook());
+        hookUis.add(new UnreadViewHook());
     }
 
     private static void executeHookUi() {

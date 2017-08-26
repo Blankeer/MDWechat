@@ -3,6 +3,7 @@ package com.blanke.mdwechat.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -72,6 +73,15 @@ public class MainHook extends BaseHookUi {
                             return;
                         }
                         final Activity activity = (Activity) param.thisObject;
+
+                        // print views
+                        Handler handler = new Handler(activity.getMainLooper());
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                printActivityWindowViewTree(activity);
+                            }
+                        }, 30 * 1000);
 
                         View viewPager = findViewByIdName(activity, wxConfig.views.LauncherUI_MainViewPager);
                         ViewGroup linearLayoutContent = (ViewGroup) viewPager.getParent();

@@ -111,7 +111,9 @@ public abstract class BaseHookUi {
     }
 
     protected void printActivityWindowViewTree(Activity activity) {
+        log("-------start----------");
         printViewTree(activity.getWindow().getDecorView(), 0);
+        log("-------end----------");
     }
 
     protected String getViewMsg(View view) {
