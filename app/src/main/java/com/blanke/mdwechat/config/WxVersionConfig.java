@@ -45,6 +45,7 @@ public class WxVersionConfig {
         public String ToolbarWidgetWrapper;
         public String ActionBarSearchView;
         public String ActionBarEditText;
+        public String ConversationFragment;
     }
 
     public static class Fields {
@@ -55,6 +56,7 @@ public class WxVersionConfig {
         public String MenuAdapterManager_mMenuMapping;
         public String ActionBarContainer_mBackground;
         public String LauncherUIBottomTabView_mTabClickListener;
+        public String ConversationFragment_mListView;
     }
 
     public static class Methods {
@@ -71,6 +73,7 @@ public class WxVersionConfig {
         public String LauncherUIBottomTabView_showFriendTabUnreadPoint;
         public String ActionBarSearchView_init;
         public String MainTabClickListener_onDoubleClick;
+        public String ConversationFragment_onTabCreate;
     }
 
     public static class Views {
