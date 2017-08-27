@@ -10,6 +10,7 @@ import com.blanke.mdwechat.ui.AvatarHook;
 import com.blanke.mdwechat.ui.BaseHookUi;
 import com.blanke.mdwechat.ui.ContactHook;
 import com.blanke.mdwechat.ui.ConversationHook;
+import com.blanke.mdwechat.ui.DiscoverHook;
 import com.blanke.mdwechat.ui.ListViewHook;
 import com.blanke.mdwechat.ui.MainHook;
 import com.blanke.mdwechat.ui.UnreadViewHook;
@@ -74,6 +75,7 @@ public class WeChatHelper {
         hookUis.add(new AvatarHook());
         hookUis.add(new ContactHook());
         hookUis.add(new UnreadViewHook());
+        hookUis.add(new DiscoverHook());
     }
 
     private static void executeHookUi() {

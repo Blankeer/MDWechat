@@ -48,6 +48,8 @@ public class WxVersionConfig {
         public String ConversationFragment;
         public String ContactFragment;
         public String ContactAdapter;
+        public String DiscoverFragment;
+        public String MMPreferenceAdapter;
     }
 
     public static class Fields {
@@ -77,6 +79,7 @@ public class WxVersionConfig {
         public String ActionBarSearchView_init;
         public String MainTabClickListener_onDoubleClick;
         public String MainFragment_onTabCreate;
+        public String MMPreferenceAdapter_setVisible;
     }
 
     public static class Views {
