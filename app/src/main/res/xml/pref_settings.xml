@@ -5,6 +5,7 @@
     <SwitchPreference
         android:defaultValue="true"
         android:key="@string/key_hook_switch"
+        android:summary="@string/text_settings_info"
         android:title="@string/text_hook_switch" />
 
     <com.jaredrummler.android.colorpicker.ColorPreference
@@ -13,5 +14,9 @@
         android:title="@string/text_color_primary"
         app:cpv_colorPresets="@array/colors"
         app:cpv_showAlphaSlider="true" />
-    l
+
+    <Preference
+        android:key="@string/key_donate"
+        android:summary="@string/text_donate_info"
+        android:title="@string/text_donate" />
 </PreferenceScreen>

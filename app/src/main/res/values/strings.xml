@@ -6,4 +6,8 @@
     <string name="text_hook_switch">开关</string>
     <string name="text_settings">设置</string>
     <string name="text_color_primary">主色</string>
+    <string name="text_settings_info">修改之后理论上重启微信生效,不行重启手机吧.</string>
+    <string name="text_donate">捐赠</string>
+    <string name="text_donate_info">支持下我开发吧.</string>
+    <string name="key_donate">key_donate</string>
 </resources>
