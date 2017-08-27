@@ -46,12 +46,12 @@ public class DiscoverHook extends BaseHookUi {
                 new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        if (hookListViewBackground) {
-                            return;
-                        }
+//                        if (hookListViewBackground) {
+//                            return;
+//                        }
                         ViewGroup listView = (ViewGroup) param.args[2];
                         listView.setBackground(new ColorDrawable(Color.WHITE));
-                        hookListViewBackground = true;
+//                        hookListViewBackground = true;
                     }
                 });
     }

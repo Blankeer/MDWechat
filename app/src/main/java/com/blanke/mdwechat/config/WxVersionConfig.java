@@ -50,6 +50,7 @@ public class WxVersionConfig {
         public String ContactAdapter;
         public String DiscoverFragment;
         public String MMPreferenceAdapter;
+        public String SettingsFragment;
     }
 
     public static class Fields {
