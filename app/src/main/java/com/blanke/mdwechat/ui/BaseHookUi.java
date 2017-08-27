@@ -29,7 +29,6 @@ public abstract class BaseHookUi {
     //刷新设置
     protected void refreshPrefs() {
         WeChatHelper.XMOD_PREFS.reload();
-        HookConfig.load(WeChatHelper.XMOD_PREFS);
     }
 
     protected View findViewByIdName(Activity activity, String idName) {
@@ -65,12 +64,12 @@ public abstract class BaseHookUi {
 
     protected ColorDrawable getColorPrimaryDrawable() {
         ColorDrawable colorDrawable = new ColorDrawable();
-        colorDrawable.setColor(HookConfig.colorPrimary);
+        colorDrawable.setColor(getColorPrimary());
         return colorDrawable;
     }
 
     protected int getColorPrimary() {
-        return HookConfig.colorPrimary;
+        return HookConfig.getColorPrimary();
     }
 
     protected Drawable getRippleDrawable(Context context) {

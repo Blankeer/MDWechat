@@ -64,9 +64,9 @@ public class WeChatHelper {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                HookConfig.load(XMOD_PREFS);
-                                log("hook 开关:" + HookConfig.hookSwitch);
-                                if (HookConfig.hookSwitch) {
+                                boolean hook = HookConfig.isHookswitch();
+                                log("hook 开关:" + hook);
+                                if (hook) {
                                     executeHookUi();
                                 }
                             }
