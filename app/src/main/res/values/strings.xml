@@ -5,4 +5,5 @@
     <string name="key_color_primary">colorPrimary</string>
     <string name="text_hook_switch">开关</string>
     <string name="text_settings">设置</string>
+    <string name="text_color_primary">主色</string>
 </resources>

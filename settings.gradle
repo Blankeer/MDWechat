@@ -1,1 +1,1 @@
-include ':app',':fab-lib',':tablayout-lib'
+include ':app',':fab-lib',':tablayout-lib',':ColorPicker'

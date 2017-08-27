@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.blanke.mdwechat"
@@ -29,6 +29,7 @@ dependencies {
 
     compile project(':fab-lib')
     compile project(':tablayout-lib')
+    compile project(':ColorPicker')
 
     compile 'com.google.code.gson:gson:2.8.1'
 }

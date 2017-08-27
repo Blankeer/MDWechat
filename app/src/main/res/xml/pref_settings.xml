@@ -7,7 +7,11 @@
         android:key="@string/key_hook_switch"
         android:title="@string/text_hook_switch" />
 
-    <PreferenceScreen android:title="@string/text_settings">
-
-    </PreferenceScreen>
+    <com.jaredrummler.android.colorpicker.ColorPreference
+        android:defaultValue="@color/colorPrimary"
+        android:key="@string/key_color_primary"
+        android:title="@string/text_color_primary"
+        app:cpv_colorPresets="@array/colors"
+        app:cpv_showAlphaSlider="true" />
+    l
 </PreferenceScreen>

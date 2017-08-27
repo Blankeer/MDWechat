@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion 24
+  buildToolsVersion "25.0.2"
+  resourcePrefix "cpv_"
+
+  defaultConfig {
+    minSdkVersion 14
+    targetSdkVersion 23
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+}
+
+dependencies {
+  compile 'com.android.support:support-v4:23.2.1'
+}
