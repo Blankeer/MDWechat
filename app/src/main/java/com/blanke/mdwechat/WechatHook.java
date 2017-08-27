@@ -39,6 +39,24 @@ public class WechatHook extends XC_MethodHook
         WeChatHelper.init(versionName, lpparam);
     }
 
+    private void hookSettings(XC_LoadPackage.LoadPackageParam lpparam, final String versionName, final boolean isSupport) {
+        XposedHelpers.findAndHookMethod("com.blanke.mdwechat.settings.SettingsFragment",
+                lpparam.classLoader, "getWeChatVersion", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        param.setResult(versionName);
+                    }
+                });
+        XposedHelpers.findAndHookMethod("com.blanke.mdwechat.settings.SettingsFragment",
+                lpparam.classLoader, "isSupportWechat", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        param.setResult(isSupport);
+                    }
+                });
+
+    }
+
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
         if (!resparam.packageName.equals(Common.WECHAT_PACKAGENAME)) {

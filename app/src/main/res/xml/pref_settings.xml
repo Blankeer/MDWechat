@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/key_hook_switch"
+        android:title="@string/text_hook_switch" />
+
+    <PreferenceScreen android:title="@string/text_settings">
+
+    </PreferenceScreen>
+</PreferenceScreen>

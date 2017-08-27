@@ -2,6 +2,7 @@ package com.blanke.mdwechat;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 
 import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.config.WxVersionConfig;
@@ -40,8 +41,8 @@ public class WeChatHelper {
     public static WxVersionConfig wxConfig;
 
     public static void init(String ver, XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        initApplication(ver, lpparam);
         loadPackageParam = lpparam;
+        initApplication(ver, lpparam);
 //        versionNumber = versionNumber;
 //        WCVersion.version = ver;
     }
@@ -58,11 +59,18 @@ public class WeChatHelper {
                     log("不支持的版本:" + ver);
                     return;
                 }
-                HookConfig.load(XMOD_PREFS);
-                if (HookConfig.hookSwitch) {
-                    initHookUis();
-                    executeHookUi();
-                }
+                initHookUis();
+                xMethod(wxConfig.classes.LauncherUI, "onCreate", Bundle.class,
+                        new XC_MethodHook() {
+                            @Override
+                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                HookConfig.load(XMOD_PREFS);
+                                log("hook 开关:" + HookConfig.hookSwitch);
+                                if (HookConfig.hookSwitch) {
+                                    executeHookUi();
+                                }
+                            }
+                        });
             }
         });
     }
@@ -92,7 +100,7 @@ public class WeChatHelper {
     }
 
     public static void initPrefs() {
-        XMOD_PREFS = new XSharedPreferences(MY_APPLICATION_PACKAGE, Common.MOD_PREFS);
+        XMOD_PREFS = new XSharedPreferences(MY_APPLICATION_PACKAGE);
         XMOD_PREFS.makeWorldReadable();
     }
 

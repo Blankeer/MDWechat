@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">MDWechat</string>
-    <string name="test_string">test_hook_wechat</string>
-    <string name="test_string2">test_hook_wechat22222</string>
+    <string name="text_category_switch">开关</string>
+    <string name="key_hook_switch">hookSwitch</string>
+    <string name="key_color_primary">colorPrimary</string>
+    <string name="text_hook_switch">开关</string>
+    <string name="text_settings">设置</string>
 </resources>
