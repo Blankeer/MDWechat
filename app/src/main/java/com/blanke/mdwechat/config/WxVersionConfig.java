@@ -63,6 +63,7 @@ public class WxVersionConfig {
         public String LauncherUIBottomTabView_mTabClickListener;
         public String ConversationFragment_mListView;
         public String ContactFragment_mListView;
+        public String PreferenceFragment_mListView;
     }
 
     public static class Methods {

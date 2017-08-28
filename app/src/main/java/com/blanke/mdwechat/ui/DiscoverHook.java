@@ -4,9 +4,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.blanke.mdwechat.WeChatHelper.wxConfig;
@@ -40,32 +40,17 @@ public class DiscoverHook extends BaseHookUi {
 //                        }
 //                    }
 //                });
-        xMethod(wxConfig.classes.MMPreferenceAdapter,
-                "getView",
-                int.class, View.class, ViewGroup.class,
-                new XC_MethodHook() {
+        xMethod(wxConfig.classes.DiscoverFragment,
+                wxConfig.methods.MainFragment_onTabCreate, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                        if (hookListViewBackground) {
-//                            return;
-//                        }
-                        ViewGroup listView = (ViewGroup) param.args[2];
-                        listView.setBackground(new ColorDrawable(Color.WHITE));
-//                        hookListViewBackground = true;
+                        View listView = (View) XposedHelpers.getObjectField(param.thisObject,
+                                wxConfig.fields.PreferenceFragment_mListView);
+                        if (listView != null) {
+                            listView.setBackground(new ColorDrawable(Color.WHITE));
+                        }
                     }
                 });
-//        xMethod(wxConfig.classes.DiscoverFragment,
-//                wxConfig.methods.MainFragment_onTabCreate, new XC_MethodHook() {
-//                    @Override
-//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                        Activity activity = (Activity) XposedHelpers.callMethod(param.thisObject, "getActivity");
-//                        log("activity=" + activity);
-//                        if (activity != null) {
-//                            View view = findViewByIdName(activity, "list");
-//                            view.setBackground(new ColorDrawable(Color.WHITE));
-//                        }
-//                    }
-//                });
     }
 
     private Drawable getBackground() {
