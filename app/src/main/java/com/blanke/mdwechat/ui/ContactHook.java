@@ -65,6 +65,7 @@ public class ContactHook extends BaseHookUi {
                                     item.setBackground(getTransparentDrawable());
                                 }
                             }
+                            view.setBackground(getRippleDrawable(view.getContext()));
                         }
                     }
                 });

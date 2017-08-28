@@ -46,6 +46,7 @@ public class WxVersionConfig {
         public String ActionBarSearchView;
         public String ActionBarEditText;
         public String ConversationFragment;
+        public String ConversationAdapter;
         public String ContactFragment;
         public String ContactAdapter;
         public String DiscoverFragment;

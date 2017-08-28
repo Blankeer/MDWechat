@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -49,6 +50,15 @@ public class DiscoverHook extends BaseHookUi {
                         if (listView != null) {
                             listView.setBackground(new ColorDrawable(Color.WHITE));
                         }
+                    }
+                });
+        xMethod(wxConfig.classes.MMPreferenceAdapter,
+                "getView", int.class, View.class, ViewGroup.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        View view = (View) param.getResult();
+                        view.setBackground(getRippleDrawable(view.getContext()));
                     }
                 });
     }

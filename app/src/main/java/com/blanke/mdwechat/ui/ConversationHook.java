@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.blanke.mdwechat.WeChatHelper.wxConfig;
 import static com.blanke.mdwechat.WeChatHelper.xMethod;
 
 /**
@@ -25,7 +26,7 @@ public class ConversationHook extends BaseHookUi {
 ////                        listView.setBackground(getBackground());
 //                    }
 //                });
-        xMethod("com.tencent.mm.ui.conversation.g",
+        xMethod(wxConfig.classes.ConversationAdapter,
                 "getView", int.class, View.class, ViewGroup.class,
                 new XC_MethodHook() {
                     @Override
