@@ -37,7 +37,6 @@ public class ActionBarHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-        final int colorPrimary = getColorPrimary();
         xMethod(wxConfig.classes.ActionBarContainer,
                 "onFinishInflate",
                 new XC_MethodHook() {
@@ -45,6 +44,8 @@ public class ActionBarHook extends BaseHookUi {
                         setObjectField(param.thisObject,
                                 wxConfig.fields.ActionBarContainer_mBackground,
                                 getColorPrimaryDrawable());
+                        View actionbar = (View) param.thisObject;
+                        actionbar.setElevation(0);
                     }
                 });
         //set statusBar color
@@ -52,7 +53,7 @@ public class ActionBarHook extends BaseHookUi {
                 "setStatusBarColor", int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        param.args[0] = colorPrimary;
+                        param.args[0] = getColorPrimary();
                     }
                 });
         //hook ToolbarWidgetWrapper
