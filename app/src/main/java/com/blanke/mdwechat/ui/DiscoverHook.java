@@ -24,22 +24,22 @@ public class DiscoverHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-        xMethod(wxConfig.classes.MMPreferenceAdapter,
-                wxConfig.methods.MMPreferenceAdapter_setVisible,
-                String.class, boolean.class,
-                new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        String preName = (String) param.args[0];
-//                        log("preName=" + preName + ",show=" + param.args[1]);
-                        for (String hookMenu : hookMenus) {
-                            if (hookMenu.equals(preName)) {
-                                param.args[1] = true;
-                                break;
-                            }
-                        }
-                    }
-                });
+//        xMethod(wxConfig.classes.MMPreferenceAdapter,
+//                wxConfig.methods.MMPreferenceAdapter_setVisible,
+//                String.class, boolean.class,
+//                new XC_MethodHook() {
+//                    @Override
+//                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                        String preName = (String) param.args[0];
+////                        log("preName=" + preName + ",show=" + param.args[1]);
+//                        for (String hookMenu : hookMenus) {
+//                            if (hookMenu.equals(preName)) {
+//                                param.args[1] = true;
+//                                break;
+//                            }
+//                        }
+//                    }
+//                });
         xMethod(wxConfig.classes.MMPreferenceAdapter,
                 "getView",
                 int.class, View.class, ViewGroup.class,
@@ -54,6 +54,18 @@ public class DiscoverHook extends BaseHookUi {
 //                        hookListViewBackground = true;
                     }
                 });
+//        xMethod(wxConfig.classes.DiscoverFragment,
+//                wxConfig.methods.MainFragment_onTabCreate, new XC_MethodHook() {
+//                    @Override
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                        Activity activity = (Activity) XposedHelpers.callMethod(param.thisObject, "getActivity");
+//                        log("activity=" + activity);
+//                        if (activity != null) {
+//                            View view = findViewByIdName(activity, "list");
+//                            view.setBackground(new ColorDrawable(Color.WHITE));
+//                        }
+//                    }
+//                });
     }
 
     private Drawable getBackground() {
