@@ -100,7 +100,7 @@ public class WeChatHelper {
     }
 
     public static void initPrefs() {
-        XMOD_PREFS = new XSharedPreferences(MY_APPLICATION_PACKAGE);
+        XMOD_PREFS = new XSharedPreferences(MY_APPLICATION_PACKAGE, Common.MOD_PREFS);
         XMOD_PREFS.makeWorldReadable();
     }
 
