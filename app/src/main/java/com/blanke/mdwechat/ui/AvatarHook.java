@@ -42,6 +42,20 @@ public class AvatarHook extends BaseHookUi {
                         }
                     }
                 });
+        xMethod(wxConfig.classes.AvatarUtils2,
+                wxConfig.methods.AvatarUtils2_getAvatarBitmap,
+                String.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        Object res = param.getResult();
+                        if (res != null) {
+                            Bitmap bitmap = (Bitmap) res;
+                            Bitmap hookBitmap = ImageHelper.getRoundedCornerBitmap(bitmap, bitmap.getHeight() / 2);
+                            param.setResult(hookBitmap);
+                        }
+                    }
+                });
         // hook sns avatar imageview
         xMethod(wxConfig.classes.TouchImageView,
                 wxConfig.methods.TouchImageView_init,

@@ -32,6 +32,7 @@ public class WxVersionConfig {
         public String MenuAdapterManager;
         public String MMFragmentActivity;
         public String AvatarUtils;
+        public String AvatarUtils2;
         public String TouchImageView;
         public String ChattingUIActivity;
         public String ChattingUIFragment;
@@ -71,6 +72,7 @@ public class WxVersionConfig {
         public String LauncherUI_startMainUI;
         public String HomeUI_startSearch;
         public String AvatarUtils_getAvatarBitmap;
+        public String AvatarUtils2_getAvatarBitmap;
         public String TouchImageView_init;
         public String HomeUiViewPagerChangeListener_onPageScrolled;
         public String HomeUiViewPagerChangeListener_onPageSelected;
