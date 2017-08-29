@@ -21,6 +21,9 @@ public class WxVersionConfig {
 
     public static WxVersionConfig loadConfig(Context context, String wxVersion) throws IOException {
         String configName = wxVersion + ".config";
+        if (HookConfig.isPlay()) {
+            configName = wxVersion + "-play.config";
+        }
         InputStream is = context.getAssets().open(configName);
         Gson gson = new Gson();
         return gson.fromJson(new InputStreamReader(is), WxVersionConfig.class);

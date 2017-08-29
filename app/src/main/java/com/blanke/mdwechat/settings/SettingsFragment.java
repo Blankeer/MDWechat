@@ -33,6 +33,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private SwitchPreference hookTabPreference;
     private SwitchPreference hookMenuGamePreference;
     private SwitchPreference hookMenuShopPreference;
+    private SwitchPreference isPlayPreference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +77,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         hookMenuGamePreference.setOnPreferenceChangeListener(this);
         hookMenuShopPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_menu_shop));
         hookMenuShopPreference.setOnPreferenceChangeListener(this);
+        isPlayPreference = (SwitchPreference) findPreference(getString(R.string.key_is_play));
+        isPlayPreference.setOnPreferenceChangeListener(this);
     }
 
     @Override

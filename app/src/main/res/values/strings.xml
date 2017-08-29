@@ -27,4 +27,7 @@
     <string name="text_hook_menu_game">隐藏游戏</string>
     <string name="key_hook_menu_shop">key_hook_menu_shop</string>
     <string name="text_hook_menu_shop">隐藏购物</string>
+    <string name="key_is_play">key_is_play</string>
+    <string name="text_is_play">Play版</string>
+    <string name="text_info_is_play">Play版需要打开,重启生效</string>
 </resources>
