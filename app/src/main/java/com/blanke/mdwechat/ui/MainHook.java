@@ -49,7 +49,7 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
  */
 
 public class MainHook extends BaseHookUi {
-    private static boolean isMainInit = false;//主界面初始化 hook 完毕
+    private static final String KEY_ISMAININIT = "KEY_ISMAININIT";
     private static AdapterView.OnItemClickListener hookPopWindowAdapter;
     private MaterialSearchView searchView;
     private Object mHomeUi;
@@ -68,10 +68,13 @@ public class MainHook extends BaseHookUi {
                 new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         refreshPrefs();
-                        if (isMainInit) {
+                        final Activity activity = (Activity) param.thisObject;
+                        Object isMainInit = XposedHelpers.getAdditionalInstanceField(activity, KEY_ISMAININIT);
+                        if (isMainInit != null && ((boolean) isMainInit)) {
                             return;
                         }
-                        final Activity activity = (Activity) param.thisObject;
+                        XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true);
+
 
                         // print views
 //                        Handler handler = new Handler(activity.getMainLooper());
@@ -146,15 +149,6 @@ public class MainHook extends BaseHookUi {
                          *****************/
                         addTabLayout(linearLayoutContent, viewPager);
 
-                        isMainInit = true;
-                    }
-                });
-        xMethod(wxConfig.classes.LauncherUI,
-                "onDestroy", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                        log("LauncherUI onDestroy()");
-                        isMainInit = false;
                     }
                 });
         //hide more icon in actionBar
@@ -209,7 +203,7 @@ public class MainHook extends BaseHookUi {
         actionMenu.setFloatButtonClickListener(new FloatingActionMenu.FloatButtonClickListener() {
             @Override
             public void onClick(FloatingActionButton fab, int index) {
-                log("click fab,index=" + index + ",label" + fab.getLabelText());
+//                log("click fab,index=" + index + ",label" + fab.getLabelText());
                 if (hookPopWindowAdapter != null) {
                     hookPopWindowAdapter.onItemClick(null, null, index, 0);
                 }
