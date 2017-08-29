@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.widget.ImageView;
 
+import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.util.ImageHelper;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -27,6 +28,9 @@ public class AvatarHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (!HookConfig.isHookavatar()) {
+            return;
+        }
         // hook avatar bitmap
         xMethod(wxConfig.classes.AvatarUtils,
                 wxConfig.methods.AvatarUtils_getAvatarBitmap,

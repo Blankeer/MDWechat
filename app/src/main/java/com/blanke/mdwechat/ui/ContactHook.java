@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.blanke.mdwechat.config.HookConfig;
+
 import java.util.ArrayList;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -23,6 +25,9 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 public class ContactHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (!HookConfig.isHookripple()) {
+            return;
+        }
         xMethod(wxConfig.classes.ContactFragment,
                 wxConfig.methods.MainFragment_onTabCreate,
                 new XC_MethodHook() {

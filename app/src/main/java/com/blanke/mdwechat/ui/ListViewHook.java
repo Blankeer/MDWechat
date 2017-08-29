@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
+import com.blanke.mdwechat.config.HookConfig;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -18,6 +20,9 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookConstructor;
 public class ListViewHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (!HookConfig.isHookripple()) {
+            return;
+        }
         //去掉黄色的 selector
         findAndHookConstructor(ListView.class, Context.class, AttributeSet.class, new XC_MethodHook() {
             @Override

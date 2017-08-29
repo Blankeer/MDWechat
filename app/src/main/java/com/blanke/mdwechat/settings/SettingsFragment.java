@@ -19,12 +19,20 @@ import com.jaredrummler.android.colorpicker.ColorPreference;
  * Created by blanke on 2017/6/8.
  */
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     private Preference donatePreference;
     private SharedPreferences sp;
     private SwitchPreference hookSwitchPreference;
     private ColorPreference colorPrimaryPreference;
+    private SwitchPreference hookActionBarPreference;
+    private SwitchPreference hookAvatarPreference;
+    private SwitchPreference hookRipplePreference;
+    private SwitchPreference hookFloatButtonPreference;
+    private SwitchPreference hookSearchPreference;
+    private SwitchPreference hookTabPreference;
+    private SwitchPreference hookMenuGamePreference;
+    private SwitchPreference hookMenuShopPreference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,15 +50,7 @@ public class SettingsFragment extends PreferenceFragment {
         });
         hookSwitchPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_switch));
         colorPrimaryPreference = (ColorPreference) findPreference(getString(R.string.key_color_primary));
-        hookSwitchPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                SharedPreferences.Editor edit = sp.edit();
-                edit.putBoolean(getString(R.string.key_hook_switch), (Boolean) o);
-                edit.apply();
-                return true;
-            }
-        });
+        hookSwitchPreference.setOnPreferenceChangeListener(this);
         colorPrimaryPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -60,6 +60,32 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+        hookActionBarPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_actionbar));
+        hookActionBarPreference.setOnPreferenceChangeListener(this);
+        hookAvatarPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_avatar));
+        hookAvatarPreference.setOnPreferenceChangeListener(this);
+        hookRipplePreference = (SwitchPreference) findPreference(getString(R.string.key_hook_ripple));
+        hookRipplePreference.setOnPreferenceChangeListener(this);
+        hookFloatButtonPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_float_button));
+        hookFloatButtonPreference.setOnPreferenceChangeListener(this);
+        hookSearchPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_search));
+        hookSearchPreference.setOnPreferenceChangeListener(this);
+        hookTabPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_tab));
+        hookTabPreference.setOnPreferenceChangeListener(this);
+        hookMenuGamePreference = (SwitchPreference) findPreference(getString(R.string.key_hook_menu_game));
+        hookMenuGamePreference.setOnPreferenceChangeListener(this);
+        hookMenuShopPreference = (SwitchPreference) findPreference(getString(R.string.key_hook_menu_shop));
+        hookMenuShopPreference.setOnPreferenceChangeListener(this);
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object o) {
+        if (preference instanceof SwitchPreference) {
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putBoolean(preference.getKey(), (Boolean) o);
+            edit.apply();
+        }
+        return true;
     }
 
     private void donate() {

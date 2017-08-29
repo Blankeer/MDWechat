@@ -5,6 +5,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import com.blanke.mdwechat.config.HookConfig;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -21,6 +23,9 @@ public class SettingsHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (!HookConfig.isHookripple()) {
+            return;
+        }
         xMethod(wxConfig.classes.SettingsFragment,
                 wxConfig.methods.MainFragment_onTabCreate, new XC_MethodHook() {
                     @Override

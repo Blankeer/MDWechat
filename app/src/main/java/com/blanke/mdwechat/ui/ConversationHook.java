@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blanke.mdwechat.config.HookConfig;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -17,6 +19,9 @@ import static com.blanke.mdwechat.WeChatHelper.xMethod;
 public class ConversationHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (!HookConfig.isHookripple()) {
+            return;
+        }
 //        xMethod(wxConfig.classes.ConversationFragment,
 //                wxConfig.methods.MainFragment_onTabCreate,
 //                new XC_MethodHook() {

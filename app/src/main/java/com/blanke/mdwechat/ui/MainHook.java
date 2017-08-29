@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.blanke.mdwechat.R;
+import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.util.ConvertUtils;
 import com.blanke.mdwechat.widget.MaterialSearchView;
 import com.flyco.tablayout.CommonTabLayout;
@@ -90,105 +91,116 @@ public class MainHook extends BaseHookUi {
 
                         //移除底部 tabview
                         View tabView = linearLayoutContent.getChildAt(1);
-                        if (tabView != null && tabView instanceof RelativeLayout) {
-                            linearLayoutContent.removeView(tabView);
+                        if (HookConfig.isHooktab()) {
+                            if (tabView != null && tabView instanceof RelativeLayout) {
+                                linearLayoutContent.removeView(tabView);
+                            }
                         }
                         /******************
                          *hook floatButton
                          *****************/
                         //添加 floatbutton
                         ViewGroup contentFrameLayout = (ViewGroup) linearLayoutContent.getParent();
-                        addFloatButton(contentFrameLayout);
+                        if (HookConfig.isHookfloat_button()) {
+                            addFloatButton(contentFrameLayout);
 
-                        // hook floatbutton click
-                        mHomeUi = getObjectField(activity, wxConfig.fields.LauncherUI_mHomeUi);
-                        if (mHomeUi != null) {
-                            Object popWindowAdapter = XposedHelpers.getObjectField(mHomeUi, wxConfig.fields.HomeUI_mMenuAdapterManager);
-                            if (popWindowAdapter != null) {
-                                hookPopWindowAdapter = (AdapterView.OnItemClickListener) popWindowAdapter;
-                                SparseArray hookArrays = new SparseArray();
-                                int[] mapping = {10, 20, 2, 1};
+                            // hook floatbutton click
+                            mHomeUi = getObjectField(activity, wxConfig.fields.LauncherUI_mHomeUi);
+                            if (mHomeUi != null) {
+                                Object popWindowAdapter = XposedHelpers.getObjectField(mHomeUi, wxConfig.fields.HomeUI_mMenuAdapterManager);
+                                if (popWindowAdapter != null) {
+                                    hookPopWindowAdapter = (AdapterView.OnItemClickListener) popWindowAdapter;
+                                    SparseArray hookArrays = new SparseArray();
+                                    int[] mapping = {10, 20, 2, 1};
 //                              log("mapping:" + Arrays.toString(mapping));
-                                Class mMenuItemViewHolder = xClass(wxConfig.classes.MenuItemViewHolder);
-                                Class mMenuItemViewHolderWrapper = xClass(wxConfig.classes.MenuItemViewHolderWrapper);
-                                Constructor dConstructor = mMenuItemViewHolder.getConstructor(int.class, String.class, String.class, int.class, int.class);
-                                Constructor cConstructor = mMenuItemViewHolderWrapper.getConstructor(mMenuItemViewHolder);
-                                for (int i = 0; i < mapping.length; i++) {
-                                    Object d = dConstructor.newInstance(mapping[i], "", "", mapping[i], mapping[i]);
-                                    Object c = cConstructor.newInstance(d);
-                                    hookArrays.put(i, c);
-                                }
+                                    Class mMenuItemViewHolder = xClass(wxConfig.classes.MenuItemViewHolder);
+                                    Class mMenuItemViewHolderWrapper = xClass(wxConfig.classes.MenuItemViewHolderWrapper);
+                                    Constructor dConstructor = mMenuItemViewHolder.getConstructor(int.class, String.class, String.class, int.class, int.class);
+                                    Constructor cConstructor = mMenuItemViewHolderWrapper.getConstructor(mMenuItemViewHolder);
+                                    for (int i = 0; i < mapping.length; i++) {
+                                        Object d = dConstructor.newInstance(mapping[i], "", "", mapping[i], mapping[i]);
+                                        Object c = cConstructor.newInstance(d);
+                                        hookArrays.put(i, c);
+                                    }
 //                              log("hookArrays=" + hookArrays);
-                                XposedHelpers.setObjectField(popWindowAdapter, wxConfig.fields.MenuAdapterManager_mMenuArray, hookArrays);
+                                    XposedHelpers.setObjectField(popWindowAdapter, wxConfig.fields.MenuAdapterManager_mMenuArray, hookArrays);
+                                }
                             }
                         }
                         /******************
                          *hook SearchView
                          *****************/
-                        ViewGroup actionLayout = (ViewGroup) findViewByIdName(activity, wxConfig.views.ActionBarContainer);
-                        addSearchView(actionLayout, lpparam);
-                        // hook click search
-                        xMethod(wxConfig.classes.LauncherUI,
-                                "onOptionsItemSelected",
-                                MenuItem.class,
-                                new XC_MethodHook() {
-                                    @Override
-                                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                        MenuItem menuItem = (MenuItem) param.args[0];
-                                        if (menuItem.getItemId() == 1) {//search
+                        if (HookConfig.isHooksearch()) {
+                            ViewGroup actionLayout = (ViewGroup) findViewByIdName(activity, wxConfig.views.ActionBarContainer);
+                            addSearchView(actionLayout, lpparam);
+                            // hook click search
+                            xMethod(wxConfig.classes.LauncherUI,
+                                    "onOptionsItemSelected",
+                                    MenuItem.class,
+                                    new XC_MethodHook() {
+                                        @Override
+                                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                            MenuItem menuItem = (MenuItem) param.args[0];
+                                            if (menuItem.getItemId() == 1) {//search
 //                                          log("hook launcherUi click action search icon success");
-                                            if (searchView != null) {
-                                                searchView.show();
+                                                if (searchView != null) {
+                                                    searchView.show();
+                                                }
+                                                param.setResult(true);
                                             }
-                                            param.setResult(true);
                                         }
-                                    }
-                                });
+                                    });
+                        }
                         /******************
                          *hook tabLayout
                          *****************/
-                        addTabLayout(linearLayoutContent, viewPager);
+                        if (HookConfig.isHooktab()) {
+                            addTabLayout(linearLayoutContent, viewPager);
+                        }
 
                     }
                 });
-        //hide more icon in actionBar
-        xMethod(wxConfig.classes.LauncherUI, "onCreateOptionsMenu", Menu.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        if (HookConfig.isHookfloat_button()) {
+            //hide more icon in actionBar
+            xMethod(wxConfig.classes.LauncherUI, "onCreateOptionsMenu", Menu.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 //                log("homeUI=" + mHomeUi);
-                if (mHomeUi != null) {
-                    //hide actionbar more add icon
-                    MenuItem moreMenuItem = (MenuItem) getObjectField(mHomeUi, wxConfig.fields.HomeUI_mMoreMenuItem);
+                    if (mHomeUi != null) {
+                        //hide actionbar more add icon
+                        MenuItem moreMenuItem = (MenuItem) getObjectField(mHomeUi, wxConfig.fields.HomeUI_mMoreMenuItem);
 //                    log("moreMenuItem=" + moreMenuItem);
-                    moreMenuItem.setVisible(false);
+                        moreMenuItem.setVisible(false);
+                    }
                 }
-            }
-        });
-        //hook onKeyEvent
-        xMethod(wxConfig.classes.LauncherUI, "dispatchKeyEvent", KeyEvent.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                KeyEvent keyEvent = (KeyEvent) param.args[0];
-                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_MENU) {//hide menu
-                    param.setResult(true);
-                    return;
-                }
-                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK) {//hook back
-                    if (searchView != null && searchView.isSearchViewVisible()) {
-                        searchView.hide();
+            });
+        }
+        if (HookConfig.isHooksearch() || HookConfig.isHookfloat_button()) {
+            //hook onKeyEvent
+            xMethod(wxConfig.classes.LauncherUI, "dispatchKeyEvent", KeyEvent.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    KeyEvent keyEvent = (KeyEvent) param.args[0];
+                    if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_MENU) {//hide menu
                         param.setResult(true);
                         return;
                     }
-                    if (actionMenu != null && actionMenu.isOpened()) {
-                        actionMenu.close(true);
-                        param.setResult(true);
-                        return;
+                    if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK) {//hook back
+                        if (searchView != null && searchView.isSearchViewVisible()) {
+                            searchView.hide();
+                            param.setResult(true);
+                            return;
+                        }
+                        if (actionMenu != null && actionMenu.isOpened()) {
+                            actionMenu.close(true);
+                            param.setResult(true);
+                            return;
+                        }
                     }
                 }
-            }
-        });
+            });
 
-
+        }
     }
 
     private void addFloatButton(ViewGroup frameLayout) {

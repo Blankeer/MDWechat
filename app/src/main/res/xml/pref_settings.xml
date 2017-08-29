@@ -19,4 +19,40 @@
         android:key="@string/key_donate"
         android:summary="@string/text_donate_info"
         android:title="@string/text_donate" />
+    <PreferenceCategory
+        android:dependency="@string/key_hook_switch"
+        android:title="@string/text_category_settings">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_actionbar"
+            android:title="@string/text_hook_actionbar" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_avatar"
+            android:title="@string/text_hook_avatar" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_ripple"
+            android:title="@string/text_hook_ripple" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_float_button"
+            android:title="@string/text_hook_float_button" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_search"
+            android:title="@string/text_hook_search" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_tab"
+            android:title="@string/text_hook_tab" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_menu_game"
+            android:title="@string/text_hook_menu_game" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_menu_shop"
+            android:title="@string/text_hook_menu_shop" />
+    </PreferenceCategory>
 </PreferenceScreen>

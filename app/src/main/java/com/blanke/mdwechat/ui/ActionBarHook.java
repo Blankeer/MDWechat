@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.blanke.mdwechat.config.HookConfig;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -37,6 +39,9 @@ public class ActionBarHook extends BaseHookUi {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (!HookConfig.isHookactionbar()) {
+            return;
+        }
         xMethod(wxConfig.classes.ActionBarContainer,
                 "onFinishInflate",
                 new XC_MethodHook() {
