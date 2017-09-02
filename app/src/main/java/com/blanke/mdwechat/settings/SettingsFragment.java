@@ -1,8 +1,10 @@
 package com.blanke.mdwechat.settings;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -34,6 +36,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private SwitchPreference hookMenuGamePreference;
     private SwitchPreference hookMenuShopPreference;
     private SwitchPreference isPlayPreference;
+    private SwitchPreference hideIconPreference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,16 +82,28 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         hookMenuShopPreference.setOnPreferenceChangeListener(this);
         isPlayPreference = (SwitchPreference) findPreference(getString(R.string.key_is_play));
         isPlayPreference.setOnPreferenceChangeListener(this);
+        hideIconPreference = (SwitchPreference) findPreference(getString(R.string.key_hide_launcher_icon));
+        hideIconPreference.setOnPreferenceChangeListener(this);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object o) {
-        if (preference instanceof SwitchPreference) {
+        if (preference.getKey().equals(getString(R.string.key_hide_launcher_icon))) {
+            showHideLauncherIcon(!(Boolean) o);
+        } else if (preference instanceof SwitchPreference) {
             SharedPreferences.Editor edit = sp.edit();
             edit.putBoolean(preference.getKey(), (Boolean) o);
             edit.apply();
         }
         return true;
+    }
+
+    private void showHideLauncherIcon(boolean show) {
+        PackageManager p = getActivity().getPackageManager();
+        ComponentName componentName = new ComponentName(getActivity(), Common.MY_APPLICATION_PACKAGE + ".SettingsLauncher");
+        p.setComponentEnabledSetting(componentName,
+                show ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
     }
 
     private void donate() {

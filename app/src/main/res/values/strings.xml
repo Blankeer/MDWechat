@@ -30,4 +30,6 @@
     <string name="key_is_play">key_is_play</string>
     <string name="text_is_play">Play版</string>
     <string name="text_info_is_play">Play版需要打开,重启生效</string>
+    <string name="key_hide_launcher_icon">key_hide_launcher_icon</string>
+    <string name="text_hide_launcher_icon">隐藏图标</string>
 </resources>
