@@ -32,4 +32,6 @@
     <string name="text_info_is_play">Play版需要打开,重启生效</string>
     <string name="key_hide_launcher_icon">key_hide_launcher_icon</string>
     <string name="text_hide_launcher_icon">隐藏图标</string>
+    <string name="key_feedback">key_feedback</string>
+    <string name="text_feedback">反馈</string>
 </resources>

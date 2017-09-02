@@ -30,6 +30,11 @@
         android:key="@string/key_donate"
         android:summary="@string/text_donate_info"
         android:title="@string/text_donate" />
+
+    <Preference
+        android:key="@string/key_feedback"
+        android:title="@string/text_feedback" />
+
     <PreferenceCategory
         android:dependency="@string/key_hook_switch"
         android:title="@string/text_category_settings">

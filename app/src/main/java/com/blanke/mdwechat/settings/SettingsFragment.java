@@ -37,6 +37,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private SwitchPreference hookMenuShopPreference;
     private SwitchPreference isPlayPreference;
     private SwitchPreference hideIconPreference;
+    private Preference feedbackPreference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +85,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         isPlayPreference.setOnPreferenceChangeListener(this);
         hideIconPreference = (SwitchPreference) findPreference(getString(R.string.key_hide_launcher_icon));
         hideIconPreference.setOnPreferenceChangeListener(this);
+        feedbackPreference = findPreference(getString(R.string.key_feedback));
+        feedbackPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                feedback();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -117,6 +126,20 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         }
         intent.setData(Uri.parse(payUrl.toLowerCase()));
         startActivity(intent);
+    }
+
+    private void feedback() {
+        try {
+            String str = "market://details?id=" + Common.MY_APPLICATION_PACKAGE;
+            Intent intent = new Intent("android.intent.action.VIEW");
+            intent.setData(Uri.parse(str));
+            intent.setPackage("com.coolapk.market");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            startActivity(new Intent("android.intent.action.VIEW",
+                    Uri.parse("http://www.coolapk.com/apk/" + Common.MY_APPLICATION_PACKAGE)));
+        }
     }
 
     private String getWeChatVersion() {
