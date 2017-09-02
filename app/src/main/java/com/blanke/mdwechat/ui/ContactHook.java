@@ -1,13 +1,14 @@
 package com.blanke.mdwechat.ui;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.blanke.mdwechat.Common;
 import com.blanke.mdwechat.config.HookConfig;
+import com.blanke.mdwechat.util.DrawableUtils;
 
 import java.util.ArrayList;
 
@@ -25,58 +26,56 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 public class ContactHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!HookConfig.isHookripple()) {
-            return;
-        }
-        xMethod(wxConfig.classes.ContactFragment,
-                wxConfig.methods.MainFragment_onTabCreate,
-                new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        ListView listView = (ListView) getObjectField(param.thisObject, wxConfig.fields.ContactFragment_mListView);
-                        listView.setBackground(new ColorDrawable(Color.WHITE));
-                        if (listView.getHeaderViewsCount() > 0) {
-                            ArrayList<ListView.FixedViewInfo> mHeaderViewInfos = (ArrayList<ListView.FixedViewInfo>) getObjectField(listView, "mHeaderViewInfos");
-                            View header = mHeaderViewInfos.get(0).view;
+        if (HookConfig.isHookripple()) {
+            xMethod(wxConfig.classes.ContactFragment,
+                    wxConfig.methods.MainFragment_onTabCreate,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            ListView listView = (ListView) getObjectField(param.thisObject, wxConfig.fields.ContactFragment_mListView);
+                            if (listView.getHeaderViewsCount() > 0) {
+                                ArrayList<ListView.FixedViewInfo> mHeaderViewInfos = (ArrayList<ListView.FixedViewInfo>) getObjectField(listView, "mHeaderViewInfos");
+                                View header = mHeaderViewInfos.get(0).view;
 //                            log("header=" + header);
-                            if (header != null) {
+                                if (header != null) {
 //                                printViewTree(header, 0);
-                                ViewGroup headLayout = (ViewGroup) header;
-                                for (int i = 0; i < headLayout.getChildCount(); i++) {
-                                    ViewGroup item = (ViewGroup) headLayout.getChildAt(i);
-                                    ViewGroup itemContent = (ViewGroup) item.getChildAt(0);
-                                    if (itemContent != null) {
-                                        itemContent.setBackground(getRippleDrawable(headLayout.getContext()));
-                                        itemContent.getChildAt(0).setBackground(getTransparentDrawable());
+                                    ViewGroup headLayout = (ViewGroup) header;
+                                    for (int i = 0; i < headLayout.getChildCount(); i++) {
+                                        ViewGroup item = (ViewGroup) headLayout.getChildAt(i);
+                                        ViewGroup itemContent = (ViewGroup) item.getChildAt(0);
+                                        if (itemContent != null) {
+                                            itemContent.setBackground(getRippleDrawable(headLayout.getContext()));
+                                            itemContent.getChildAt(0).setBackground(getTransparentDrawable());
+                                        }
                                     }
                                 }
                             }
-                        }
-                    }
-                });
-        xMethod(wxConfig.classes.ContactAdapter,
-                "getView", int.class, View.class, ViewGroup.class,
-                new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        ViewGroup view = (ViewGroup) param.getResult();
-//                        printViewTree(view, 0);
-                        if (view != null) {
-                            ViewGroup itemContent = (ViewGroup) view.getChildAt(1);
-                            if (itemContent != null) {
-                                itemContent.setBackground(getTransparentDrawable());
-                                View item = itemContent.getChildAt(0);
-                                if (item != null) {
-                                    item.setBackground(getTransparentDrawable());
-                                }
+                            final Bitmap background = DrawableUtils.getExternalStorageAppBitmap(Common.CONTACT_BACKGROUND_FILENAME);
+                            if (background != null) {
+                                listView.setBackground(new BitmapDrawable(background));
                             }
-                            view.setBackground(getRippleDrawable(view.getContext()));
                         }
-                    }
-                });
-    }
-
-    private Drawable getBackground() {
-        return getColorPrimaryDrawable();
+                    });
+            xMethod(wxConfig.classes.ContactAdapter,
+                    "getView", int.class, View.class, ViewGroup.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            ViewGroup view = (ViewGroup) param.getResult();
+//                        printViewTree(view, 0);
+                            if (view != null) {
+                                ViewGroup itemContent = (ViewGroup) view.getChildAt(1);
+                                if (itemContent != null) {
+                                    itemContent.setBackground(getTransparentDrawable());
+                                    View item = itemContent.getChildAt(0);
+                                    if (item != null) {
+                                        item.setBackground(getTransparentDrawable());
+                                    }
+                                }
+                                view.setBackground(getRippleDrawable(view.getContext()));
+                            }
+                        }
+                    });
+        }
     }
 }

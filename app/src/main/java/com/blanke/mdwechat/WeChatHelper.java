@@ -3,6 +3,7 @@ package com.blanke.mdwechat;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 
 import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.config.WxVersionConfig;
@@ -17,6 +18,7 @@ import com.blanke.mdwechat.ui.MainHook;
 import com.blanke.mdwechat.ui.SettingsHook;
 import com.blanke.mdwechat.ui.UnreadViewHook;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,8 +73,18 @@ public class WeChatHelper {
                                 }
                             }
                         });
+                createAppDir();
+
             }
         });
+    }
+
+    private static void createAppDir() {
+        File appDir = new File(Environment.getExternalStorageDirectory().getAbsoluteFile()
+                + File.separator + Common.APP_DIR + File.separator);
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
     }
 
     private static void initHookUis() {
