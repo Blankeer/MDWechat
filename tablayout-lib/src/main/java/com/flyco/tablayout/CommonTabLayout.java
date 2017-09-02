@@ -882,7 +882,12 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         if (position >= mTabCount) {
             position = mTabCount - 1;
         }
-
+//        post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
         View tabView = mTabsContainer.getChildAt(position);
         MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
         if (tipView != null) {
@@ -892,12 +897,13 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
                 return;
             }
 
-            if (!mIconVisible) {
-                setMsgMargin(position, 2, 2);
-            } else {
-                setMsgMargin(position, 0,
-                        mIconGravity == Gravity.LEFT || mIconGravity == Gravity.RIGHT ? 4 : 0);
-            }
+//            if (!mIconVisible) {
+//                setMsgMargin(position, 2, 2);
+//            } else {
+//                setMsgMargin(position, 0,
+//                        mIconGravity == Gravity.LEFT || mIconGravity == Gravity.RIGHT ? 4 : 0);
+//            }
+            setMsgMargin(position, 0, 4);
 
             mInitSetMap.put(position, true);
         }
@@ -969,31 +975,33 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         View tabView = mTabsContainer.getChildAt(position);
         MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
         if (tipView != null) {
-            TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
-            mTextPaint.setTextSize(mTextsize);
-            float textWidth = mTextPaint.measureText(tv_tab_title.getText().toString());
-            float textHeight = mTextPaint.descent() - mTextPaint.ascent();
+//            TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
+//            mTextPaint.setTextSize(mTextsize);
+//            float textWidth = mTextPaint.measureText(tv_tab_title.getText().toString());
+//            float textHeight = mTextPaint.descent() - mTextPaint.ascent();
             MarginLayoutParams lp = (MarginLayoutParams) tipView.getLayoutParams();
+            lp.leftMargin = dp2px(leftPadding);
+            lp.topMargin = dp2px(bottomPadding);
+//
+//            float iconH = mIconHeight;
+//            float margin = 0;
+//            if (mIconVisible) {
+//                if (iconH <= 0) {
+//                    int tabSelectedIcon = mTabEntitys.get(position).getTabSelectedIcon();
+//                    if (tabSelectedIcon > 0) {
+//                        iconH = mContext.getResources().getDrawable(tabSelectedIcon).getIntrinsicHeight();
+//                    }
+//                }
+//                margin = mIconMargin;
+//            }
 
-            float iconH = mIconHeight;
-            float margin = 0;
-            if (mIconVisible) {
-                if (iconH <= 0) {
-                    int tabSelectedIcon = mTabEntitys.get(position).getTabSelectedIcon();
-                    if (tabSelectedIcon > 0) {
-                        iconH = mContext.getResources().getDrawable(tabSelectedIcon).getIntrinsicHeight();
-                    }
-                }
-                margin = mIconMargin;
-            }
-
-            if (mIconGravity == Gravity.TOP || mIconGravity == Gravity.BOTTOM) {
-                lp.leftMargin = dp2px(leftPadding);
-                lp.topMargin = mHeight > 0 ? (int) (mHeight - textHeight - iconH - margin) / 2 - dp2px(bottomPadding) : dp2px(bottomPadding);
-            } else {
-                lp.leftMargin = dp2px(leftPadding);
-                lp.topMargin = mHeight > 0 ? (int) (mHeight - Math.max(textHeight, iconH)) / 2 - dp2px(bottomPadding) : dp2px(bottomPadding);
-            }
+//            if (mIconGravity == Gravity.TOP || mIconGravity == Gravity.BOTTOM) {
+//                lp.leftMargin = dp2px(leftPadding);
+//                lp.topMargin = mHeight > 0 ? (int) (mHeight - textHeight - iconH - margin) / 2 - dp2px(bottomPadding) : dp2px(bottomPadding);
+//            } else {
+//                lp.leftMargin = dp2px(leftPadding);
+//                lp.topMargin = mHeight > 0 ? (int) (mHeight - Math.max(textHeight, iconH)) / 2 - dp2px(bottomPadding) : dp2px(bottomPadding);
+//            }
 
             tipView.setLayoutParams(lp);
         }
