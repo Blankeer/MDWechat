@@ -34,4 +34,8 @@
     <string name="text_hide_launcher_icon">隐藏图标</string>
     <string name="key_feedback">key_feedback</string>
     <string name="text_feedback">反馈</string>
+    <string name="text_scan_qrcode">扫一扫</string>
+    <string name="text_money">收付款</string>
+    <string name="text_chat_group">群聊</string>
+    <string name="text_friend_add">添加好友</string>
 </resources>

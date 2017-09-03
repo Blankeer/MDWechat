@@ -201,6 +201,32 @@ public class MainHook extends BaseHookUi {
             });
 
         }
+//        if (HookConfig.isHookfloat_button()) {
+//            xMethod(wxConfig.classes.ChattingUIFragment,
+//                    "onResume", new XC_MethodHook() {
+//                        @Override
+//                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+////                            log("ChattingUIFragment onResume ");
+//                            boolean res = (boolean) XposedHelpers.callMethod(param.thisObject, "bVq");
+////                            log("ChattingUIFragment bVq() = " + res);
+//                            if (actionMenu != null && !res) {
+//                                log("actionMenu hide");
+//                                actionMenu.hideMenu(true);
+//                            }
+//                        }
+//                    });
+//            xMethod(wxConfig.classes.ChattingUIFragment,
+//                    "onStop", new XC_MethodHook() {
+//                        @Override
+//                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+////                            log("ChattingUIFragment onStop ");
+//                            if (actionMenu != null) {
+//                                log("actionMenu show");
+//                                actionMenu.showMenu(true);
+//                            }
+//                        }
+//                    });
+//        }
     }
 
     private void addFloatButton(ViewGroup frameLayout) {
@@ -222,10 +248,14 @@ public class MainHook extends BaseHookUi {
             }
         });
 
-        addFloatButton(actionMenu, context, "扫一扫", R.drawable.ic_scan, primaryColor);
-        addFloatButton(actionMenu, context, "收付款", R.drawable.ic_money, primaryColor);
-        addFloatButton(actionMenu, context, "群聊", R.drawable.ic_chat, primaryColor);
-        addFloatButton(actionMenu, context, "添加好友", R.drawable.ic_friend_add, primaryColor);
+        addFloatButton(actionMenu, context, context.getString(R.string.text_scan_qrcode),
+                R.drawable.ic_scan, primaryColor);
+        addFloatButton(actionMenu, context, context.getString(R.string.text_money),
+                R.drawable.ic_money, primaryColor);
+        addFloatButton(actionMenu, context, context.getString(R.string.text_chat_group),
+                R.drawable.ic_chat, primaryColor);
+        addFloatButton(actionMenu, context, context.getString(R.string.text_friend_add),
+                R.drawable.ic_friend_add, primaryColor);
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int margin = ConvertUtils.dp2px(frameLayout.getContext(), 12);
