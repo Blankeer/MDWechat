@@ -121,6 +121,7 @@ public class ColorPickerDialog extends DialogFragment implements OnTouchListener
   FrameLayout rootView;
   int[] presets;
   @ColorInt int color;
+  Integer editColor = null;
   int dialogType;
   int dialogId;
   boolean showColorShades;
@@ -170,7 +171,11 @@ public class ColorPickerDialog extends DialogFragment implements OnTouchListener
         .setView(rootView)
         .setPositiveButton(R.string.cpv_select, new DialogInterface.OnClickListener() {
           @Override public void onClick(DialogInterface dialog, int which) {
-            colorPickerDialogListener.onColorSelected(dialogId, color);
+            if (editColor != null) {
+              colorPickerDialogListener.onColorSelected(dialogId, editColor);
+            } else {
+              colorPickerDialogListener.onColorSelected(dialogId, color);
+            }
           }
         });
 
@@ -340,6 +345,7 @@ public class ColorPickerDialog extends DialogFragment implements OnTouchListener
   @Override public void afterTextChanged(Editable s) {
     if (hexEditText.isFocused()) {
       int color = parseColorString(s.toString());
+      this.editColor=color;
       if (color != colorPicker.getColor()) {
         fromEditText = true;
         colorPicker.setColor(color, true);
