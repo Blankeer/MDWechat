@@ -56,6 +56,7 @@ public class WxVersionConfig {
         public String DiscoverFragment;
         public String MMPreferenceAdapter;
         public String SettingsFragment;
+        public String ChatViewHolder;
     }
 
     public static class Fields {
@@ -69,6 +70,7 @@ public class WxVersionConfig {
         public String ConversationFragment_mListView;
         public String ContactFragment_mListView;
         public String PreferenceFragment_mListView;
+        public String ChatViewHolder_mChatTextView;
     }
 
     public static class Methods {
@@ -88,6 +90,7 @@ public class WxVersionConfig {
         public String MainTabClickListener_onDoubleClick;
         public String MainFragment_onTabCreate;
         public String MMPreferenceAdapter_setVisible;
+        public String ChatViewHolder_loadView;
     }
 
     public static class Views {
