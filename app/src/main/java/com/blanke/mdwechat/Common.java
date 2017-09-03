@@ -13,4 +13,6 @@ public class Common {
     public static final String CONTACT_BACKGROUND_FILENAME = "contact.png";
     public static final String DISCOVER_BACKGROUND_FILENAME = "discover.png";
     public static final String SETTINGS_BACKGROUND_FILENAME = "settings.png";
+    public static final String CHAT_BUBBLE_LEFT_FILENAME = "bubble_left.9.png";
+    public static final String CHAT_BUBBLE_RIGHT_FILENAME = "bubble_right.9.png";
 }

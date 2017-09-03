@@ -1,7 +1,11 @@
 package com.blanke.mdwechat.util;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.os.Environment;
 
 import com.blanke.mdwechat.Common;
@@ -23,5 +27,9 @@ public class DrawableUtils {
 
     public static Bitmap getExternalStorageAppBitmap(String filePath) {
         return getExternalStorageBitmap(Common.APP_DIR + File.separator + filePath);
+    }
+
+    public static Drawable getNineDrawable(Resources resources,Bitmap bitmap) {
+        return new NinePatchDrawable(resources,bitmap, bitmap.getNinePatchChunk(), new Rect(), null);
     }
 }
