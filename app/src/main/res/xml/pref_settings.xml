@@ -32,6 +32,10 @@
         android:title="@string/text_donate" />
 
     <Preference
+        android:summary="@string/text_app_thank_content"
+        android:title="@string/text_app_thank" />
+
+    <Preference
         android:key="@string/key_feedback"
         android:title="@string/text_feedback" />
 

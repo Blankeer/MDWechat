@@ -38,4 +38,8 @@
     <string name="text_money">收付款</string>
     <string name="text_chat_group">群聊</string>
     <string name="text_friend_add">添加好友</string>
+    <string name="text_app_about">关于</string>
+    <string name="text_app_about_info" />
+    <string name="text_app_thank">感谢</string>
+    <string name="text_app_thank_content">感谢 hzknm 设计的 icon.</string>
 </resources>
