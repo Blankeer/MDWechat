@@ -7,8 +7,8 @@ android {
         applicationId "com.blanke.mdwechat"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.3.0"
+        versionCode 9
+        versionName "1.3.0-debug-1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
