@@ -12,7 +12,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static de.robv.android.xposed.XposedBridge.log;
+import static com.blanke.mdwechat.ui.LogUtil.log;
 
 public class WechatHook extends XC_MethodHook
         implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
@@ -27,7 +27,8 @@ public class WechatHook extends XC_MethodHook
 
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (!lpparam.packageName.equals(Common.WECHAT_PACKAGENAME)) {
+        if (!lpparam.packageName.equals(Common.WECHAT_PACKAGENAME)
+                || !lpparam.processName.equals(Common.WECHAT_PACKAGENAME)) {
             return;
         }
         Context context = (Context) XposedHelpers.callMethod(
@@ -35,7 +36,9 @@ public class WechatHook extends XC_MethodHook
                         "currentActivityThread"), "getSystemContext");
         PackageInfo wechatPackageInfo = context.getPackageManager().getPackageInfo(Common.WECHAT_PACKAGENAME, 0);
         String versionName = wechatPackageInfo.versionName;
-        log("wechat version=" + versionName);
+        log("wechat version=" + versionName
+                + ",processName=" + lpparam.processName
+                + ",isFirstApplication=" + lpparam.isFirstApplication);
         WeChatHelper.init(versionName, lpparam);
     }
 
