@@ -17,7 +17,7 @@ import java.io.File;
 public class DrawableUtils {
     private static Bitmap getExternalStorageBitmap(String filePath) {
         String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        XposedBridge.log("bitmap path=" + sd + File.separator + filePath);
+//        LogUtil.log("bitmap path=" + sd + File.separator + filePath);
         return BitmapFactory.decodeFile(sd + File.separator + filePath);
     }
 

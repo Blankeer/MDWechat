@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.blanke.mdwechat.WeChatHelper;
 import com.blanke.mdwechat.config.HookConfig;
 
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
@@ -144,11 +143,11 @@ public abstract class BaseHookUi {
     }
 
     protected void log(String msg) {
-        XposedBridge.log(TAG + ":" + msg);
+        LogUtil.log(TAG + ":" + msg);
     }
 
     protected void log(Throwable e) {
-        XposedBridge.log(e);
+        LogUtil.log(e);
     }
 
     protected void logSuperClass(Class clazz) {

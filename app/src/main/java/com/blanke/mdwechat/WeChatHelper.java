@@ -28,7 +28,7 @@ import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.blanke.mdwechat.Common.MY_APPLICATION_PACKAGE;
-import static de.robv.android.xposed.XposedBridge.log;
+import static com.blanke.mdwechat.ui.LogUtil.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
@@ -46,8 +46,6 @@ public class WeChatHelper {
     public static void init(String ver, XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         loadPackageParam = lpparam;
         initApplication(ver, lpparam);
-//        versionNumber = versionNumber;
-//        WCVersion.version = ver;
     }
 
     private static void initApplication(final String ver, final XC_LoadPackage.LoadPackageParam lpparam) {
@@ -62,6 +60,7 @@ public class WeChatHelper {
                     log("不支持的版本:" + ver);
                     return;
                 }
+                log("支持该微信版本:" + ver);
                 initHookUis();
                 xMethod(wxConfig.classes.LauncherUI, "onCreate", Bundle.class,
                         new XC_MethodHook() {

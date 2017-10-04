@@ -68,12 +68,14 @@ public class MainHook extends BaseHookUi {
                 wxConfig.methods.LauncherUI_startMainUI,
                 new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        log("LauncherUI_startMainUI");
                         refreshPrefs();
                         final Activity activity = (Activity) param.thisObject;
                         Object isMainInit = XposedHelpers.getAdditionalInstanceField(activity, KEY_ISMAININIT);
                         if (isMainInit != null && ((boolean) isMainInit)) {
                             return;
                         }
+                        log("LauncherUI_startMainUI addView");
                         XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true);
 
 
