@@ -20,6 +20,7 @@ public class HookConfig {
     private static final String KEY_hook_menu_game = "key_hook_menu_game";
     private static final String KEY_hook_menu_shop = "key_hook_menu_shop";
     private static final String KEY_IS_PLAY = "key_is_play";
+    private static final String KEY_BUBBLE_TINT = "key_hook_bubble_tint";
 
     public static int getColorPrimary() {
         WeChatHelper.XMOD_PREFS.reload();
@@ -74,5 +75,10 @@ public class HookConfig {
     public static boolean isHookmenu_shop() {
         WeChatHelper.XMOD_PREFS.reload();
         return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_shop, true);
+    }
+
+    public static boolean isHookBubbleTint() {
+        WeChatHelper.XMOD_PREFS.reload();
+        return WeChatHelper.XMOD_PREFS.getBoolean(KEY_BUBBLE_TINT, false);
     }
 }

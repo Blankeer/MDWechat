@@ -38,6 +38,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private SwitchPreference isPlayPreference;
     private SwitchPreference hideIconPreference;
     private Preference feedbackPreference;
+    private SwitchPreference bubbleTintPreference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +94,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 return true;
             }
         });
+        bubbleTintPreference= (SwitchPreference) findPreference(getString(R.string.key_hook_bubble_tint));
+        bubbleTintPreference.setOnPreferenceChangeListener(this);
     }
 
     @Override

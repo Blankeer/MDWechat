@@ -42,4 +42,6 @@
     <string name="text_app_about_info" />
     <string name="text_app_thank">感谢</string>
     <string name="text_app_thank_content">感谢 hzknm 设计的 icon.</string>
+    <string name="key_hook_bubble_tint">key_hook_bubble_tint</string>
+    <string name="text_hook_bubble_tint">气泡着色</string>
 </resources>

@@ -1,9 +1,12 @@
 package com.blanke.mdwechat.ui;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 
 import com.blanke.mdwechat.Common;
+import com.blanke.mdwechat.config.HookConfig;
 import com.blanke.mdwechat.util.DrawableUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -33,9 +36,20 @@ public class ChatHook extends BaseHookUi {
                             View iq = (View) xoi;
                             if (isOther && bubbleLeft != null) {
                                 iq.setBackground(DrawableUtils.getNineDrawable(iq.getResources(), bubbleLeft));
+                                if (HookConfig.isHookBubbleTint()) {
+                                    DrawableCompat.setTint(iq.getBackground(), Color.WHITE);
+                                }
                             }
                             if (!isOther && bubbleRight != null) {
                                 iq.setBackground(DrawableUtils.getNineDrawable(iq.getResources(), bubbleRight));
+                                if (HookConfig.isHookBubbleTint()) {
+                                    DrawableCompat.setTint(iq.getBackground(), getColorPrimary());
+                                }
+//                                float[] hsv = new float[3];
+//                                Color.colorToHSV(getColorPrimary(), hsv);
+//                                if (((double) hsv[2]) < 0.8d) {
+//                                    iq.setTextColor(Color.WHITE);
+//                                }
                             }
                         }
                     });
