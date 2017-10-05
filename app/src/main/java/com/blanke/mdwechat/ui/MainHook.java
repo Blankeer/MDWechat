@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -69,12 +70,12 @@ public class MainHook extends BaseHookUi {
                 new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         log("LauncherUI_startMainUI");
-                        refreshPrefs();
                         final Activity activity = (Activity) param.thisObject;
                         Object isMainInit = XposedHelpers.getAdditionalInstanceField(activity, KEY_ISMAININIT);
                         if (isMainInit != null && ((boolean) isMainInit)) {
                             return;
                         }
+                        refreshPrefs();
                         log("LauncherUI_startMainUI addView");
                         XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true);
 
@@ -259,11 +260,60 @@ public class MainHook extends BaseHookUi {
         addFloatButton(actionMenu, context, context.getString(R.string.text_friend_add),
                 R.drawable.ic_friend_add, primaryColor);
 
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int margin = ConvertUtils.dp2px(frameLayout.getContext(), 12);
         params.rightMargin = margin;
         params.bottomMargin = margin;
         params.gravity = Gravity.END | Gravity.BOTTOM;
+        actionMenu.getMenuButton().setOnTouchListener(new View.OnTouchListener() {
+            float lastX, lastY;
+            long downTime;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lastX = event.getRawX();
+                    lastY = event.getRawY();
+                    downTime = System.currentTimeMillis();
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    float nowX = event.getRawX();
+                    float nowY = event.getRawY();
+                    float dx = (int) (nowX - lastX);
+                    float dy = (int) (nowY - lastY);
+                    lastX = nowX;
+                    lastY = nowY;
+                    actionMenu.setX(actionMenu.getX() + dx);
+                    actionMenu.setY(actionMenu.getY() + dy);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    long nowTime = System.currentTimeMillis();
+                    if (nowTime - downTime > 300) {
+                        actionMenu.getMenuButton().setPressed(false);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        final View backgroundView = new View(context);
+        backgroundView.setBackgroundColor(Color.parseColor("#66000000"));
+        FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        backgroundView.setVisibility(View.GONE);
+        backgroundView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionMenu.close(true);
+                view.setVisibility(View.GONE);
+            }
+        });
+        actionMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                backgroundView.setVisibility(opened ? View.VISIBLE : View.GONE);
+            }
+        });
+        frameLayout.addView(backgroundView, params2);
         frameLayout.addView(actionMenu, params);
     }
 

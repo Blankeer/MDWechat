@@ -1044,4 +1044,8 @@ public class FloatingActionMenu extends ViewGroup {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    public FloatingActionButton getMenuButton() {
+        return mMenuButton;
+    }
 }
