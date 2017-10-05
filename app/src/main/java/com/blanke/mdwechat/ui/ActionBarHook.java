@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.blanke.mdwechat.config.HookConfig;
+import com.blanke.mdwechat.util.ColorUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -58,7 +59,7 @@ public class ActionBarHook extends BaseHookUi {
                 "setStatusBarColor", int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        param.args[0] = getColorPrimary();
+                        param.args[0] = ColorUtils.getDarkerColor(getColorPrimary(), 0.85F);
                     }
                 });
         //hook ToolbarWidgetWrapper
