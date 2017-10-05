@@ -38,6 +38,15 @@ public class DiscoverHook extends BaseHookUi {
         if (HookConfig.isHookmenu_shop()) {
             hookMenus.add("jd_market_entrance");
         }
+        if (HookConfig.isHookmenu_qrcode()) {
+            hookMenus.add("find_friends_by_qrcode");
+        }
+        if (HookConfig.isHookmenu_shake()) {
+            hookMenus.add("find_friends_by_shake");
+        }
+        if (HookConfig.isHookmenu_near()) {
+            hookMenus.add("find_friends_by_near");
+        }
         if (hookMenus.size() > 0) {
             xMethod(wxConfig.classes.MMPreferenceAdapter,
                     wxConfig.methods.MMPreferenceAdapter_setVisible,

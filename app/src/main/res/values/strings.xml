@@ -44,4 +44,10 @@
     <string name="text_app_thank_content">感谢 hzknm 设计的 icon.</string>
     <string name="key_hook_bubble_tint">key_hook_bubble_tint</string>
     <string name="text_hook_bubble_tint">气泡着色</string>
+    <string name="text_hook_menu_qrcode">隐藏扫一扫</string>
+    <string name="key_hook_menu_qrcode">key_hook_menu_qrcode</string>
+    <string name="key_hook_menu_shake">key_hook_menu_shake</string>
+    <string name="text_hook_menu_shake">隐藏摇一摇</string>
+    <string name="key_hook_menu_near">key_hook_menu_near</string>
+    <string name="text_hook_menu_near">隐藏附近的人</string>
 </resources>

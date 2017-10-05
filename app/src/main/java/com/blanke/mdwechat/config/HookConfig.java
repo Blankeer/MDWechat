@@ -19,6 +19,9 @@ public class HookConfig {
     private static final String KEY_hook_tab = "key_hook_tab";
     private static final String KEY_hook_menu_game = "key_hook_menu_game";
     private static final String KEY_hook_menu_shop = "key_hook_menu_shop";
+    private static final String KEY_hook_menu_qrcode = "key_hook_menu_qrcode";
+    private static final String KEY_hook_menu_shake = "key_hook_menu_shake";
+    private static final String KEY_hook_menu_near = "key_hook_menu_near";
     private static final String KEY_IS_PLAY = "key_is_play";
     private static final String KEY_BUBBLE_TINT = "key_hook_bubble_tint";
 
@@ -75,6 +78,21 @@ public class HookConfig {
     public static boolean isHookmenu_shop() {
         WeChatHelper.XMOD_PREFS.reload();
         return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_shop, true);
+    }
+
+    public static boolean isHookmenu_qrcode() {
+        WeChatHelper.XMOD_PREFS.reload();
+        return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_qrcode, true);
+    }
+
+    public static boolean isHookmenu_shake() {
+        WeChatHelper.XMOD_PREFS.reload();
+        return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_shake, true);
+    }
+
+    public static boolean isHookmenu_near() {
+        WeChatHelper.XMOD_PREFS.reload();
+        return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_near, true);
     }
 
     public static boolean isHookBubbleTint() {

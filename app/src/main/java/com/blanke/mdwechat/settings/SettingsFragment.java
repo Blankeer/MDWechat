@@ -35,6 +35,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private SwitchPreference hookTabPreference;
     private SwitchPreference hookMenuGamePreference;
     private SwitchPreference hookMenuShopPreference;
+    private SwitchPreference hookMenuQrcodePreference;
+    private SwitchPreference hookMenuShakePreference;
+    private SwitchPreference hookMenuNearPreference;
     private SwitchPreference isPlayPreference;
     private SwitchPreference hideIconPreference;
     private Preference feedbackPreference;
@@ -96,6 +99,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         });
         bubbleTintPreference= (SwitchPreference) findPreference(getString(R.string.key_hook_bubble_tint));
         bubbleTintPreference.setOnPreferenceChangeListener(this);
+        hookMenuQrcodePreference= (SwitchPreference) findPreference(getString(R.string.key_hook_menu_qrcode));
+        hookMenuQrcodePreference.setOnPreferenceChangeListener(this);
+        hookMenuShakePreference= (SwitchPreference) findPreference(getString(R.string.key_hook_menu_shake));
+        hookMenuShakePreference.setOnPreferenceChangeListener(this);
+        hookMenuNearPreference= (SwitchPreference) findPreference(getString(R.string.key_hook_menu_near));
+        hookMenuNearPreference.setOnPreferenceChangeListener(this);
     }
 
     @Override
