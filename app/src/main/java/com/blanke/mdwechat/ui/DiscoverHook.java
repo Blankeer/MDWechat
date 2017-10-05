@@ -66,19 +66,22 @@ public class DiscoverHook extends BaseHookUi {
                     });
         }
         final Bitmap background = DrawableUtils.getExternalStorageAppBitmap(Common.DISCOVER_BACKGROUND_FILENAME);
-        if (background != null) {
-            xMethod(wxConfig.classes.DiscoverFragment,
-                    wxConfig.methods.MainFragment_onTabCreate, new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            View listView = (View) getObjectField(param.thisObject,
-                                    wxConfig.fields.PreferenceFragment_mListView);
-                            if (listView != null) {
+
+        xMethod(wxConfig.classes.DiscoverFragment,
+                wxConfig.methods.MainFragment_onTabCreate, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        View listView = (View) getObjectField(param.thisObject,
+                                wxConfig.fields.PreferenceFragment_mListView);
+                        if (listView != null) {
+                            if (background != null) {
                                 listView.setBackground(new BitmapDrawable(background));
+                            } else {
+                                listView.setBackground(getWhiteDrawable());
                             }
                         }
-                    });
-        }
+                    }
+                });
         if (HookConfig.isHookripple()) {
             xMethod(wxConfig.classes.MMPreferenceAdapter,
                     "getView", int.class, View.class, ViewGroup.class,

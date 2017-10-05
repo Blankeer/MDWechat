@@ -24,17 +24,19 @@ public class ConversationHook extends BaseHookUi {
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         final Bitmap background = DrawableUtils.getExternalStorageAppBitmap(Common.CONVERSATION_BACKGROUND_FILENAME);
-        if (background != null) {
-            xMethod(wxConfig.classes.ConversationFragment,
-                    wxConfig.methods.MainFragment_onTabCreate,
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            View listView = (View) getObjectField(param.thisObject, wxConfig.fields.ConversationFragment_mListView);
+        xMethod(wxConfig.classes.ConversationFragment,
+                wxConfig.methods.MainFragment_onTabCreate,
+                new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        View listView = (View) getObjectField(param.thisObject, wxConfig.fields.ConversationFragment_mListView);
+                        if (background != null) {
                             listView.setBackground(new BitmapDrawable(background));
+                        } else {
+                            listView.setBackground(getWhiteDrawable());
                         }
-                    });
-        }
+                    }
+                });
         if (HookConfig.isHookripple()) {
             xMethod(wxConfig.classes.ConversationAdapter,
                     "getView", int.class, View.class, ViewGroup.class,

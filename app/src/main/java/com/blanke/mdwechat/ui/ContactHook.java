@@ -53,6 +53,8 @@ public class ContactHook extends BaseHookUi {
                             final Bitmap background = DrawableUtils.getExternalStorageAppBitmap(Common.CONTACT_BACKGROUND_FILENAME);
                             if (background != null) {
                                 listView.setBackground(new BitmapDrawable(background));
+                            } else {
+                                listView.setBackground(getWhiteDrawable());
                             }
                         }
                     });
@@ -72,7 +74,9 @@ public class ContactHook extends BaseHookUi {
                                         item.setBackground(getTransparentDrawable());
                                     }
                                 }
-                                view.setBackground(getRippleDrawable(view.getContext()));
+                                if (HookConfig.isHookripple()) {
+                                    view.setBackground(getRippleDrawable(view.getContext()));
+                                }
                             }
                         }
                     });

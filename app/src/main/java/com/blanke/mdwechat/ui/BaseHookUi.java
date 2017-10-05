@@ -114,9 +114,15 @@ public abstract class BaseHookUi {
         printViewTree(activity.getWindow().getDecorView(), 0);
         log("-------end----------");
     }
-    protected Drawable getTransparentDrawable(){
+
+    protected Drawable getTransparentDrawable() {
         return new ColorDrawable(Color.TRANSPARENT);
     }
+
+    protected Drawable getWhiteDrawable() {
+        return new ColorDrawable(Color.WHITE);
+    }
+
     protected String getViewMsg(View view) {
         String className = view.getClass().getName();
         int id = view.getId();
