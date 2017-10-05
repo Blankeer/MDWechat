@@ -297,7 +297,7 @@ public class MainHook extends BaseHookUi {
 
 
         final View backgroundView = new View(context);
-        backgroundView.setBackgroundColor(Color.parseColor("#66000000"));
+        backgroundView.setBackgroundColor(Color.parseColor("#88000000"));
         FrameLayout.LayoutParams params2 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         backgroundView.setVisibility(View.GONE);
         backgroundView.setOnClickListener(new View.OnClickListener() {

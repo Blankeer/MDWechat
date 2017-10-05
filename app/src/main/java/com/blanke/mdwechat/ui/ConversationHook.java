@@ -43,8 +43,16 @@ public class ConversationHook extends BaseHookUi {
                     new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                            int i = (int) param.args[0];
+//                            Object userInfo = XposedHelpers.callMethod(param.thisObject, "yQ", i);
+//                            Object topInfo = XposedHelpers.callMethod(param.thisObject, "j", userInfo);
+//                            boolean isTop = XposedHelpers.getBooleanField(topInfo, "vvv");
                             View view = (View) param.getResult();
+//                            if (isTop) {
+//                                view.setBackground(getGreyRippleDrawable(view.getContext()));
+//                            } else {
                             view.setBackground(getRippleDrawable(view.getContext()));
+//                            }
                         }
                     });
         }

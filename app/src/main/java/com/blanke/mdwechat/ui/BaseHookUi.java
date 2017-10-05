@@ -83,6 +83,11 @@ public abstract class BaseHookUi {
         return rippleDrawable;
     }
 
+//    protected Drawable getGreyRippleDrawable(Context context) {
+//        return DrawableUtils.getPressedColorRippleDrawable(ContextCompat.getColor(context, R.color.colorBlueGrey)
+//                , ContextCompat.getColor(context, R.color.colorGrey));
+//    }
+
     /**
      * 打印调试 view tree
      *
