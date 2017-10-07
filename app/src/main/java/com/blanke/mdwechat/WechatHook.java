@@ -27,7 +27,8 @@ public class WechatHook extends XC_MethodHook
 
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (!lpparam.packageName.equals(Common.WECHAT_PACKAGENAME)) {
+        if (!lpparam.packageName.equals(Common.WECHAT_PACKAGENAME)
+                || !lpparam.processName.equals(Common.WECHAT_PACKAGENAME)) {
             return;
         }
         Context context = (Context) XposedHelpers.callMethod(
