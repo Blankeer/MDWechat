@@ -105,7 +105,7 @@ public class WeChatHelper {
         for (BaseHookUi hookUi : hookUis) {
             try {
                 hookUi.hook(loadPackageParam);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 log(hookUi.getClass().getSimpleName() + " hook fail,msg=" + e.getMessage());
                 log(e);
             }

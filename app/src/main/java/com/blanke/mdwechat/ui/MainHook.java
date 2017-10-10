@@ -77,7 +77,6 @@ public class MainHook extends BaseHookUi {
                         }
                         refreshPrefs();
                         log("LauncherUI_startMainUI addView");
-                        XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true);
 
 
                         // print views
@@ -161,6 +160,7 @@ public class MainHook extends BaseHookUi {
                             addTabLayout(linearLayoutContent, viewPager);
                         }
 
+                        XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true);
                     }
                 });
         if (HookConfig.isHookfloat_button()) {
