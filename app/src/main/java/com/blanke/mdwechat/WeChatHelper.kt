@@ -1,10 +1,9 @@
 package com.blanke.mdwechat
 
-import android.app.Application
-import android.content.Context
 import android.os.Environment
 import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.config.WxClass
 import com.blanke.mdwechat.config.WxVersionConfig
 import com.blanke.mdwechat.ui.*
 import com.blanke.mdwechat.ui.LogUtil.log
@@ -32,35 +31,31 @@ object WeChatHelper {
     }
 
     private fun initApplication(ver: String, lpparam: XC_LoadPackage.LoadPackageParam) {
-        findAndHookMethod(C.Application, "attach", C.Context, object : XC_MethodHook() {
-            @Throws(Throwable::class)
-            override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
-                val application = param.thisObject as Application
-                val MD_CONTEXT = application.createPackageContext(Common.MY_APPLICATION_PACKAGE, Context.CONTEXT_IGNORE_SECURITY)
-                try {
-                    wxConfig = WxVersionConfig.loadConfig(MD_CONTEXT, ver)
-                    log(wxConfig.toString())
-                } catch (e: Exception) {
-                    log("不支持的版本:" + ver)
-                    return
-                }
+        createAppDir()
+        try {
+            wxConfig = WxVersionConfig.loadConfig(ver)
+        } catch (e: Throwable) {
+            log("不支持的版本:" + ver)
+            return
+        }
 
-                log("支持该微信版本:" + ver)
-                initHookUis()
-                xMethod(wxConfig.classes.LauncherUI, "onCreate", C.Bundle,
-                        object : XC_MethodHook() {
-                            @Throws(Throwable::class)
-                            override fun beforeHookedMethod(param1: XC_MethodHook.MethodHookParam?) {
-                                val hook = HookConfig.isHookswitch
-                                log("hook 开关:" + hook)
-                                if (hook) {
-                                    executeHookUi()
-                                }
+        log("支持该微信版本:" + ver)
+        WxClass.init(wxConfig, lpparam.classLoader)
+        initHookUis()
+        if (WxClass.LauncherUI != null) {
+            xMethod(WxClass.LauncherUI!!, "onCreate", C.Bundle,
+                    object : XC_MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun beforeHookedMethod(param1: XC_MethodHook.MethodHookParam?) {
+                            val hook = HookConfig.isHookswitch
+                            log("hook 开关:" + hook)
+                            if (hook) {
+                                executeHookUi()
                             }
-                        })
-                createAppDir()
-            }
-        })
+                        }
+                    })
+        }
+
     }
 
     private fun createAppDir() {
@@ -72,7 +67,6 @@ object WeChatHelper {
     }
 
     private fun initHookUis() {
-//        hookUis = ArrayList<BaseHookUi>()
         hookUis = arrayListOf()
         hookUis.add(MainHook())
         hookUis.add(ListViewHook())
@@ -104,6 +98,10 @@ object WeChatHelper {
 
     fun xMethod(className: String, methodName: String, vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook {
         return findAndHookMethod(className, loadPackageParam.classLoader, methodName, *parameterTypesAndCallback)
+    }
+
+    fun xMethod(clazz: Class<*>, methodName: String, vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook {
+        return findAndHookMethod(clazz, methodName, *parameterTypesAndCallback)
     }
 
     fun xClass(className: String): Class<*> {

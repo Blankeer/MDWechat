@@ -1,7 +1,9 @@
 package com.blanke.mdwechat.config
 
-import android.content.Context
+import com.blanke.mdwechat.Common
 import com.google.gson.Gson
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 
@@ -108,14 +110,13 @@ class WxVersionConfig {
     companion object {
 
         @Throws(IOException::class)
-        fun loadConfig(context: Context, wxVersion: String): WxVersionConfig {
+        fun loadConfig(wxVersion: String): WxVersionConfig {
             var configName = wxVersion + ".config"
             if (HookConfig.isPlay) {
                 configName = wxVersion + "-play.config"
             }
-            val `is` = context.assets.open(configName)
-            val gson = Gson()
-            return gson.fromJson(InputStreamReader(`is`), WxVersionConfig::class.java)
+            val `is` = FileInputStream(Common.APP_DIR_PATH + File.separator + Common.CONFIG_DIR + File.separator + configName)
+            return Gson().fromJson(InputStreamReader(`is`), WxVersionConfig::class.java)
         }
     }
 

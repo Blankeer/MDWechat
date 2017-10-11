@@ -48,9 +48,9 @@ class MainHook : BaseHookUi() {
                 wxConfig.methods.LauncherUI_startMainUI,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
-                    override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                    override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
                         log("LauncherUI_startMainUI")
-                        val activity = param!!.thisObject as Activity
+                        val activity = param.thisObject as Activity
                         val isMainInit = XposedHelpers.getAdditionalInstanceField(activity, KEY_ISMAININIT)
                         if (isMainInit != null && isMainInit as Boolean) {
                             return
