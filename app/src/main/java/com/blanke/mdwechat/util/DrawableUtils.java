@@ -25,7 +25,7 @@ public class DrawableUtils {
     }
 
     public static Bitmap getExternalStorageAppBitmap(String filePath) {
-        return getExternalStorageBitmap(Common.APP_DIR + File.separator + filePath);
+        return getExternalStorageBitmap(Common.INSTANCE.getAPP_DIR() + File.separator + filePath);
     }
 
     public static Drawable getNineDrawable(Resources resources, Bitmap bitmap) {
