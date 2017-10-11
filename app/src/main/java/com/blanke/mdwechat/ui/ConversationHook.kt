@@ -2,10 +2,10 @@ package com.blanke.mdwechat.ui
 
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
-import android.view.ViewGroup
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.DrawableUtils
 import de.robv.android.xposed.XC_MethodHook
@@ -34,7 +34,7 @@ class ConversationHook : BaseHookUi() {
                 })
         if (HookConfig.isHookripple) {
             xMethod(wxConfig.classes.ConversationAdapter,
-                    "getView", Int::class.java, View::class.java, ViewGroup::class.java,
+                    "getView", C.Int, C.View, C.ViewGroup,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {

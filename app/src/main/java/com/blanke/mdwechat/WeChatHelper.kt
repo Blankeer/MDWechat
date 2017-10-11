@@ -2,8 +2,8 @@ package com.blanke.mdwechat
 
 import android.app.Application
 import android.content.Context
-import android.os.Bundle
 import android.os.Environment
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.config.WxVersionConfig
 import com.blanke.mdwechat.ui.*
@@ -32,7 +32,7 @@ object WeChatHelper {
     }
 
     private fun initApplication(ver: String, lpparam: XC_LoadPackage.LoadPackageParam) {
-        findAndHookMethod(Application::class.java, "attach", Context::class.java, object : XC_MethodHook() {
+        findAndHookMethod(C.Application, "attach", C.Context, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
                 val application = param.thisObject as Application
@@ -47,7 +47,7 @@ object WeChatHelper {
 
                 log("支持该微信版本:" + ver)
                 initHookUis()
-                xMethod(wxConfig.classes.LauncherUI, "onCreate", Bundle::class.java,
+                xMethod(wxConfig.classes.LauncherUI, "onCreate", C.Bundle,
                         object : XC_MethodHook() {
                             @Throws(Throwable::class)
                             override fun beforeHookedMethod(param1: XC_MethodHook.MethodHookParam?) {

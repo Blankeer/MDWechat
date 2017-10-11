@@ -1,10 +1,9 @@
 package com.blanke.mdwechat.ui
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.AttributeSet
 import android.widget.ListView
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.findAndHookConstructor
@@ -20,7 +19,7 @@ class ListViewHook : BaseHookUi() {
             return
         }
         //去掉黄色的 selector
-        findAndHookConstructor(ListView::class.java, Context::class.java, AttributeSet::class.java, object : XC_MethodHook() {
+        findAndHookConstructor(C.ListView, C.Context, C.AttributeSet, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                 val listView = param!!.thisObject as ListView

@@ -1,15 +1,14 @@
 package com.blanke.mdwechat.ui
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ColorUtils
 import de.robv.android.xposed.XC_MethodHook
@@ -48,7 +47,7 @@ class ActionBarHook : BaseHookUi() {
                 })
         //set statusBar color
         findAndHookMethod("com.android.internal.policy.PhoneWindow", lpparam.classLoader,
-                "setStatusBarColor", Int::class.javaPrimitiveType, object : XC_MethodHook() {
+                "setStatusBarColor", C.Int, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                 param!!.args[0] = ColorUtils.getDarkerColor(colorPrimary, 0.85f)
@@ -56,7 +55,7 @@ class ActionBarHook : BaseHookUi() {
         })
         //hook ToolbarWidgetWrapper
         xMethod(wxConfig.classes.ToolbarWidgetWrapper,
-                "setCustomView", View::class.java,
+                "setCustomView", C.View,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
@@ -99,7 +98,7 @@ class ActionBarHook : BaseHookUi() {
             }
         })
         findAndHookConstructor(wxConfig.classes.ActionBarEditText,
-                lpparam.classLoader, Context::class.java, AttributeSet::class.java,
+                lpparam.classLoader, C.Context, C.AttributeSet,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {

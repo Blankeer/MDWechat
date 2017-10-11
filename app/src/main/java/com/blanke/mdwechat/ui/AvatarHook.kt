@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.widget.ImageView
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ImageHelper
 import de.robv.android.xposed.XC_MethodHook
@@ -28,7 +29,7 @@ class AvatarHook : BaseHookUi() {
         // hook avatar bitmap
         xMethod(wxConfig.classes.AvatarUtils,
                 wxConfig.methods.AvatarUtils_getAvatarBitmap,
-                String::class.java, Boolean::class.java, Int::class.java,
+                C.String, C.Boolean, C.Int,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
@@ -42,7 +43,7 @@ class AvatarHook : BaseHookUi() {
                 })
         xMethod(wxConfig.classes.AvatarUtils2,
                 wxConfig.methods.AvatarUtils2_getAvatarBitmap,
-                String::class.java,
+                C.String,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {

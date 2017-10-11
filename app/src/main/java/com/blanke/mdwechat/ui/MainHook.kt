@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.util.AttributeSet
 import android.util.SparseArray
 import android.view.*
 import android.widget.*
@@ -13,6 +12,7 @@ import com.blanke.mdwechat.R
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xClass
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ConvertUtils
 import com.blanke.mdwechat.widget.MaterialSearchView
@@ -94,7 +94,7 @@ class MainHook : BaseHookUi() {
 //                                  log("mapping:" + Arrays.toString(mapping));
                                     val mMenuItemViewHolder = xClass(wxConfig.classes.MenuItemViewHolder)
                                     val mMenuItemViewHolderWrapper = xClass(wxConfig.classes.MenuItemViewHolderWrapper)
-                                    val dConstructor = mMenuItemViewHolder.getConstructor(Int::class.javaPrimitiveType, String::class.java, String::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
+                                    val dConstructor = mMenuItemViewHolder.getConstructor(C.Int, C.String, C.String, C.Int, C.Int)
                                     val cConstructor = mMenuItemViewHolderWrapper.getConstructor(mMenuItemViewHolder)
                                     for (i in mapping.indices) {
                                         val d = dConstructor.newInstance(mapping[i], "", "", mapping[i], mapping[i])
@@ -115,7 +115,7 @@ class MainHook : BaseHookUi() {
                             // hook click search
                             xMethod(wxConfig.classes.LauncherUI,
                                     "onOptionsItemSelected",
-                                    MenuItem::class.java,
+                                    C.MenuItem,
                                     object : XC_MethodHook() {
                                         @Throws(Throwable::class)
                                         override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
@@ -142,7 +142,7 @@ class MainHook : BaseHookUi() {
                 })
         if (HookConfig.isHookfloat_button) {
             //hide more icon in actionBar
-            xMethod(wxConfig.classes.LauncherUI, "onCreateOptionsMenu", Menu::class.java, object : XC_MethodHook() {
+            xMethod(wxConfig.classes.LauncherUI, "onCreateOptionsMenu", C.Menu, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                     //                log("homeUI=" + mHomeUi);
@@ -157,7 +157,7 @@ class MainHook : BaseHookUi() {
         }
         if (HookConfig.isHooksearch || HookConfig.isHookfloat_button) {
             //hook onKeyEvent
-            xMethod(wxConfig.classes.LauncherUI, "dispatchKeyEvent", KeyEvent::class.java, object : XC_MethodHook() {
+            xMethod(wxConfig.classes.LauncherUI, "dispatchKeyEvent", C.KeyEvent, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam) {
                     val keyEvent = param.args[0] as KeyEvent
@@ -311,7 +311,7 @@ class MainHook : BaseHookUi() {
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         frameLayout.addView(searchView, params)
         findAndHookConstructor(wxConfig.classes.ActionBarEditText,
-                lpparam.classLoader, Context::class.java, AttributeSet::class.java,
+                lpparam.classLoader, C.Context, C.AttributeSet,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {

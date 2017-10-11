@@ -6,6 +6,7 @@ import android.view.View
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.DrawableUtils
 import de.robv.android.xposed.XC_MethodHook
@@ -22,7 +23,7 @@ class ChatHook : BaseHookUi() {
         val bubbleRight = DrawableUtils.getExternalStorageAppBitmap(Common.CHAT_BUBBLE_RIGHT_FILENAME)
         if (bubbleLeft != null || bubbleRight != null) {
             xMethod(wxConfig.classes.ChatViewHolder,
-                    wxConfig.methods.ChatViewHolder_loadView, View::class.java, Boolean::class.java, object : XC_MethodHook() {
+                    wxConfig.methods.ChatViewHolder_loadView, C.View, C.Boolean, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                     val viewHolder = param!!.result

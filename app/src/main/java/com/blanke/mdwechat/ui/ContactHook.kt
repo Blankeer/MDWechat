@@ -7,6 +7,7 @@ import android.widget.ListView
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.DrawableUtils
 import de.robv.android.xposed.XC_MethodHook
@@ -53,7 +54,7 @@ class ContactHook : BaseHookUi() {
                         }
                     })
             xMethod(wxConfig.classes.ContactAdapter,
-                    "getView", Int::class.java, View::class.java, ViewGroup::class.java,
+                    "getView", C.Int, C.View, C.ViewGroup,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {

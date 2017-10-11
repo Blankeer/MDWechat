@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.DrawableUtils
 import de.robv.android.xposed.XC_MethodHook
@@ -42,7 +43,7 @@ class DiscoverHook : BaseHookUi() {
         if (hookMenus.size > 0) {
             xMethod(wxConfig.classes.MMPreferenceAdapter,
                     wxConfig.methods.MMPreferenceAdapter_setVisible,
-                    String::class.java, Boolean::class.java,
+                    C.String, C.Boolean,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
@@ -76,7 +77,7 @@ class DiscoverHook : BaseHookUi() {
         })
         if (HookConfig.isHookripple) {
             xMethod(wxConfig.classes.MMPreferenceAdapter,
-                    "getView", Int::class.java, View::class.java, ViewGroup::class.java,
+                    "getView", C.Int, C.View, C.ViewGroup,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
