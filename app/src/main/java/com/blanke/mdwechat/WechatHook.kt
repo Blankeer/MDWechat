@@ -2,10 +2,12 @@ package com.blanke.mdwechat
 
 import android.content.Context
 import android.content.res.XModuleResources
-import com.blanke.mdwechat.ui.LogUtil.log
+import com.blanke.mdwechat.config.WxObjects
+import com.blanke.mdwechat.util.LogUtil.log
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import java.lang.ref.WeakReference
 
 class WechatHook : XC_MethodHook(), IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
     private lateinit var MODULE_PATH: String
@@ -25,11 +27,16 @@ class WechatHook : XC_MethodHook(), IXposedHookZygoteInit, IXposedHookLoadPackag
                 XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null),
                         "currentActivityThread"), "getSystemContext") as Context
         val wechatPackageInfo = context.packageManager.getPackageInfo(Common.WECHAT_PACKAGENAME, 0)
+        WxObjects.Application = WeakReference(context)
         val versionName = wechatPackageInfo.versionName
         log("wechat version=" + versionName
                 + ",processName=" + lpparam.processName
                 + ",MDWechat version=" + BuildConfig.VERSION_NAME)
-        WeChatHelper.init(versionName, lpparam)
+        try {
+            WeChatHelper.init(versionName, lpparam)
+        } catch (e: Throwable) {
+            log(e)
+        }
     }
 
     private fun hookSettings(lpparam: XC_LoadPackage.LoadPackageParam, versionName: String, isSupport: Boolean) {

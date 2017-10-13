@@ -1,14 +1,18 @@
 package com.blanke.mdwechat
 
-import android.app.Activity
 import android.content.Context
 import android.os.Environment
-import com.blanke.mdwechat.config.*
+import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.config.WxClass
+import com.blanke.mdwechat.config.WxObjects
+import com.blanke.mdwechat.config.WxVersionConfig
 import com.blanke.mdwechat.ui.BaseHookUi
-import com.blanke.mdwechat.ui.LogUtil.log
+import com.blanke.mdwechat.ui.LogHook
 import com.blanke.mdwechat.ui.MainHook
+import com.blanke.mdwechat.util.LogUtil.log
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -39,27 +43,23 @@ object WeChatHelper {
             log("不支持的版本:" + ver)
             return
         }
-
         log("支持该微信版本:" + ver)
         WxClass.init(wxConfig, lpparam.classLoader)
         initHookUis()
-        if (WxClass.LauncherUI != null) {
-            xMethod(WxClass.LauncherUI!!, "onCreate", C.Bundle,
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun beforeHookedMethod(param1: XC_MethodHook.MethodHookParam) {
-                            val hook = HookConfig.isHookswitch
-                            log("hook 开关:" + hook)
-                            if (hook) {
-                                val activity = param1.thisObject as Activity
-                                val context = activity.createPackageContext(Common.MY_APPLICATION_PACKAGE, Context.CONTEXT_IGNORE_SECURITY)
-                                WxObjects.MdContext = WeakReference(context)
-                                executeHookUi()
-                            }
-                        }
-                    })
+        val hook = HookConfig.isHookswitch
+        log("hook 开关:" + hook)
+        if (hook) {
+            val application = WxObjects.Application?.get()
+            if (application == null) {
+                log("application = $application")
+                return
+            }
+            val context = application.createPackageContext(Common.MY_APPLICATION_PACKAGE, Context.CONTEXT_IGNORE_SECURITY)
+            WxObjects.MdContext = WeakReference(context)
+            //防止被回收,弱引用
+            XposedHelpers.setAdditionalInstanceField(application, "hookContext", context)
+            executeHookUi()
         }
-
     }
 
     private fun createAppDir() {
@@ -72,6 +72,9 @@ object WeChatHelper {
 
     private fun initHookUis() {
         hookUis = arrayListOf()
+        if (BuildConfig.DEBUG) {
+            hookUis.add(LogHook())
+        }
         hookUis.add(MainHook())
 //        hookUis.add(ListViewHook())
 //        hookUis.add(ActionBarHook())

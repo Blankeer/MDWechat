@@ -75,14 +75,14 @@ class MainHook : BaseHookUi() {
                         WxObjects.HomeUI_ViewPager = WeakReference(viewPager)
 
                         if (viewPager !is View) {
-                            log("HomeUI_ViewPager not is View,MainHook fail!")
+                            log("HomeUI_ViewPager not is View,MainHook fail! viewPager=$viewPager")
                             return
                         }
                         val linearLayoutContent = viewPager.parent as ViewGroup
                         //移除底部 tabview
                         val tabView = linearLayoutContent.getChildAt(1)
                         if (tabView == null || tabView !is RelativeLayout) {
-                            log("HomeUI_tabView not found,MainHook fail!")
+                            log("HomeUI_tabView not found,MainHook fail! tabView=$tabView")
                             return
                         }
                         WxObjects.LauncherUIBottomTabView = WeakReference(tabView)
@@ -201,7 +201,7 @@ class MainHook : BaseHookUi() {
 
     private fun addFloatButton(frameLayout: ViewGroup) {
         val primaryColor = colorPrimary
-        val context = WxObjects.MdContext?.get() as Context
+        val context = WxObjects.MdContext?.get() ?: return
         val actionMenu = FloatingActionMenu(context)
         actionMenu.menuButtonColorNormal = primaryColor
         actionMenu.menuButtonColorPressed = primaryColor

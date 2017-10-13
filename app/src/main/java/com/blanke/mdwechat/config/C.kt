@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.*
 import android.widget.ListView
+import android.content.Intent
 
 /**
  * Created by blanke on 2017/10/11.
@@ -24,4 +25,6 @@ object C {
     val ListView = ListView::class.java
     val View = View::class.java
     val ViewGroup = ViewGroup::class.java
+    val MotionEvent = MotionEvent::class.java
+    val Intent = Intent::class.java
 }

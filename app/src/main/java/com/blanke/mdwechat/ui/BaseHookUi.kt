@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.util.LogUtil
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 /**

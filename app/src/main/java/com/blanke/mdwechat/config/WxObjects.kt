@@ -7,6 +7,7 @@ import java.lang.ref.WeakReference
  * Created by blanke on 2017/10/12.
  */
 object WxObjects {
+    var Application: WeakReference<Context>? = null
     var MdContext: WeakReference<Context>? = null
     var LauncherUI: WeakReference<Any>? = null
     var HomeUI: WeakReference<Any>? = null
