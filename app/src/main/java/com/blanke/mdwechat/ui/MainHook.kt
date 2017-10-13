@@ -77,6 +77,7 @@ class MainHook : BaseHookUi() {
                             return
                         }
                         val linearLayoutContent = viewPager.parent as ViewGroup
+                        val contentFrameLayout = linearLayoutContent.parent as ViewGroup
                         //移除底部 tabview
                         val tabView = linearLayoutContent.getChildAt(1)
                         if (tabView == null || tabView !is RelativeLayout) {
@@ -87,8 +88,23 @@ class MainHook : BaseHookUi() {
                         if (HookConfig.isHooktab) {
                             linearLayoutContent.removeView(tabView)
                         }
+                        //ActionBar
+                        val actionBar = XposedHelpers.getObjectField(mHomeUi, wxConfig.fields.HomeUI_mActionBar)
+                        if (actionBar != null) {
+                            XposedHelpers.callMethod(actionBar, "hide")
+                            xMethod(View::class.java, "setPadding", C.Int, C.Int, C.Int
+                                    , C.Int, object : XC_MethodHook() {
+                                override fun beforeHookedMethod(param: MethodHookParam?) {
+                                    val view = param?.thisObject as View
+                                    if (view == contentFrameLayout) {
+//                                        log("contentFrameLayout padding=${param.args[1]}")
+                                        param.args[1] = 0
+                                    }
+                                }
+                            })
+
+                        }
                         //add float Button
-                        val contentFrameLayout = linearLayoutContent.parent as ViewGroup
                         if (HookConfig.isHookfloat_button) {
                             addFloatButton(contentFrameLayout)
 

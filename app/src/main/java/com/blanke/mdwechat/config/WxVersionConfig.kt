@@ -1,11 +1,6 @@
 package com.blanke.mdwechat.config
 
-import com.blanke.mdwechat.Common
-import com.google.gson.Gson
-import java.io.File
-import java.io.FileInputStream
 import java.io.IOException
-import java.io.InputStreamReader
 
 /**
  * Created by blanke on 2017/8/25.
@@ -57,6 +52,7 @@ class WxVersionConfig {
     class Fields {
         lateinit var ActionBarContainer_mBackground: String
         lateinit var LauncherUI_mHomeUi: String
+        lateinit var HomeUI_mActionBar: String
         lateinit var HomeUi_mHomeUiTabHelper: String
         lateinit var HomeUiTabHelper_mViewPager: String
         lateinit var HomeUI_mMenuAdapterManager: String
