@@ -289,7 +289,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             tv_tab_title.setText(tabTitle);
         }
         ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
-        iv_tab_icon.setImageResource(mTabEntitys.get(position).getTabSelectedIcon());
+        iv_tab_icon.setImageDrawable(mTabEntitys.get(position).getTabIcon());
         iv_tab_icon.setColorFilter(unSelectIconColor);
 
         tabView.setOnClickListener(new OnClickListener() {
@@ -341,7 +341,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
             if (mIconVisible) {
                 iv_tab_icon.setVisibility(View.VISIBLE);
-                CustomTabEntity tabEntity = mTabEntitys.get(i);
+//                CustomTabEntity tabEntity = mTabEntitys.get(i);
                 iv_tab_icon.setColorFilter(selected ? selectIconColor : unSelectIconColor);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         mIconWidth <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) mIconWidth,

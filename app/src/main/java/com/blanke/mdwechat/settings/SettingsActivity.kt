@@ -26,6 +26,7 @@ class SettingsActivity : Activity() {
 
     private fun copyConfig() {
         FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_DIR)
+        FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.ICON_DIR)
 
     }
 

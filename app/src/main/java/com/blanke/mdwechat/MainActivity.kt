@@ -90,22 +90,22 @@ class MainActivity : Activity() {
         val titles = arrayOf("消息", "通讯录", "朋友圈", "设置")
         val tabIcons = intArrayOf(R.drawable.ic_chat_tab, R.drawable.ic_contact_tab, R.drawable.ic_explore_tab, R.drawable.ic_person_tab)
         val mTabEntities = ArrayList<CustomTabEntity>()
-        for (i in tabIcons.indices) {
-            val finalI = i
-            mTabEntities.add(object : CustomTabEntity {
-                override fun getTabTitle(): String? {
-                    return null
-                }
-
-                override fun getTabSelectedIcon(): Int {
-                    return tabIcons[finalI]
-                }
-
-                override fun getTabUnselectedIcon(): Int {
-                    return R.drawable.ic_scan
-                }
-            })
-        }
+//        for (i in tabIcons.indices) {
+//            val finalI = i
+//            mTabEntities.add(object : CustomTabEntity {
+//                override fun getTabTitle(): String? {
+//                    return null
+//                }
+//
+//                override fun getTabSelectedIcon(): Int {
+//                    return tabIcons[finalI]
+//                }
+//
+//                override fun getTabUnselectedIcon(): Int {
+//                    return R.drawable.ic_scan
+//                }
+//            })
+//        }
         tabLayout.setTabData(mTabEntities)
 
         tabLayout.showMsg(0, 5)

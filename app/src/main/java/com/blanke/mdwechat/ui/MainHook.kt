@@ -3,6 +3,8 @@ package com.blanke.mdwechat.ui
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.util.SparseArray
 import android.view.*
@@ -14,10 +16,7 @@ import com.blanke.mdwechat.R
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xClass
 import com.blanke.mdwechat.WeChatHelper.xMethod
-import com.blanke.mdwechat.config.C
-import com.blanke.mdwechat.config.HookConfig
-import com.blanke.mdwechat.config.WxClass
-import com.blanke.mdwechat.config.WxObjects
+import com.blanke.mdwechat.config.*
 import com.blanke.mdwechat.util.ConvertUtils
 import com.blanke.mdwechat.widget.MaterialSearchView
 import com.flyco.tablayout.CommonTabLayout
@@ -344,22 +343,12 @@ class MainHook : BaseHookUi() {
         tabLayout.selectIconColor = Color.WHITE
         tabLayout.unSelectIconColor = 0x1aaaaaaa
 
-        //        String[] titles = {"消息", "通讯录", "朋友圈", "设置"};
-        val tabIcons = intArrayOf(R.drawable.ic_chat_tab, R.drawable.ic_contact_tab, R.drawable.ic_explore_tab, R.drawable.ic_person_tab)
-        val mTabEntities = tabIcons.indices
+        val mTabEntities = intArrayOf(0, 1, 2, 3)
                 .map { it }
                 .mapTo(ArrayList<CustomTabEntity>()) {
-                    object : CustomTabEntity {
-                        override fun getTabTitle(): String? {
-                            return null
-                        }
-
-                        override fun getTabSelectedIcon(): Int {
-                            return tabIcons[it]
-                        }
-
-                        override fun getTabUnselectedIcon(): Int {
-                            return 0
+                    object : CustomTabEntity.TabCustomData() {
+                        override fun getTabIcon(): Drawable {
+                            return BitmapDrawable(context.resources, AppCustomConfig.getTabIcon(it))
                         }
                     }
                 }

@@ -120,7 +120,7 @@ class WxVersionConfig {
             if (HookConfig.isPlay) {
                 configName = wxVersion + "-play.config"
             }
-            val `is` = FileInputStream(Common.APP_DIR_PATH + File.separator + Common.CONFIG_DIR + File.separator + configName)
+            val `is` = FileInputStream(AppCustomConfig.getWxConfigFile(configName))
             return Gson().fromJson(InputStreamReader(`is`), WxVersionConfig::class.java)
         }
     }
