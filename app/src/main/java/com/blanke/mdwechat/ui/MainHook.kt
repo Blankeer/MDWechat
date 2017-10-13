@@ -2,10 +2,10 @@ package com.blanke.mdwechat.ui
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
 import android.util.SparseArray
 import android.view.*
 import android.widget.AdapterView
@@ -27,7 +27,6 @@ import com.github.clans.fab.FloatingActionButton.SIZE_MINI
 import com.github.clans.fab.FloatingActionMenu
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
-import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.lang.ref.WeakReference
@@ -170,7 +169,7 @@ class MainHook : BaseHookUi() {
                 @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam) {
                     val keyEvent = param.args[0] as KeyEvent
-                    if (keyEvent.keyCode == KeyEvent.KEYCODE_MENU) {//hide menu
+                    if (keyEvent.keyCode == KeyEvent.KEYCODE_MENU && HookConfig.isHooksearch) {//hide menu
                         param.result = true
                         return
                     }
@@ -199,12 +198,23 @@ class MainHook : BaseHookUi() {
     }
 
     private fun addFloatButton(frameLayout: ViewGroup) {
-        val primaryColor = colorPrimary
         val context = WxObjects.MdContext?.get() ?: return
+        val floatConfig = AppCustomConfig.getFloatButtonConfig()
+//        log("floatconfig=$floatConfig")
+        if (floatConfig == null || floatConfig.items == null || floatConfig.menu?.icon == null) {
+            log("floatButton 主 icon 为空")
+            return
+        }
+        val primaryColor = colorPrimary
         val actionMenu = FloatingActionMenu(context)
         actionMenu.menuButtonColorNormal = primaryColor
         actionMenu.menuButtonColorPressed = primaryColor
-        actionMenu.setMenuIcon(ContextCompat.getDrawable(context, R.drawable.ic_add))
+        val drawable: Bitmap? = AppCustomConfig.getIcon(floatConfig.menu!!.icon)
+        if (drawable == null) {
+            log("floatButton 主 icon 为空")
+            return
+        }
+        actionMenu.setMenuIcon(BitmapDrawable(context.resources, drawable))
         actionMenu.initMenuButton()
 
         actionMenu.setFloatButtonClickListener { fab, index ->
@@ -214,14 +224,16 @@ class MainHook : BaseHookUi() {
             }
         }
 
-        addFloatButton(actionMenu, context, context.getString(R.string.text_scan_qrcode),
-                R.drawable.ic_scan, primaryColor)
-        addFloatButton(actionMenu, context, context.getString(R.string.text_money),
-                R.drawable.ic_money, primaryColor)
-        addFloatButton(actionMenu, context, context.getString(R.string.text_chat_group),
-                R.drawable.ic_chat, primaryColor)
-        addFloatButton(actionMenu, context, context.getString(R.string.text_friend_add),
-                R.drawable.ic_friend_add, primaryColor)
+        floatConfig.items?.sortedBy { it.order }
+                ?.forEach {
+                    val drawable2: Bitmap? = AppCustomConfig.getIcon(it.icon)
+                    if (drawable2 == null) {
+                        log("${it.icon}不存在,忽略~")
+                        return@forEach
+                    }
+                    addFloatButton(actionMenu, context, it.text,
+                            BitmapDrawable(context.resources, drawable2), primaryColor)
+                }
 
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val margin = ConvertUtils.dp2px(frameLayout.context, 12f)
@@ -260,23 +272,26 @@ class MainHook : BaseHookUi() {
 
 
         val backgroundView = View(context)
-        backgroundView.setBackgroundColor(Color.parseColor("#88000000"))
+//        backgroundView.setBackgroundColor(Color.parseColor("#88000000"))
         val params2 = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         backgroundView.visibility = View.GONE
         backgroundView.setOnClickListener { view ->
             actionMenu.close(true)
             view.visibility = View.GONE
         }
-        actionMenu.setOnMenuToggleListener { opened -> backgroundView.visibility = if (opened) View.VISIBLE else View.GONE }
+        actionMenu.setOnMenuToggleListener {
+            opened ->
+            backgroundView.visibility = if (opened) View.VISIBLE else View.GONE
+        }
         frameLayout.addView(backgroundView, params2)
         frameLayout.addView(actionMenu, params)
         this.actionMenu = WeakReference(actionMenu)
     }
 
     private fun addFloatButton(actionMenu: FloatingActionMenu, context: Context,
-                               label: String, drawable: Int, primaryColor: Int): FloatingActionButton {
+                               label: String, drawable: Drawable, primaryColor: Int): FloatingActionButton {
         val fab = FloatingActionButton(context)
-        fab.setImageDrawable(ContextCompat.getDrawable(context, drawable))
+        fab.setImageDrawable(drawable)
         fab.colorNormal = primaryColor
         fab.colorPressed = primaryColor
         fab.buttonSize = SIZE_MINI
@@ -356,13 +371,25 @@ class MainHook : BaseHookUi() {
         tabLayout.setOnTabSelectListener(object : OnTabSelectListener {
             override fun onTabSelect(position: Int) {
                 //log("tab click position=" + position);
-                callMethod(pager, wxConfig.methods.WxViewPager_setCurrentItem, position)
+                XposedHelpers.callMethod(pager, wxConfig.methods.WxViewPager_setCurrentItem, position)
             }
 
             override fun onTabReselect(position: Int) {
-                //TODO goto unread msg
             }
         })
+        // hook touch to LauncherUIBottomTabView
+        val tabView = WxObjects.LauncherUIBottomTabView?.get()
+        if (tabView != null) {
+            val tabBottomView = tabView as ViewGroup
+            val tabBottomContentView = tabBottomView.getChildAt(0) as ViewGroup?
+            val tabViewTouchListener = View.OnTouchListener { view: View, motionEvent: MotionEvent ->
+                //                log("tabView touch $view , $motionEvent")
+                val index = view.tag as Int?
+                tabBottomContentView?.getChildAt(index ?: 0)?.onTouchEvent(motionEvent)
+                return@OnTouchListener false
+            }
+            tabLayout.tabViews.forEach { it.setOnTouchListener(tabViewTouchListener) }
+        }
         xMethod(WxClass.HomeUiViewPagerChangeListener!!,
                 wxConfig.methods.HomeUiViewPagerChangeListener_onPageScrolled,
                 C.Int, C.Float, C.Int, object : XC_MethodHook() {

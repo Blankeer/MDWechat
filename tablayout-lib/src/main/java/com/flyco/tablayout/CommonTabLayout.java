@@ -36,6 +36,7 @@ import com.flyco.tablayout.utils.UnreadMsgUtils;
 import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖
@@ -317,6 +318,16 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             lp_tab = new LinearLayout.LayoutParams((int) mTabWidth, LayoutParams.MATCH_PARENT);
         }
         mTabsContainer.addView(tabView, position, lp_tab);
+    }
+
+    public List<View> getTabViews() {
+        List<View> views = new ArrayList<>();
+        for (int i = 0; i < mTabsContainer.getChildCount(); i++) {
+            View view = mTabsContainer.getChildAt(i);
+            view.setTag(i);
+            views.add(view);
+        }
+        return views;
     }
 
     private void updateTabStyles() {

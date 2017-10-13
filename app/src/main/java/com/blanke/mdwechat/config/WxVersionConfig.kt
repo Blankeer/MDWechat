@@ -116,12 +116,7 @@ class WxVersionConfig {
 
         @Throws(IOException::class)
         fun loadConfig(wxVersion: String): WxVersionConfig {
-            var configName = wxVersion + ".config"
-            if (HookConfig.isPlay) {
-                configName = wxVersion + "-play.config"
-            }
-            val `is` = FileInputStream(AppCustomConfig.getWxConfigFile(configName))
-            return Gson().fromJson(InputStreamReader(`is`), WxVersionConfig::class.java)
+            return AppCustomConfig.getWxVersionConfig(wxVersion)
         }
     }
 

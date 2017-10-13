@@ -22,6 +22,7 @@ object Common {
     val CHAT_BUBBLE_RIGHT_FILENAME = "bubble_right.9.png"
     val FILE_NAME_TAB_PREFIX = "tab"
     val FILE_NAME_TAB_BG_PREFIX = "tab_bg"
+    val FILE_NAME_FLOAT_BUTTON = "FloatButton.config"
 
     val APP_DIR_PATH: String
         get() {
