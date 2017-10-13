@@ -11,6 +11,7 @@ import android.widget.ListView
  */
 object C {
     val Int = Int::class.java
+    val Float = Float::class.java
     val Boolean = Boolean::class.java
     val String = String::class.java
     val MenuItem = MenuItem::class.java

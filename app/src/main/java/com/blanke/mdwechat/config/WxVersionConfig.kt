@@ -21,6 +21,7 @@ class WxVersionConfig {
     class Classes {
         lateinit var LauncherUI: String
         lateinit var HomeUI: String
+        lateinit var HomeUiTabHelper: String
         lateinit var MenuAdapterManager: String
         lateinit var MMFragmentActivity: String
         lateinit var AvatarUtils: String
@@ -53,12 +54,14 @@ class WxVersionConfig {
     }
 
     class Fields {
+        lateinit var ActionBarContainer_mBackground: String
         lateinit var LauncherUI_mHomeUi: String
+        lateinit var HomeUi_mHomeUiTabHelper: String
+        lateinit var HomeUiTabHelper_mViewPager: String
         lateinit var HomeUI_mMenuAdapterManager: String
         lateinit var HomeUI_mMoreMenuItem: String
         lateinit var MenuAdapterManager_mMenuArray: String
         lateinit var MenuAdapterManager_mMenuMapping: String
-        lateinit var ActionBarContainer_mBackground: String
         lateinit var LauncherUIBottomTabView_mTabClickListener: String
         lateinit var ConversationFragment_mListView: String
         lateinit var ContactFragment_mListView: String

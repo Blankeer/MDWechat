@@ -1,18 +1,19 @@
 package com.blanke.mdwechat
 
+import android.app.Activity
+import android.content.Context
 import android.os.Environment
-import com.blanke.mdwechat.config.C
-import com.blanke.mdwechat.config.HookConfig
-import com.blanke.mdwechat.config.WxClass
-import com.blanke.mdwechat.config.WxVersionConfig
-import com.blanke.mdwechat.ui.*
+import com.blanke.mdwechat.config.*
+import com.blanke.mdwechat.ui.BaseHookUi
 import com.blanke.mdwechat.ui.LogUtil.log
+import com.blanke.mdwechat.ui.MainHook
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.io.File
+import java.lang.ref.WeakReference
 
 /**
  * Created by blanke on 2017/7/29.
@@ -46,10 +47,13 @@ object WeChatHelper {
             xMethod(WxClass.LauncherUI!!, "onCreate", C.Bundle,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
-                        override fun beforeHookedMethod(param1: XC_MethodHook.MethodHookParam?) {
+                        override fun beforeHookedMethod(param1: XC_MethodHook.MethodHookParam) {
                             val hook = HookConfig.isHookswitch
                             log("hook 开关:" + hook)
                             if (hook) {
+                                val activity = param1.thisObject as Activity
+                                val context = activity.createPackageContext(Common.MY_APPLICATION_PACKAGE, Context.CONTEXT_IGNORE_SECURITY)
+                                WxObjects.MdContext = WeakReference(context)
                                 executeHookUi()
                             }
                         }
@@ -69,15 +73,15 @@ object WeChatHelper {
     private fun initHookUis() {
         hookUis = arrayListOf()
         hookUis.add(MainHook())
-        hookUis.add(ListViewHook())
-        hookUis.add(ActionBarHook())
-        hookUis.add(ConversationHook())
-        hookUis.add(AvatarHook())
-        hookUis.add(ContactHook())
-        hookUis.add(UnreadViewHook())
-        hookUis.add(DiscoverHook())
-        hookUis.add(SettingsHook())
-        hookUis.add(ChatHook())
+//        hookUis.add(ListViewHook())
+//        hookUis.add(ActionBarHook())
+//        hookUis.add(ConversationHook())
+//        hookUis.add(AvatarHook())
+//        hookUis.add(ContactHook())
+//        hookUis.add(UnreadViewHook())
+//        hookUis.add(DiscoverHook())
+//        hookUis.add(SettingsHook())
+//        hookUis.add(ChatHook())
     }
 
     private fun executeHookUi() {

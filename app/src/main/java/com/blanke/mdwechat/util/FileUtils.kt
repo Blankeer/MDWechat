@@ -25,7 +25,7 @@ object FileUtils {
                     `in` = assetManager.open(dir + File.separator + filename)
                     val outFile = File(appDir + File.separator + dir + File.separator + filename)
                     if (outFile.exists()) {
-                        return
+                        continue
                     }
                     out = FileOutputStream(outFile)
                     copyFile(`in`, out)

@@ -8,6 +8,7 @@ import de.robv.android.xposed.XposedHelpers
 object WxClass {
     var LauncherUI: Class<*>? = null
     var HomeUI: Class<*>? = null
+    var HomeUiTabHelper: Class<*>? = null
     var MenuAdapterManager: Class<*>? = null
     var MMFragmentActivity: Class<*>? = null
     var AvatarUtils: Class<*>? = null
@@ -37,6 +38,7 @@ object WxClass {
     fun init(config: WxVersionConfig, classLoader: ClassLoader) {
         LauncherUI = XposedHelpers.findClassIfExists(config.classes.LauncherUI, classLoader)
         HomeUI = XposedHelpers.findClassIfExists(config.classes.HomeUI, classLoader)
+        HomeUiTabHelper = XposedHelpers.findClassIfExists(config.classes.HomeUiTabHelper, classLoader)
         MenuAdapterManager = XposedHelpers.findClassIfExists(config.classes.MenuAdapterManager, classLoader)
         MMFragmentActivity = XposedHelpers.findClassIfExists(config.classes.MMFragmentActivity, classLoader)
         AvatarUtils = XposedHelpers.findClassIfExists(config.classes.AvatarUtils, classLoader)
