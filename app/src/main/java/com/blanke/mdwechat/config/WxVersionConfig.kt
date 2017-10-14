@@ -45,6 +45,13 @@ class WxVersionConfig {
         lateinit var XLogSetup: String
         lateinit var PluginHelper: String
         lateinit var SnsTimeLineUI: String
+        lateinit var WalletOfflineCoinPurseUI: String
+        lateinit var BaseScanUI: String
+        lateinit var AddMoreFriendsUI: String
+        lateinit var AppBrandLauncherUI: String
+        lateinit var MallIndexUI: String
+        lateinit var FavoriteIndexUI: String
+        lateinit var SelectContactUI: String
         override fun toString(): String {
             return "Classes(LauncherUI='$LauncherUI', HomeUI='$HomeUI', MenuAdapterManager='$MenuAdapterManager', MMFragmentActivity='$MMFragmentActivity', AvatarUtils='$AvatarUtils', AvatarUtils2='$AvatarUtils2', TouchImageView='$TouchImageView', ChattingUIActivity='$ChattingUIActivity', ChattingUIFragment='$ChattingUIFragment', MenuItemViewHolderWrapper='$MenuItemViewHolderWrapper', MenuItemViewHolder='$MenuItemViewHolder', FTSMainUI='$FTSMainUI', HomeUiViewPagerChangeListener='$HomeUiViewPagerChangeListener', WxViewPager='$WxViewPager', LauncherUIBottomTabView='$LauncherUIBottomTabView', ActionBarContainer='$ActionBarContainer', ToolbarWidgetWrapper='$ToolbarWidgetWrapper', ActionBarSearchView='$ActionBarSearchView', ActionBarEditText='$ActionBarEditText', ConversationFragment='$ConversationFragment', ConversationAdapter='$ConversationAdapter', ContactFragment='$ContactFragment', ContactAdapter='$ContactAdapter', DiscoverFragment='$DiscoverFragment', MMPreferenceAdapter='$MMPreferenceAdapter', SettingsFragment='$SettingsFragment', ChatViewHolder='$ChatViewHolder')"
         }

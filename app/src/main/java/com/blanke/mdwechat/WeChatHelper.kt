@@ -1,6 +1,7 @@
 package com.blanke.mdwechat
 
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.config.WxClass
@@ -18,6 +19,7 @@ import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.io.File
 import java.lang.ref.WeakReference
+
 
 /**
  * Created by blanke on 2017/7/29.
@@ -106,6 +108,19 @@ object WeChatHelper {
         log("startPluginActivity groupName=$groupName,className=$className")
         XposedHelpers.callStaticMethod(WxClass.PluginHelper, wxConfig.methods.PluginHelper_start,
                 context as Context, groupName, className)
+    }
+
+    fun startActivity(actName: String) {
+        val context = WxObjects.LauncherUI?.get() ?: return
+        val intent = Intent()
+        intent.setClassName(context as Context, actName)
+        context.startActivity(intent)
+    }
+
+    fun startActivity(intent: Intent, actName: String) {
+        val context = WxObjects.LauncherUI?.get() ?: return
+        intent.setClassName(context as Context, actName)
+        context.startActivity(intent)
     }
 
     fun initPrefs() {

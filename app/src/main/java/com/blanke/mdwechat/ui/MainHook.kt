@@ -2,18 +2,21 @@ package com.blanke.mdwechat.ui
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
-import android.util.SparseArray
 import android.view.*
-import android.widget.*
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.blanke.mdwechat.R
+import com.blanke.mdwechat.WeChatHelper.startActivity
 import com.blanke.mdwechat.WeChatHelper.startPluginActivity
 import com.blanke.mdwechat.WeChatHelper.wxConfig
-import com.blanke.mdwechat.WeChatHelper.xClass
 import com.blanke.mdwechat.WeChatHelper.xMethod
 import com.blanke.mdwechat.bean.FLoatButtonConfigItem
 import com.blanke.mdwechat.config.*
@@ -40,7 +43,6 @@ class MainHook : BaseHookUi() {
     private var searchView: WeakReference<MaterialSearchView>? = null
     private var searchKey: String? = null
     private var actionMenu: WeakReference<FloatingActionMenu>? = null
-    private var hookPopWindowAdapter: WeakReference<AdapterView.OnItemClickListener>? = null
     private var contentFrameLayout: WeakReference<ViewGroup>? = null
     private var actionBar: WeakReference<Any>? = null
     private var tabLayout: WeakReference<CommonTabLayout>? = null
@@ -118,29 +120,6 @@ class MainHook : BaseHookUi() {
                         //add float Button
                         if (HookConfig.isHookfloat_button) {
                             addFloatButton(contentFrameLayout)
-
-                            // hook floatbutton click
-                            if (mHomeUi != null) {
-                                val popWindowAdapter = XposedHelpers.getObjectField(mHomeUi, wxConfig.fields.HomeUI_mMenuAdapterManager)
-                                if (popWindowAdapter != null) {
-                                    val hookPopWindowAdapter = popWindowAdapter as AdapterView.OnItemClickListener
-                                    val hookArrays = SparseArray<Any>()
-                                    val mapping = intArrayOf(10, 20, 2, 1)
-//                                  log("mapping:" + Arrays.toString(mapping));
-                                    val mMenuItemViewHolder = xClass(wxConfig.classes.MenuItemViewHolder)
-                                    val mMenuItemViewHolderWrapper = xClass(wxConfig.classes.MenuItemViewHolderWrapper)
-                                    val dConstructor = mMenuItemViewHolder.getConstructor(C.Int, C.String, C.String, C.Int, C.Int)
-                                    val cConstructor = mMenuItemViewHolderWrapper.getConstructor(mMenuItemViewHolder)
-                                    for (i in mapping.indices) {
-                                        val d = dConstructor.newInstance(mapping[i], "", "", mapping[i], mapping[i])
-                                        val c = cConstructor.newInstance(d)
-                                        hookArrays.put(i, c)
-                                    }
-                                    //                              log("hookArrays=" + hookArrays);
-                                    XposedHelpers.setObjectField(popWindowAdapter, wxConfig.fields.MenuAdapterManager_mMenuArray, hookArrays)
-                                    this@MainHook.hookPopWindowAdapter = WeakReference(hookPopWindowAdapter)
-                                }
-                            }
                         }
 
                         XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true)
@@ -311,21 +290,23 @@ class MainHook : BaseHookUi() {
     }
 
     private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
-//        if (hookPopWindowAdapter?.get() != null) {
-//            hookPopWindowAdapter?.get()?.onItemClick(null, null, index, 0)
-//        }
-//        val MMURIJumpHandler = WxObjects.MMURIJumpHandler?.get()
-//        val context = WxObjects.LauncherUI?.get() ?: return
-//        if (MMURIJumpHandler != null) {
-//            val succ = XposedHelpers.callMethod(MMURIJumpHandler,
-//                    "b", context as Context, item.type, Array<Any>(0, { })) as Boolean
-//            if (succ) {
-//                return
-//            }
-//        }
         when (item.type) {
             "search" -> startPluginActivity(wxConfig.classes.FTSMainUI)
             "timeline" -> startPluginActivity(wxConfig.classes.SnsTimeLineUI)
+            "walletcoin" -> startPluginActivity(wxConfig.classes.WalletOfflineCoinPurseUI)
+            "scan" -> startPluginActivity(wxConfig.classes.BaseScanUI)
+            "addfriend" -> startPluginActivity(wxConfig.classes.AddMoreFriendsUI)
+            "appbrand" -> startPluginActivity(wxConfig.classes.AppBrandLauncherUI)
+            "mywallet" -> startPluginActivity(wxConfig.classes.MallIndexUI)
+            "favorite" -> startPluginActivity(wxConfig.classes.FavoriteIndexUI)
+            "chatgroup" -> {
+                val intent = Intent()
+                intent.putExtra("titile", "")
+                intent.putExtra("list_type", 0)
+                intent.putExtra("scene", 7)
+                intent.putExtra("list_attr", 4951)
+                startActivity(intent, wxConfig.classes.SelectContactUI)
+            }
         }
     }
 
