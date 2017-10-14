@@ -11,9 +11,11 @@ import android.util.SparseArray
 import android.view.*
 import android.widget.*
 import com.blanke.mdwechat.R
+import com.blanke.mdwechat.WeChatHelper.startPluginActivity
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xClass
 import com.blanke.mdwechat.WeChatHelper.xMethod
+import com.blanke.mdwechat.bean.FLoatButtonConfigItem
 import com.blanke.mdwechat.config.*
 import com.blanke.mdwechat.util.ConvertUtils
 import com.blanke.mdwechat.widget.MaterialSearchView
@@ -308,6 +310,29 @@ class MainHook : BaseHookUi() {
         }
     }
 
+    private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
+//        if (hookPopWindowAdapter?.get() != null) {
+//            hookPopWindowAdapter?.get()?.onItemClick(null, null, index, 0)
+//        }
+//        val MMURIJumpHandler = WxObjects.MMURIJumpHandler?.get()
+//        val context = WxObjects.LauncherUI?.get() ?: return
+//        if (MMURIJumpHandler != null) {
+//            val succ = XposedHelpers.callMethod(MMURIJumpHandler,
+//                    "b", context as Context, item.type, Array<Any>(0, { })) as Boolean
+//            if (succ) {
+//                return
+//            }
+//        }
+        when (item.type) {
+            "search" -> startPluginActivity(wxConfig.classes.FTSMainUI)
+            "timeline" -> startPluginActivity(wxConfig.classes.SnsTimeLineUI)
+        }
+    }
+
+    private fun gotoSearchActivity() {
+        startPluginActivity(wxConfig.classes.FTSMainUI)
+    }
+
     private fun addFloatButton(frameLayout: ViewGroup) {
         val context = WxObjects.MdContext?.get() ?: return
         val floatConfig = AppCustomConfig.getFloatButtonConfig()
@@ -328,13 +353,7 @@ class MainHook : BaseHookUi() {
         actionMenu.setMenuIcon(BitmapDrawable(context.resources, drawable))
         actionMenu.initMenuButton()
 
-        actionMenu.setFloatButtonClickListener { fab, index ->
-            //log("click fab,index=" + index + ",label" + fab.getLabelText());
-            if (hookPopWindowAdapter?.get() != null) {
-                hookPopWindowAdapter?.get()?.onItemClick(null, null, index, 0)
-            }
-        }
-
+        val floatItems = arrayListOf<FLoatButtonConfigItem>()
         floatConfig.items?.sortedBy { it.order }
                 ?.forEach {
                     val drawable2: Bitmap? = AppCustomConfig.getIcon(it.icon)
@@ -342,9 +361,15 @@ class MainHook : BaseHookUi() {
                         log("${it.icon}不存在,忽略~")
                         return@forEach
                     }
+                    floatItems.add(it)
                     addFloatButton(actionMenu, context, it.text,
                             BitmapDrawable(context.resources, drawable2), primaryColor)
                 }
+
+        actionMenu.setFloatButtonClickListener { fab, index ->
+            //log("click fab,index=" + index + ",label" + fab.getLabelText());
+            onFloatButtonClick(floatItems[index], index)
+        }
 
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val margin = ConvertUtils.dp2px(frameLayout.context, 12f)
@@ -420,11 +445,8 @@ class MainHook : BaseHookUi() {
         searchView.setOnSearchListener(object : MaterialSearchView.SimpleonSearchListener() {
             override fun onSearch(query: String) {
                 searchKey = query
-                val mHomeUi = WxObjects.HomeUI?.get()
-                if (mHomeUi != null) {
-                    XposedHelpers.callMethod(mHomeUi, wxConfig.methods.HomeUI_startSearch)
-                }
                 searchView.hide()
+                gotoSearchActivity()
             }
         })
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)

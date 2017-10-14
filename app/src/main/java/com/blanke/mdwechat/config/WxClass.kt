@@ -35,6 +35,7 @@ object WxClass {
     var SettingsFragment: Class<*>? = null
     var ChatViewHolder: Class<*>? = null
     var XLogSetup: Class<*>? = null
+    var PluginHelper: Class<*>? = null
 
     fun init(config: WxVersionConfig, classLoader: ClassLoader) {
         LauncherUI = XposedHelpers.findClassIfExists(config.classes.LauncherUI, classLoader)
@@ -66,5 +67,6 @@ object WxClass {
         SettingsFragment = XposedHelpers.findClassIfExists(config.classes.SettingsFragment, classLoader)
         ChatViewHolder = XposedHelpers.findClassIfExists(config.classes.ChatViewHolder, classLoader)
         XLogSetup = XposedHelpers.findClassIfExists(config.classes.XLogSetup, classLoader)
+        PluginHelper = XposedHelpers.findClassIfExists(config.classes.PluginHelper, classLoader)
     }
 }

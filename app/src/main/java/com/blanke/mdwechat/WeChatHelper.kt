@@ -98,6 +98,16 @@ object WeChatHelper {
         }
     }
 
+    fun startPluginActivity(classFullName: String) {
+        val context = WxObjects.LauncherUI?.get() ?: return
+        val temp1 = classFullName.substringAfterLast("plugin.")
+        val className = temp1.substring(temp1.indexOf(".ui."), temp1.length)
+        val groupName = temp1.substringBefore(".ui")
+        log("startPluginActivity groupName=$groupName,className=$className")
+        XposedHelpers.callStaticMethod(WxClass.PluginHelper, wxConfig.methods.PluginHelper_start,
+                context as Context, groupName, className)
+    }
+
     fun initPrefs() {
         XMOD_PREFS = XSharedPreferences(Common.MY_APPLICATION_PACKAGE, Common.MOD_PREFS)
         XMOD_PREFS.makeWorldReadable()

@@ -43,6 +43,8 @@ class WxVersionConfig {
         lateinit var SettingsFragment: String
         lateinit var ChatViewHolder: String
         lateinit var XLogSetup: String
+        lateinit var PluginHelper: String
+        lateinit var SnsTimeLineUI: String
         override fun toString(): String {
             return "Classes(LauncherUI='$LauncherUI', HomeUI='$HomeUI', MenuAdapterManager='$MenuAdapterManager', MMFragmentActivity='$MMFragmentActivity', AvatarUtils='$AvatarUtils', AvatarUtils2='$AvatarUtils2', TouchImageView='$TouchImageView', ChattingUIActivity='$ChattingUIActivity', ChattingUIFragment='$ChattingUIFragment', MenuItemViewHolderWrapper='$MenuItemViewHolderWrapper', MenuItemViewHolder='$MenuItemViewHolder', FTSMainUI='$FTSMainUI', HomeUiViewPagerChangeListener='$HomeUiViewPagerChangeListener', WxViewPager='$WxViewPager', LauncherUIBottomTabView='$LauncherUIBottomTabView', ActionBarContainer='$ActionBarContainer', ToolbarWidgetWrapper='$ToolbarWidgetWrapper', ActionBarSearchView='$ActionBarSearchView', ActionBarEditText='$ActionBarEditText', ConversationFragment='$ConversationFragment', ConversationAdapter='$ConversationAdapter', ContactFragment='$ContactFragment', ContactAdapter='$ContactAdapter', DiscoverFragment='$DiscoverFragment', MMPreferenceAdapter='$MMPreferenceAdapter', SettingsFragment='$SettingsFragment', ChatViewHolder='$ChatViewHolder')"
         }
@@ -72,7 +74,6 @@ class WxVersionConfig {
 
     class Methods {
         lateinit var LauncherUI_startMainUI: String
-        lateinit var HomeUI_startSearch: String
         lateinit var AvatarUtils_getAvatarBitmap: String
         lateinit var AvatarUtils2_getAvatarBitmap: String
         lateinit var TouchImageView_init: String
@@ -89,8 +90,9 @@ class WxVersionConfig {
         lateinit var MMPreferenceAdapter_setVisible: String
         lateinit var ChatViewHolder_loadView: String
         lateinit var XLogSetup_keep_setupXLog: String
+        lateinit var PluginHelper_start: String
         override fun toString(): String {
-            return "Methods(LauncherUI_startMainUI='$LauncherUI_startMainUI', HomeUI_startSearch='$HomeUI_startSearch', AvatarUtils_getAvatarBitmap='$AvatarUtils_getAvatarBitmap', AvatarUtils2_getAvatarBitmap='$AvatarUtils2_getAvatarBitmap', TouchImageView_init='$TouchImageView_init', HomeUiViewPagerChangeListener_onPageScrolled='$HomeUiViewPagerChangeListener_onPageScrolled', HomeUiViewPagerChangeListener_onPageSelected='$HomeUiViewPagerChangeListener_onPageSelected', WxViewPager_setCurrentItem='$WxViewPager_setCurrentItem', LauncherUIBottomTabView_setMainTabUnread='$LauncherUIBottomTabView_setMainTabUnread', LauncherUIBottomTabView_setContactTabUnread='$LauncherUIBottomTabView_setContactTabUnread', LauncherUIBottomTabView_setFriendTabUnread='$LauncherUIBottomTabView_setFriendTabUnread', LauncherUIBottomTabView_showFriendTabUnreadPoint='$LauncherUIBottomTabView_showFriendTabUnreadPoint', ActionBarSearchView_init='$ActionBarSearchView_init', MainTabClickListener_onDoubleClick='$MainTabClickListener_onDoubleClick', MainFragment_onTabCreate='$MainFragment_onTabCreate', MMPreferenceAdapter_setVisible='$MMPreferenceAdapter_setVisible', ChatViewHolder_loadView='$ChatViewHolder_loadView')"
+            return "Methods(LauncherUI_startMainUI='$LauncherUI_startMainUI', AvatarUtils_getAvatarBitmap='$AvatarUtils_getAvatarBitmap', AvatarUtils2_getAvatarBitmap='$AvatarUtils2_getAvatarBitmap', TouchImageView_init='$TouchImageView_init', HomeUiViewPagerChangeListener_onPageScrolled='$HomeUiViewPagerChangeListener_onPageScrolled', HomeUiViewPagerChangeListener_onPageSelected='$HomeUiViewPagerChangeListener_onPageSelected', WxViewPager_setCurrentItem='$WxViewPager_setCurrentItem', LauncherUIBottomTabView_setMainTabUnread='$LauncherUIBottomTabView_setMainTabUnread', LauncherUIBottomTabView_setContactTabUnread='$LauncherUIBottomTabView_setContactTabUnread', LauncherUIBottomTabView_setFriendTabUnread='$LauncherUIBottomTabView_setFriendTabUnread', LauncherUIBottomTabView_showFriendTabUnreadPoint='$LauncherUIBottomTabView_showFriendTabUnreadPoint', ActionBarSearchView_init='$ActionBarSearchView_init', MainTabClickListener_onDoubleClick='$MainTabClickListener_onDoubleClick', MainFragment_onTabCreate='$MainFragment_onTabCreate', MMPreferenceAdapter_setVisible='$MMPreferenceAdapter_setVisible', ChatViewHolder_loadView='$ChatViewHolder_loadView')"
         }
 
     }
