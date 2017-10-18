@@ -46,7 +46,7 @@ class ConversationHook : BaseHookUi() {
                             //                            if (isTop) {
                             //                                view.setBackground(getGreyRippleDrawable(view.getContext()));
                             //                            } else {
-                            view.background = getRippleDrawable(view.context)
+                            view.background = getDefaultRippleDrawable(view.context)
                             //                            }
                         }
                     })

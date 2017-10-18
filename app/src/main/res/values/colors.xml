@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlueGrey">#ECEFF1</color>
     <color name="colorGrey">#E0E0E0</color>
+    <color name="colorPressGrey">#1e000000</color>
     <color name="material_amber">#ffffc107</color>
     <color name="material_amber_700">#ffffa000</color>
     <color name="material_black">#ff000000</color>

@@ -2,7 +2,6 @@ package com.blanke.mdwechat.ui
 
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
-import android.view.ViewGroup
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
@@ -82,7 +81,7 @@ class DiscoverHook : BaseHookUi() {
                         @Throws(Throwable::class)
                         override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                             val view = param!!.result as View
-                            view.background = getRippleDrawable(view.context)
+                            view.background = getDefaultRippleDrawable(view.context)
                         }
                     })
         }

@@ -5,11 +5,14 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.blanke.mdwechat.R
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.util.DrawableUtils
 import com.blanke.mdwechat.util.LogUtil
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -68,7 +71,7 @@ abstract class BaseHookUi {
     protected val colorPrimary: Int
         get() = HookConfig.colorPrimary
 
-    protected fun getRippleDrawable(context: Context): Drawable {
+    protected fun getDefaultRippleDrawable(context: Context): Drawable {
         if (rippleDrawable == null) {
             val attrs = intArrayOf(android.R.attr.selectableItemBackground)
             val ta = context.obtainStyledAttributes(attrs)
@@ -80,10 +83,10 @@ abstract class BaseHookUi {
         return rippleDrawable!!
     }
 
-    //    protected Drawable getGreyRippleDrawable(Context context) {
-    //        return DrawableUtils.getPressedColorRippleDrawable(ContextCompat.getColor(context, R.color.colorBlueGrey)
-    //                , ContextCompat.getColor(context, R.color.colorGrey));
-    //    }
+    protected fun getGreyRippleDrawable(context: Context): Drawable {
+        return DrawableUtils.getPressedColorRippleDrawable(Color.WHITE,
+                ContextCompat.getColor(context, R.color.colorPressGrey))
+    }
 
     /**
      * 打印调试 view tree

@@ -4,14 +4,16 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Environment;
 
 import com.blanke.mdwechat.Common;
 
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * Created by blanke on 2017/9/2.
@@ -33,29 +35,18 @@ public class DrawableUtils {
     }
 
     public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
-        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
+        return new RippleDrawable(ColorStateList.valueOf(pressedColor), null, getRippleMask(normalColor));
     }
 
-    public static ColorStateList getPressedColorSelector(int normalColor, int pressedColor) {
-        return new ColorStateList(
-                new int[][]
-                        {
-                                new int[]{android.R.attr.state_pressed},
-                                new int[]{android.R.attr.state_focused},
-                                new int[]{android.R.attr.state_activated},
-                                new int[]{}
-                        },
-                new int[]
-                        {
-                                pressedColor,
-                                pressedColor,
-                                pressedColor,
-                                normalColor
-                        }
-        );
-    }
+    private static Drawable getRippleMask(int color) {
+        float[] outerRadii = new float[8];
+        // 3 is radius of final ripple,
+        // instead of 3 you can give required final radius
+        Arrays.fill(outerRadii, 3);
 
-    public static ColorDrawable getColorDrawableFromColor(int color) {
-        return new ColorDrawable(color);
+        RoundRectShape r = new RoundRectShape(outerRadii, null, null);
+        ShapeDrawable shapeDrawable = new ShapeDrawable(r);
+        shapeDrawable.getPaint().setColor(color);
+        return shapeDrawable;
     }
 }

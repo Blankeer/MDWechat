@@ -35,7 +35,7 @@ class ListViewHook : BaseHookUi() {
         //                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
         //                        View view = (View) param.getResult();
         //                        Context context = view.getContext();
-        //                        view.setBackground(getRippleDrawable(context));
+        //                        view.setBackground(getDefaultRippleDrawable(context));
         //                    }
         //                });
     }

@@ -7,9 +7,7 @@ import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.config.WxClass
 import com.blanke.mdwechat.config.WxObjects
 import com.blanke.mdwechat.config.WxVersionConfig
-import com.blanke.mdwechat.ui.BaseHookUi
-import com.blanke.mdwechat.ui.LogHook
-import com.blanke.mdwechat.ui.MainHook
+import com.blanke.mdwechat.ui.*
 import com.blanke.mdwechat.util.LogUtil.log
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
@@ -78,9 +76,9 @@ object WeChatHelper {
             hookUis.add(LogHook())
         }
         hookUis.add(MainHook())
-//        hookUis.add(ListViewHook())
+        hookUis.add(ListViewHook())
+        hookUis.add(ConversationHook())
 //        hookUis.add(ActionBarHook())
-//        hookUis.add(ConversationHook())
 //        hookUis.add(AvatarHook())
 //        hookUis.add(ContactHook())
 //        hookUis.add(UnreadViewHook())

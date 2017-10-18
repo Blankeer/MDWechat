@@ -72,7 +72,7 @@ class ActionBarHook : BaseHookUi() {
                             //                                stateListDrawable.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_long_pressable}, new ColorDrawable(Color.RED));
                             //                                backIv.setImageDrawable(stateListDrawable);
                             //                            }
-                            backIv.background = getRippleDrawable(view.context)
+                            backIv.background = getDefaultRippleDrawable(view.context)
                         }
                         val divider = findViewByIdName(view, wxConfig.views.ActionBar_Divider)
                         if (divider != null) {
@@ -93,7 +93,7 @@ class ActionBarHook : BaseHookUi() {
                 }
                 val backIv = findViewByIdName(view, wxConfig.views.SearchActionBar_BackImageView) as ImageView
                 if (backIv != null) {
-                    backIv.background = getRippleDrawable(view.context)
+                    backIv.background = getDefaultRippleDrawable(view.context)
                 }
             }
         })

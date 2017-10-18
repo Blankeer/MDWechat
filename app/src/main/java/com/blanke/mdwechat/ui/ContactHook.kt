@@ -1,7 +1,6 @@
 package com.blanke.mdwechat.ui
 
 import android.graphics.drawable.BitmapDrawable
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import com.blanke.mdwechat.Common
@@ -39,7 +38,7 @@ class ContactHook : BaseHookUi() {
                                         val item = headLayout.getChildAt(i) as ViewGroup
                                         val itemContent = item.getChildAt(0) as ViewGroup
                                         if (itemContent != null) {
-                                            itemContent.background = getRippleDrawable(headLayout.context)
+                                            itemContent.background = getDefaultRippleDrawable(headLayout.context)
                                             itemContent.getChildAt(0).background = transparentDrawable
                                         }
                                     }
@@ -70,7 +69,7 @@ class ContactHook : BaseHookUi() {
                                     }
                                 }
                                 if (HookConfig.isHookripple) {
-                                    view.background = getRippleDrawable(view.context)
+                                    view.background = getDefaultRippleDrawable(view.context)
                                 }
                             }
                         }
