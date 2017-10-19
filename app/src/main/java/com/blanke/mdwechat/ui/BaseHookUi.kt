@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.config.WxObjects
 import com.blanke.mdwechat.util.DrawableUtils
 import com.blanke.mdwechat.util.LogUtil
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -83,8 +84,15 @@ abstract class BaseHookUi {
         return rippleDrawable!!
     }
 
-    protected fun getGreyRippleDrawable(context: Context): Drawable {
-        return DrawableUtils.getPressedColorRippleDrawable(Color.WHITE,
+    protected fun getTransparentRippleDrawable(): Drawable? {
+        val context = WxObjects.MdContext?.get() ?: return null
+        return DrawableUtils.getTransparentColorRippleDrawable(Color.WHITE,
+                ContextCompat.getColor(context, R.color.colorPressGrey))
+    }
+
+    protected fun getRippleDrawable(normalColor: Int): Drawable? {
+        val context = WxObjects.MdContext?.get() ?: return null
+        return DrawableUtils.getColorRippleDrawable(normalColor,
                 ContextCompat.getColor(context, R.color.colorPressGrey))
     }
 

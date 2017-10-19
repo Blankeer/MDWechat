@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -34,8 +35,12 @@ public class DrawableUtils {
         return NinePatchBitmapFactory.createNinePatchDrawable(resources, bitmap);
     }
 
-    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
+    public static RippleDrawable getTransparentColorRippleDrawable(int normalColor, int pressedColor) {
         return new RippleDrawable(ColorStateList.valueOf(pressedColor), null, getRippleMask(normalColor));
+    }
+
+    public static RippleDrawable getColorRippleDrawable(int normalColor, int pressedColor) {
+        return new RippleDrawable(ColorStateList.valueOf(pressedColor), new ColorDrawable(normalColor), getRippleMask(normalColor));
     }
 
     private static Drawable getRippleMask(int color) {

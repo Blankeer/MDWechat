@@ -24,8 +24,7 @@ class ListViewHook : BaseHookUi() {
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                 val listView = param!!.thisObject as ListView
                 //                log("ListView=" + listView.getClass().getName());
-                val transDrawable = ColorDrawable(Color.TRANSPARENT)
-                listView.selector = transDrawable
+                listView.selector = transparentDrawable
                 //                listView.setBackground(transDrawable);
             }
         })
