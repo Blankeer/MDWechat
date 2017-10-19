@@ -11,7 +11,6 @@ object WxClass {
     var HomeUiTabHelper: Class<*>? = null
     var MenuAdapterManager: Class<*>? = null
     var MMFragmentActivity: Class<*>? = null
-    var AvatarUtils: Class<*>? = null
     var AvatarUtils2: Class<*>? = null
     var TouchImageView: Class<*>? = null
     var ChattingUIActivity: Class<*>? = null
@@ -43,7 +42,6 @@ object WxClass {
         HomeUiTabHelper = XposedHelpers.findClassIfExists(config.classes.HomeUiTabHelper, classLoader)
         MenuAdapterManager = XposedHelpers.findClassIfExists(config.classes.MenuAdapterManager, classLoader)
         MMFragmentActivity = XposedHelpers.findClassIfExists(config.classes.MMFragmentActivity, classLoader)
-        AvatarUtils = XposedHelpers.findClassIfExists(config.classes.AvatarUtils, classLoader)
         AvatarUtils2 = XposedHelpers.findClassIfExists(config.classes.AvatarUtils2, classLoader)
         TouchImageView = XposedHelpers.findClassIfExists(config.classes.TouchImageView, classLoader)
         ChattingUIActivity = XposedHelpers.findClassIfExists(config.classes.ChattingUIActivity, classLoader)

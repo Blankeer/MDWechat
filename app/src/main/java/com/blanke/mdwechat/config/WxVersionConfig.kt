@@ -19,7 +19,6 @@ class WxVersionConfig {
         lateinit var HomeUiTabHelper: String
         lateinit var MenuAdapterManager: String
         lateinit var MMFragmentActivity: String
-        lateinit var AvatarUtils: String
         lateinit var AvatarUtils2: String
         lateinit var TouchImageView: String
         lateinit var ChattingUIActivity: String
@@ -53,7 +52,7 @@ class WxVersionConfig {
         lateinit var FavoriteIndexUI: String
         lateinit var SelectContactUI: String
         override fun toString(): String {
-            return "Classes(LauncherUI='$LauncherUI', HomeUI='$HomeUI', MenuAdapterManager='$MenuAdapterManager', MMFragmentActivity='$MMFragmentActivity', AvatarUtils='$AvatarUtils', AvatarUtils2='$AvatarUtils2', TouchImageView='$TouchImageView', ChattingUIActivity='$ChattingUIActivity', ChattingUIFragment='$ChattingUIFragment', MenuItemViewHolderWrapper='$MenuItemViewHolderWrapper', MenuItemViewHolder='$MenuItemViewHolder', FTSMainUI='$FTSMainUI', HomeUiViewPagerChangeListener='$HomeUiViewPagerChangeListener', WxViewPager='$WxViewPager', LauncherUIBottomTabView='$LauncherUIBottomTabView', ActionBarContainer='$ActionBarContainer', ToolbarWidgetWrapper='$ToolbarWidgetWrapper', ActionBarSearchView='$ActionBarSearchView', ActionBarEditText='$ActionBarEditText', ConversationFragment='$ConversationFragment', ConversationAdapter='$ConversationAdapter', ContactFragment='$ContactFragment', ContactAdapter='$ContactAdapter', DiscoverFragment='$DiscoverFragment', MMPreferenceAdapter='$MMPreferenceAdapter', SettingsFragment='$SettingsFragment', ChatViewHolder='$ChatViewHolder')"
+            return "Classes(LauncherUI='$LauncherUI', HomeUI='$HomeUI', MenuAdapterManager='$MenuAdapterManager', MMFragmentActivity='$MMFragmentActivity',  AvatarUtils2='$AvatarUtils2', TouchImageView='$TouchImageView', ChattingUIActivity='$ChattingUIActivity', ChattingUIFragment='$ChattingUIFragment', MenuItemViewHolderWrapper='$MenuItemViewHolderWrapper', MenuItemViewHolder='$MenuItemViewHolder', FTSMainUI='$FTSMainUI', HomeUiViewPagerChangeListener='$HomeUiViewPagerChangeListener', WxViewPager='$WxViewPager', LauncherUIBottomTabView='$LauncherUIBottomTabView', ActionBarContainer='$ActionBarContainer', ToolbarWidgetWrapper='$ToolbarWidgetWrapper', ActionBarSearchView='$ActionBarSearchView', ActionBarEditText='$ActionBarEditText', ConversationFragment='$ConversationFragment', ConversationAdapter='$ConversationAdapter', ContactFragment='$ContactFragment', ContactAdapter='$ContactAdapter', DiscoverFragment='$DiscoverFragment', MMPreferenceAdapter='$MMPreferenceAdapter', SettingsFragment='$SettingsFragment', ChatViewHolder='$ChatViewHolder')"
         }
 
     }
@@ -82,8 +81,9 @@ class WxVersionConfig {
 
     class Methods {
         lateinit var LauncherUI_startMainUI: String
-        lateinit var AvatarUtils_getAvatarBitmap: String
+        lateinit var AvatarUtils2_getAvatarHDBitmap: String
         lateinit var AvatarUtils2_getAvatarBitmap: String
+        lateinit var AvatarUtils2_getDefaultAvatarBitmap: String
         lateinit var TouchImageView_init: String
         lateinit var HomeUiViewPagerChangeListener_onPageScrolled: String
         lateinit var HomeUiViewPagerChangeListener_onPageSelected: String
@@ -102,7 +102,7 @@ class WxVersionConfig {
         lateinit var ConversationAdapter_getUserInfo: String
         lateinit var ConversationAdapter_getTopInfo: String
         override fun toString(): String {
-            return "Methods(LauncherUI_startMainUI='$LauncherUI_startMainUI', AvatarUtils_getAvatarBitmap='$AvatarUtils_getAvatarBitmap', AvatarUtils2_getAvatarBitmap='$AvatarUtils2_getAvatarBitmap', TouchImageView_init='$TouchImageView_init', HomeUiViewPagerChangeListener_onPageScrolled='$HomeUiViewPagerChangeListener_onPageScrolled', HomeUiViewPagerChangeListener_onPageSelected='$HomeUiViewPagerChangeListener_onPageSelected', WxViewPager_setCurrentItem='$WxViewPager_setCurrentItem', LauncherUIBottomTabView_setMainTabUnread='$LauncherUIBottomTabView_setMainTabUnread', LauncherUIBottomTabView_setContactTabUnread='$LauncherUIBottomTabView_setContactTabUnread', LauncherUIBottomTabView_setFriendTabUnread='$LauncherUIBottomTabView_setFriendTabUnread', LauncherUIBottomTabView_showFriendTabUnreadPoint='$LauncherUIBottomTabView_showFriendTabUnreadPoint', ActionBarSearchView_init='$ActionBarSearchView_init', MainTabClickListener_onDoubleClick='$MainTabClickListener_onDoubleClick', MainFragment_onTabCreate='$MainFragment_onTabCreate', MMPreferenceAdapter_setVisible='$MMPreferenceAdapter_setVisible', ChatViewHolder_loadView='$ChatViewHolder_loadView')"
+            return "Methods(LauncherUI_startMainUI='$LauncherUI_startMainUI', AvatarUtils2_getAvatarBitmap='$AvatarUtils2_getAvatarBitmap', TouchImageView_init='$TouchImageView_init', HomeUiViewPagerChangeListener_onPageScrolled='$HomeUiViewPagerChangeListener_onPageScrolled', HomeUiViewPagerChangeListener_onPageSelected='$HomeUiViewPagerChangeListener_onPageSelected', WxViewPager_setCurrentItem='$WxViewPager_setCurrentItem', LauncherUIBottomTabView_setMainTabUnread='$LauncherUIBottomTabView_setMainTabUnread', LauncherUIBottomTabView_setContactTabUnread='$LauncherUIBottomTabView_setContactTabUnread', LauncherUIBottomTabView_setFriendTabUnread='$LauncherUIBottomTabView_setFriendTabUnread', LauncherUIBottomTabView_showFriendTabUnreadPoint='$LauncherUIBottomTabView_showFriendTabUnreadPoint', ActionBarSearchView_init='$ActionBarSearchView_init', MainTabClickListener_onDoubleClick='$MainTabClickListener_onDoubleClick', MainFragment_onTabCreate='$MainFragment_onTabCreate', MMPreferenceAdapter_setVisible='$MMPreferenceAdapter_setVisible', ChatViewHolder_loadView='$ChatViewHolder_loadView')"
         }
 
     }

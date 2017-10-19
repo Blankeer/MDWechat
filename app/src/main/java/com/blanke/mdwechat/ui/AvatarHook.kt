@@ -16,20 +16,15 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  */
 
 class AvatarHook : BaseHookUi() {
-    init {
-        init()
-    }
-
-    private fun init() {}
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (!HookConfig.isHookavatar) {
             return
         }
         // hook avatar bitmap
-        xMethod(wxConfig.classes.AvatarUtils,
-                wxConfig.methods.AvatarUtils_getAvatarBitmap,
-                C.String, C.Boolean, C.Int,
+        xMethod(wxConfig.classes.AvatarUtils2,
+                wxConfig.methods.AvatarUtils2_getAvatarHDBitmap,
+                C.String,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
@@ -44,6 +39,19 @@ class AvatarHook : BaseHookUi() {
         xMethod(wxConfig.classes.AvatarUtils2,
                 wxConfig.methods.AvatarUtils2_getAvatarBitmap,
                 C.String,
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        val res = param!!.result
+                        if (res != null) {
+                            val bitmap = res as Bitmap
+                            val hookBitmap = ImageHelper.getRoundedCornerBitmap(bitmap, bitmap.height / 2)
+                            param.result = hookBitmap
+                        }
+                    }
+                })
+        xMethod(wxConfig.classes.AvatarUtils2,
+                wxConfig.methods.AvatarUtils2_getDefaultAvatarBitmap,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
