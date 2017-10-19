@@ -4,8 +4,11 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
 import com.blanke.mdwechat.config.C
@@ -50,7 +53,7 @@ class ActionBarHook : BaseHookUi() {
                 "setStatusBarColor", C.Int, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                param!!.args[0] = ColorUtils.getDarkerColor(colorPrimary, 0.85f)
+                param!!.args[0] = getStatueBarColor()
             }
         })
         //hook ToolbarWidgetWrapper
@@ -59,24 +62,21 @@ class ActionBarHook : BaseHookUi() {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                        val view = param!!.args[0] as View
-                        //                        logViewTree(view);
-                        val backIv = findViewByIdName(view, wxConfig.views.ActionBar_BackImageView) as ImageView
-                        if (backIv != null) {
-                            //TODO 删除selector 按下
-                            //                            Drawable drawable = backIv.getDrawable();
-                            //                            log("back drawable =" + drawable + "," + drawable.getClass().getName());
-                            //                            if (drawable instanceof StateListDrawable) {
-                            //                                log("back image is StateListDrawable");
-                            //                                StateListDrawable stateListDrawable = (StateListDrawable) drawable;
-                            //                                stateListDrawable.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_long_pressable}, new ColorDrawable(Color.RED));
-                            //                                backIv.setImageDrawable(stateListDrawable);
-                            //                            }
-                            backIv.background = getDefaultRippleDrawable(view.context)
-                        }
-                        val divider = findViewByIdName(view, wxConfig.views.ActionBar_Divider)
-                        if (divider != null) {
-                            divider.visibility = View.GONE
+                        val view = param!!.args[0] as ViewGroup
+//                        logViewTree(view)
+                        for (i in 0..view.childCount) {
+                            val leftImageLayout = view.getChildAt(i)
+                            if (leftImageLayout != null && leftImageLayout is LinearLayout) {
+                                if (leftImageLayout.childCount == 2
+                                        && leftImageLayout.getChildAt(0) is ImageView
+                                        && leftImageLayout.getChildAt(1) is ImageView) {
+                                    val backImageView = leftImageLayout.getChildAt(0) as ImageView
+                                    val dividerImageView = leftImageLayout.getChildAt(1) as ImageView
+//                                log("backImageView=$backImageView,dividerImageView=$dividerImageView")
+                                    dividerImageView.visibility = View.GONE
+                                    break
+                                }
+                            }
                         }
                     }
                 })
@@ -85,15 +85,19 @@ class ActionBarHook : BaseHookUi() {
                 wxConfig.methods.ActionBarSearchView_init, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                val view = param!!.thisObject as View
-                val divider2 = findViewByIdName(view, wxConfig.views.SearchActionBar_Divider)
-                if (divider2 != null) {
-                    //                            log("search actionbar divider2=" + getViewMsg(divider2));
-                    divider2.visibility = View.GONE
-                }
-                val backIv = findViewByIdName(view, wxConfig.views.SearchActionBar_BackImageView) as ImageView
-                if (backIv != null) {
-                    backIv.background = getDefaultRippleDrawable(view.context)
+                val view = param!!.thisObject as ViewGroup
+//                logViewTree(view)
+                val contentLayout = view.getChildAt(0) as RelativeLayout
+                val leftImageLayout = contentLayout.getChildAt(0)
+                if (leftImageLayout != null && leftImageLayout is LinearLayout) {
+                    if (leftImageLayout.childCount == 2
+                            && leftImageLayout.getChildAt(0) is ImageView
+                            && leftImageLayout.getChildAt(1) is ImageView) {
+                        val backImageView = leftImageLayout.getChildAt(0) as ImageView
+                        val dividerImageView = leftImageLayout.getChildAt(1) as ImageView
+//                        log("backImageView=$backImageView,dividerImageView=$dividerImageView")
+                        dividerImageView.visibility = View.GONE
+                    }
                 }
             }
         })
@@ -108,6 +112,10 @@ class ActionBarHook : BaseHookUi() {
                         editText.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                     }
                 })
+    }
+
+    private fun getStatueBarColor(): Int {
+        return ColorUtils.getDarkerColor(colorPrimary, 0.85f)
     }
 
     private fun isSetActionBarActivity(activity: String): Boolean {

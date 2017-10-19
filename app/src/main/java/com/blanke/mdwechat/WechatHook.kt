@@ -20,7 +20,7 @@ class WechatHook : XC_MethodHook(), IXposedHookZygoteInit, IXposedHookLoadPackag
 
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (lpparam.packageName != Common.WECHAT_PACKAGENAME || lpparam.processName != Common.WECHAT_PACKAGENAME) {
+        if (lpparam.packageName != Common.WECHAT_PACKAGENAME) {
             return
         }
         val context = XposedHelpers.callMethod(

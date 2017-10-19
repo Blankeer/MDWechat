@@ -24,6 +24,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 abstract class BaseHookUi {
     private val TAG = javaClass.simpleName
     private var rippleDrawable: Drawable? = null
+    private var imageRippleDrawable: Drawable? = null
 
     abstract fun hook(lpparam: XC_LoadPackage.LoadPackageParam)
 
@@ -82,6 +83,18 @@ abstract class BaseHookUi {
             return rippleDrawable!!.constantState!!.newDrawable().mutate()
         }
         return rippleDrawable!!
+    }
+
+    protected fun getDefaultImageRippleDrawable(context: Context): Drawable {
+        if (imageRippleDrawable == null) {
+            val attrs = intArrayOf(android.R.attr.selectableItemBackground)
+            val ta = context.obtainStyledAttributes(attrs)
+            imageRippleDrawable = ta.getDrawable(0)
+            ta.recycle()
+        } else {
+            return imageRippleDrawable!!.constantState!!.newDrawable().mutate()
+        }
+        return imageRippleDrawable!!
     }
 
     protected fun getTransparentRippleDrawable(): Drawable? {
