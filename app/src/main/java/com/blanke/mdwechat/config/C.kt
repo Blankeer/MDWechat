@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.ListView
 import android.content.Intent
+import android.graphics.drawable.Drawable
 
 /**
  * Created by blanke on 2017/10/11.
@@ -27,4 +28,5 @@ object C {
     val ViewGroup = ViewGroup::class.java
     val MotionEvent = MotionEvent::class.java
     val Intent = Intent::class.java
+    val Drawable = Drawable::class.java
 }
