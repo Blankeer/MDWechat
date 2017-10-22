@@ -41,6 +41,7 @@ class WxVersionConfig {
         lateinit var MMPreferenceAdapter: String
         lateinit var SettingsFragment: String
         lateinit var ChatViewHolder: String
+        lateinit var ChatAudioViewHolder: String
         lateinit var XLogSetup: String
         lateinit var PluginHelper: String
         lateinit var SnsTimeLineUI: String
@@ -72,6 +73,7 @@ class WxVersionConfig {
         lateinit var ContactFragment_mListView: String
         lateinit var PreferenceFragment_mListView: String
         lateinit var ChatViewHolder_mChatTextView: String
+        lateinit var ChatAudioViewHolder_mChatTextView: String
         lateinit var TopInfo_isTop: String
         override fun toString(): String {
             return "Fields(LauncherUI_mHomeUi='$LauncherUI_mHomeUi', HomeUI_mMenuAdapterManager='$HomeUI_mMenuAdapterManager', HomeUI_mMoreMenuItem='$HomeUI_mMoreMenuItem', MenuAdapterManager_mMenuArray='$MenuAdapterManager_mMenuArray', MenuAdapterManager_mMenuMapping='$MenuAdapterManager_mMenuMapping', ActionBarContainer_mBackground='$ActionBarContainer_mBackground', LauncherUIBottomTabView_mTabClickListener='$LauncherUIBottomTabView_mTabClickListener', ConversationFragment_mListView='$ConversationFragment_mListView', ContactFragment_mListView='$ContactFragment_mListView', PreferenceFragment_mListView='$PreferenceFragment_mListView', ChatViewHolder_mChatTextView='$ChatViewHolder_mChatTextView')"
@@ -97,6 +99,7 @@ class WxVersionConfig {
         lateinit var MainFragment_onTabCreate: String
         lateinit var MMPreferenceAdapter_setVisible: String
         lateinit var ChatViewHolder_loadView: String
+        lateinit var ChatAudioViewHolder_loadView: String
         lateinit var XLogSetup_keep_setupXLog: String
         lateinit var PluginHelper_start: String
         lateinit var ConversationAdapter_getUserInfo: String

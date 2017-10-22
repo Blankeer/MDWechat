@@ -83,8 +83,8 @@ object WeChatHelper {
         hookUis.add(ContactHook())
         hookUis.add(DiscoverHook())
         hookUis.add(SettingsHook())
+        hookUis.add(ChatHook())
 //        hookUis.add(UnreadViewHook())
-//        hookUis.add(ChatHook())
     }
 
     private fun executeHookUi() {

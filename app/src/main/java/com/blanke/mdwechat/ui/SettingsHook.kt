@@ -5,6 +5,7 @@ import android.view.View
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
 import com.blanke.mdwechat.config.AppCustomConfig
+import com.blanke.mdwechat.config.WxClass
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -16,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class SettingsHook : BaseHookUi() {
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        xMethod(wxConfig.classes.SettingsFragment,
+        xMethod(WxClass.SettingsFragment!!,
                 wxConfig.methods.MainFragment_onTabCreate, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {

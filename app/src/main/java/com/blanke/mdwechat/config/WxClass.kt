@@ -33,6 +33,7 @@ object WxClass {
     var MMPreferenceAdapter: Class<*>? = null
     var SettingsFragment: Class<*>? = null
     var ChatViewHolder: Class<*>? = null
+    var ChatAudioViewHolder: Class<*>? = null
     var XLogSetup: Class<*>? = null
     var PluginHelper: Class<*>? = null
 
@@ -64,6 +65,7 @@ object WxClass {
         MMPreferenceAdapter = XposedHelpers.findClassIfExists(config.classes.MMPreferenceAdapter, classLoader)
         SettingsFragment = XposedHelpers.findClassIfExists(config.classes.SettingsFragment, classLoader)
         ChatViewHolder = XposedHelpers.findClassIfExists(config.classes.ChatViewHolder, classLoader)
+        ChatAudioViewHolder = XposedHelpers.findClassIfExists(config.classes.ChatAudioViewHolder, classLoader)
         XLogSetup = XposedHelpers.findClassIfExists(config.classes.XLogSetup, classLoader)
         PluginHelper = XposedHelpers.findClassIfExists(config.classes.PluginHelper, classLoader)
     }
