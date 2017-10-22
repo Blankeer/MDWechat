@@ -81,8 +81,8 @@ object WeChatHelper {
         hookUis.add(ActionBarHook())
         hookUis.add(AvatarHook())
         hookUis.add(ContactHook())
+        hookUis.add(DiscoverHook())
 //        hookUis.add(UnreadViewHook())
-//        hookUis.add(DiscoverHook())
 //        hookUis.add(SettingsHook())
 //        hookUis.add(ChatHook())
     }
