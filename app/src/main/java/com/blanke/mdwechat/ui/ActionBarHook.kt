@@ -33,14 +33,14 @@ class ActionBarHook : BaseHookUi() {
     }
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (!HookConfig.is_hook_actionbar) {
-            return
-        }
         xMethod(wxConfig.classes.ActionBarContainer,
                 "onFinishInflate",
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        if (!HookConfig.is_hook_actionbar) {
+                            return
+                        }
                         setObjectField(param!!.thisObject,
                                 wxConfig.fields.ActionBarContainer_mBackground,
                                 colorPrimaryDrawable)
@@ -115,7 +115,7 @@ class ActionBarHook : BaseHookUi() {
     }
 
     private fun getStatueBarColor(): Int {
-        return ColorUtils.getDarkerColor(colorPrimary, 0.85f)
+        return if (HookConfig.is_hook_statusbar_transparent) colorPrimary else ColorUtils.getDarkerColor(colorPrimary, 0.85f)
     }
 
     private fun isSetActionBarActivity(activity: String): Boolean {
