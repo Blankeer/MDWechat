@@ -1,8 +1,11 @@
 package com.blanke.mdwechat.settings
 
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.ActivityCompat
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
@@ -22,6 +25,16 @@ class SettingsActivity : Activity() {
                 SettingsFragment()).commit()
         verifyStoragePermissions(this)
         copyConfig()
+        findViewById(R.id.fab).setOnClickListener {
+            goToWechatSettingPage()
+        }
+    }
+
+    private fun goToWechatSettingPage() {
+        val intent = Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
+        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        intent.data = Uri.fromParts("package", Common.WECHAT_PACKAGENAME, null)
+        startActivity(intent)
     }
 
     private fun copyConfig() {
