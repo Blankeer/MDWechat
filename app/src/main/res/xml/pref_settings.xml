@@ -10,6 +10,7 @@
 
     <SwitchPreference
         android:defaultValue="false"
+        android:dependency="@string/key_hook_switch"
         android:key="@string/key_is_play"
         android:summary="@string/text_info_is_play"
         android:title="@string/text_is_play" />
@@ -17,14 +18,8 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="@string/key_hide_launcher_icon"
+        android:summary="@string/text_hide_launcher_icon_info"
         android:title="@string/text_hide_launcher_icon" />
-
-    <com.jaredrummler.android.colorpicker.ColorPreference
-        android:defaultValue="@color/colorPrimary"
-        android:key="@string/key_color_primary"
-        android:title="@string/text_color_primary"
-        app:cpv_colorPresets="@array/colors"
-        app:cpv_showAlphaSlider="true" />
 
     <Preference
         android:key="@string/key_donate"
@@ -41,11 +36,14 @@
 
     <PreferenceCategory
         android:dependency="@string/key_hook_switch"
-        android:title="@string/text_category_settings">
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_actionbar"
-            android:title="@string/text_hook_actionbar" />
+        android:title="@string/text_common_settings">
+
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/colorPrimary"
+            android:key="@string/key_color_primary"
+            android:title="@string/text_color_primary"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/key_hook_avatar"
@@ -54,10 +52,38 @@
             android:defaultValue="true"
             android:key="@string/key_hook_ripple"
             android:title="@string/text_hook_ripple" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/colorGrey"
+            android:dependency="@string/key_hook_ripple"
+            android:key="@string/key_color_ripple"
+            android:title="@string/text_color_ripple"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_actionbar"
+            android:title="@string/text_hook_actionbar" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:dependency="@string/key_hook_switch"
+        android:title="@string/text_main_settings">
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/key_hook_float_button"
+            android:summary="@string/text_hook_float_button_info"
             android:title="@string/text_hook_float_button" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/key_hook_float_button"
+            android:key="@string/key_hook_float_button_move"
+            android:summary="@string/text_hook_float_button_move_info"
+            android:title="@string/text_hook_float_button_move" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_hook_hide_actionbar"
+            android:title="@string/text_hook_hide_actionbar" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/key_hook_search"
@@ -66,14 +92,67 @@
             android:defaultValue="true"
             android:key="@string/key_hook_tab"
             android:title="@string/text_hook_tab" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="@string/key_hook_switch"
+        android:title="@string/text_conversation_settings">
+
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/colorPressGrey"
+            android:key="@string/key_color_conversation_top"
+            android:title="@string/text_color_conversation_top"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:dependency="@string/key_hook_switch"
+        android:title="@string/text_chat_settings">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="@string/key_hook_menu_game"
-            android:title="@string/text_hook_menu_game" />
+            android:key="@string/key_hook_bubble"
+            android:summary="@string/text_hook_bubble_info"
+            android:title="@string/text_hook_bubble" />
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_menu_shop"
-            android:title="@string/text_hook_menu_shop" />
+            android:defaultValue="false"
+            android:dependency="@string/key_hook_bubble"
+            android:key="@string/key_hook_bubble_tint"
+            android:summary="@string/text_hook_bubble_tint_info"
+            android:title="@string/text_hook_bubble_tint" />
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/material_white"
+            android:dependency="@string/key_hook_bubble_tint"
+            android:key="@string/key_hook_bubble_tint_left"
+            android:title="@string/text_hook_bubble_tint_left"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/material_white"
+            android:dependency="@string/key_hook_bubble_tint"
+            android:key="@string/key_hook_bubble_tint_right"
+            android:title="@string/text_hook_bubble_tint_right"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/material_black"
+            android:key="@string/key_hook_chat_text_color_left"
+            android:title="@string/text_hook_chat_text_color_left"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/material_black"
+            android:key="@string/key_hook_chat_text_color_right"
+            android:title="@string/text_hook_chat_text_color_right"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:dependency="@string/key_hook_switch"
+        android:title="@string/text_discover_settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_hook_menu_sns"
+            android:title="@string/text_hook_menu_sns" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/key_hook_menu_qrcode"
@@ -87,8 +166,16 @@
             android:key="@string/key_hook_menu_near"
             android:title="@string/text_hook_menu_near" />
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_menu_game"
+            android:title="@string/text_hook_menu_game" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_menu_shop"
+            android:title="@string/text_hook_menu_shop" />
+        <SwitchPreference
             android:defaultValue="false"
-            android:key="@string/key_hook_bubble_tint"
-            android:title="@string/text_hook_bubble_tint" />
+            android:key="@string/key_hook_menu_appbrand"
+            android:title="@string/text_hook_menu_appbrand" />
     </PreferenceCategory>
 </PreferenceScreen>

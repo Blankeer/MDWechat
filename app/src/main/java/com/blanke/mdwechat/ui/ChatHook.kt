@@ -11,6 +11,7 @@ import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.config.WxClass
 import com.blanke.mdwechat.util.DrawableUtils
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -34,6 +35,10 @@ class ChatHook : BaseHookUi() {
                 val textMsgView = getObjectField(viewHolder, wxConfig.fields.ChatViewHolder_mChatTextView)
                 if (textMsgView == null || textMsgView !is View) {
                     return
+                }
+                val msgTextView = XposedHelpers.getObjectField(textMsgView, wxConfig.fields.CellTextView_mMsgView)
+                if (msgTextView != null) {
+                    XposedHelpers.callMethod(msgTextView, "setTextColor", if (isOther) Color.RED else Color.BLUE)
                 }
                 if (isOther && bubbleLeft != null) {
                     textMsgView.background = DrawableUtils.getNineDrawable(textMsgView.resources, bubbleLeft)
