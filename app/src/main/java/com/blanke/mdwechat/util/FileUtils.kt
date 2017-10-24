@@ -7,7 +7,7 @@ import java.io.*
  * Created by blanke on 2017/10/11.
  */
 object FileUtils {
-    fun copyAssets(context: Context, appDir: String, dir: String) {
+    fun copyAssets(context: Context, appDir: String, dir: String, cover: Boolean = false) {
         val assetManager = context.getAssets()
         var files: Array<String>? = null
         try {
@@ -25,7 +25,11 @@ object FileUtils {
                     `in` = assetManager.open(dir + File.separator + filename)
                     val outFile = File(appDir + File.separator + dir + File.separator + filename)
                     if (outFile.exists()) {
-                        continue
+                        if (!cover) {
+                            continue
+                        } else {
+                            outFile.delete()
+                        }
                     }
                     out = FileOutputStream(outFile)
                     copyFile(`in`, out)

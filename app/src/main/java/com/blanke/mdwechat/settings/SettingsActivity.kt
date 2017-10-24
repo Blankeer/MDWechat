@@ -25,9 +25,13 @@ class SettingsActivity : Activity() {
     }
 
     private fun copyConfig() {
-        FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_DIR)
-        FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.ICON_DIR)
-
+        Thread {
+            kotlin.run {
+                FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_WECHAT_DIR)
+                FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_VIEW_DIR)
+                FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.ICON_DIR)
+            }
+        }.start()
     }
 
     private val REQUEST_EXTERNAL_STORAGE = 1

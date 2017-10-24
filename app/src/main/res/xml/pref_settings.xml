@@ -20,7 +20,18 @@
         android:key="@string/key_hide_launcher_icon"
         android:summary="@string/text_hide_launcher_icon_info"
         android:title="@string/text_hide_launcher_icon" />
-
+    <Preference
+        android:key="@string/key_reset_wechat_config"
+        android:summary="@string/text_reset_wechat_config_info"
+        android:title="@string/text_reset_wechat_config" />
+    <Preference
+        android:key="@string/key_reset_view_config"
+        android:summary="@string/text_reset_view_config_info"
+        android:title="@string/text_reset_view_config" />
+    <Preference
+        android:key="@string/key_reset_icon_config"
+        android:summary="@string/text_reset_icon_config_info"
+        android:title="@string/text_reset_icon_config" />
     <Preference
         android:key="@string/key_donate"
         android:summary="@string/text_donate_info"

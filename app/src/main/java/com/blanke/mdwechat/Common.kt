@@ -13,6 +13,8 @@ object Common {
     val MOD_PREFS = "md_wechat_settings"
     val APP_DIR = "mdwechat"
     val CONFIG_DIR = "config"
+    val CONFIG_WECHAT_DIR = "config" + File.separator + "wechat"
+    val CONFIG_VIEW_DIR = "config" + File.separator + "view"
     val ICON_DIR = "icon"
     val CONVERSATION_BACKGROUND_FILENAME = "conversation.png"
     val CONTACT_BACKGROUND_FILENAME = "contact.png"
@@ -22,7 +24,7 @@ object Common {
     val CHAT_BUBBLE_RIGHT_FILENAME = "bubble_right.9.png"
     val FILE_NAME_TAB_PREFIX = "tab_icon"
     val FILE_NAME_TAB_BG_PREFIX = "tab_bg"
-    val FILE_NAME_FLOAT_BUTTON = "FloatButton.config"
+    val FILE_NAME_FLOAT_BUTTON = "floatbutton.txt"
 
     val APP_DIR_PATH: String
         get() {
