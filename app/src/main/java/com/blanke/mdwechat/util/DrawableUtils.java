@@ -33,6 +33,13 @@ public class DrawableUtils {
 
     public static Drawable getNineDrawable(Resources resources, Bitmap bitmap) {
         return NinePatchBitmapFactory.createNinePatchDrawable(resources, bitmap);
+//        byte[] chunk = bitmap.getNinePatchChunk();
+//        boolean result = NinePatch.isNinePatchChunk(chunk);
+//        XposedBridge.log("chunk=" + Arrays.toString(chunk) + "result=" + result);
+//        if (chunk == null || !result) {
+//            return null;
+//        }
+//        return new NinePatchDrawable(resources, bitmap, chunk, new Rect(), null);
     }
 
     public static RippleDrawable getTransparentColorRippleDrawable(int normalColor, int pressedColor) {
