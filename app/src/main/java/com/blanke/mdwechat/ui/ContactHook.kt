@@ -49,13 +49,14 @@ class ContactHook : BaseHookUi() {
                                             continue
                                         }
                                         val itemContent = item.getChildAt(0)
-                                        headViews.put(i, itemContent)
+//                                        headViews.put(i, itemContent)
                                         itemContent.background = getTransparentRippleDrawable()
-//                                        if (itemContent != null) {
-//                                            itemContent.background = getDefaultRippleDrawable(headLayout.context)
-////                                            val childView = (itemContent as ViewGroup).getChildAt(0)
-////                                            childView.background = transparentDrawable
-//                                        }
+                                        if (itemContent != null) {
+                                            val childView = (itemContent as ViewGroup).getChildAt(0)
+                                            if (childView != null) {
+                                                childView.background = transparentDrawable
+                                            }
+                                        }
                                     }
                                 }
                             }
