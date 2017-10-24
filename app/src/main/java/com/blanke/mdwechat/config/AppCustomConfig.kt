@@ -16,7 +16,7 @@ import java.io.InputStreamReader
 object AppCustomConfig {
     fun getWxVersionConfig(version: String): WxVersionConfig {
         var configName = version + ".config"
-        if (HookConfig.isPlay) {
+        if (HookConfig.is_play) {
             configName = version + "-play.config"
         }
         val `is` = FileInputStream(getWxConfigFile(configName))
@@ -24,7 +24,11 @@ object AppCustomConfig {
     }
 
     fun getWxConfigFile(fileName: String): String {
-        return Common.APP_DIR_PATH + Common.CONFIG_DIR + File.separator + fileName
+        return Common.APP_DIR_PATH + Common.CONFIG_WECHAT_DIR + File.separator + fileName
+    }
+
+    fun getViewConfigFile(fileName: String): String {
+        return Common.APP_DIR_PATH + Common.CONFIG_VIEW_DIR + File.separator + fileName
     }
 
     fun getTabIcon(index: Int): Bitmap? {
@@ -44,7 +48,7 @@ object AppCustomConfig {
     }
 
     fun getFloatButtonConfig(): FloatButtonConfig? {
-        val path = getWxConfigFile(Common.FILE_NAME_FLOAT_BUTTON)
+        val path = getViewConfigFile(Common.FILE_NAME_FLOAT_BUTTON)
         try {
             val `is` = FileInputStream(path)
             return Gson().fromJson(InputStreamReader(`is`), FloatButtonConfig::class.java)

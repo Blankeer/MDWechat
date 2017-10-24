@@ -1,10 +1,7 @@
 package com.blanke.mdwechat.ui
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.widget.ListView
 import com.blanke.mdwechat.config.C
-import com.blanke.mdwechat.config.HookConfig
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.findAndHookConstructor
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -15,9 +12,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class ListViewHook : BaseHookUi() {
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (!HookConfig.isHookripple) {
-            return
-        }
         //去掉黄色的 selector
         findAndHookConstructor(C.ListView, C.Context, C.AttributeSet, object : XC_MethodHook() {
             @Throws(Throwable::class)

@@ -1,6 +1,5 @@
 package com.blanke.mdwechat.ui
 
-import android.graphics.Color
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.view.View
 import com.blanke.mdwechat.WeChatHelper.wxConfig
@@ -27,9 +26,6 @@ class ChatHook : BaseHookUi() {
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                 val bubbleLeft = AppCustomConfig.getBubbleLeftIcon()
                 val bubbleRight = AppCustomConfig.getBubbleRightIcon()
-                if (bubbleLeft == null && bubbleRight == null) {
-                    return
-                }
                 val viewHolder = param!!.result
                 val isOther = param.args[1] as Boolean
                 val textMsgView = getObjectField(viewHolder, wxConfig.fields.ChatViewHolder_mChatTextView)
@@ -38,18 +34,25 @@ class ChatHook : BaseHookUi() {
                 }
                 val msgTextView = XposedHelpers.getObjectField(textMsgView, wxConfig.fields.CellTextView_mMsgView)
                 if (msgTextView != null) {
-                    XposedHelpers.callMethod(msgTextView, "setTextColor", if (isOther) Color.RED else Color.BLUE)
+                    val textColor = if (isOther) HookConfig.get_hook_chat_text_color_left else HookConfig.get_hook_chat_text_color_right
+                    XposedHelpers.callMethod(msgTextView, "setTextColor", textColor)
+                }
+                if (bubbleLeft == null && bubbleRight == null) {
+                    return
+                }
+                if (!HookConfig.is_hook_bubble) {
+                    return
                 }
                 if (isOther && bubbleLeft != null) {
                     textMsgView.background = DrawableUtils.getNineDrawable(textMsgView.resources, bubbleLeft)
-                    if (HookConfig.isHookBubbleTint) {
-                        DrawableCompat.setTint(textMsgView.background, Color.WHITE)
+                    if (HookConfig.is_hook_bubble_tint) {
+                        DrawableCompat.setTint(textMsgView.background, HookConfig.get_hook_bubble_tint_left)
                     }
                 }
                 if (!isOther && bubbleRight != null) {
                     textMsgView.background = DrawableUtils.getNineDrawable(textMsgView.resources, bubbleRight)
-                    if (HookConfig.isHookBubbleTint) {
-                        DrawableCompat.setTint(textMsgView.background, colorPrimary)
+                    if (HookConfig.is_hook_bubble_tint) {
+                        DrawableCompat.setTint(textMsgView.background, HookConfig.get_hook_bubble_tint_right)
                     }
                 }
             }
@@ -67,16 +70,19 @@ class ChatHook : BaseHookUi() {
                 if (audioMsgView == null || audioMsgView !is View) {
                     return
                 }
+                if (!HookConfig.is_hook_bubble) {
+                    return
+                }
                 if (isOther && bubbleLeft != null) {
                     audioMsgView.background = DrawableUtils.getNineDrawable(audioMsgView.resources, bubbleLeft)
-                    if (HookConfig.isHookBubbleTint) {
-                        DrawableCompat.setTint(audioMsgView.background, Color.WHITE)
+                    if (HookConfig.is_hook_bubble_tint) {
+                        DrawableCompat.setTint(audioMsgView.background, HookConfig.get_hook_bubble_tint_left)
                     }
                 }
                 if (!isOther && bubbleRight != null) {
                     audioMsgView.background = DrawableUtils.getNineDrawable(audioMsgView.resources, bubbleRight)
-                    if (HookConfig.isHookBubbleTint) {
-                        DrawableCompat.setTint(audioMsgView.background, colorPrimary)
+                    if (HookConfig.is_hook_bubble_tint) {
+                        DrawableCompat.setTint(audioMsgView.background, HookConfig.get_hook_bubble_tint_right)
                     }
                 }
             }

@@ -36,7 +36,7 @@ class ContactHook : BaseHookUi() {
                         } else {
                             listView.background = whiteDrawable
                         }
-                        if (HookConfig.isHookripple) {
+                        if (HookConfig.is_hook_ripple) {
                             if (listView.headerViewsCount > 0) {
                                 val mHeaderViewInfos = getObjectField(listView, "mHeaderViewInfos") as ArrayList<ListView.FixedViewInfo>
                                 val header = mHeaderViewInfos[0].view
@@ -50,7 +50,7 @@ class ContactHook : BaseHookUi() {
                                         }
                                         val itemContent = item.getChildAt(0)
                                         headViews.put(i, itemContent)
-                                        itemContent.background = getDefaultRippleDrawable(headLayout.context)
+                                        itemContent.background = getTransparentRippleDrawable()
 //                                        if (itemContent != null) {
 //                                            itemContent.background = getDefaultRippleDrawable(headLayout.context)
 ////                                            val childView = (itemContent as ViewGroup).getChildAt(0)
@@ -79,7 +79,7 @@ class ContactHook : BaseHookUi() {
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                         val view = param!!.result as ViewGroup
                         //                        printViewTree(view, 0);
-                        if (HookConfig.isHookripple) {
+                        if (HookConfig.is_hook_ripple) {
                             val itemContent = view.getChildAt(1) as ViewGroup
                             if (itemContent != null) {
                                 itemContent.background = transparentDrawable
@@ -88,9 +88,7 @@ class ContactHook : BaseHookUi() {
                                     item.background = transparentDrawable
                                 }
                             }
-                            if (HookConfig.isHookripple) {
-                                view.background = getDefaultRippleDrawable(view.context)
-                            }
+                            view.background = getTransparentRippleDrawable()
                         }
                     }
                 })

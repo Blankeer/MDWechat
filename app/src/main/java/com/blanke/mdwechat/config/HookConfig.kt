@@ -9,109 +9,135 @@ import com.blanke.mdwechat.WeChatHelper
  */
 
 object HookConfig {
-    private val KEY_COLORPRIMARY = "colorPrimary"
-    private val KEY_HOOKSWITCH = "hookSwitch"
-    private val KEY_hook_actionbar = "key_hook_actionbar"
-    private val KEY_hook_avatar = "key_hook_avatar"
-    private val KEY_hook_ripple = "key_hook_ripple"
-    private val KEY_hook_float_button = "key_hook_float_button"
-    private val KEY_hook_search = "key_hook_search"
-    private val KEY_hook_tab = "key_hook_tab"
-    private val KEY_hook_menu_game = "key_hook_menu_game"
-    private val KEY_hook_menu_shop = "key_hook_menu_shop"
-    private val KEY_hook_menu_qrcode = "key_hook_menu_qrcode"
-    private val KEY_hook_menu_shake = "key_hook_menu_shake"
-    private val KEY_hook_menu_near = "key_hook_menu_near"
-    private val KEY_IS_PLAY = "key_is_play"
-    private val KEY_BUBBLE_TINT = "key_hook_bubble_tint"
+    private val key_hook_switch = "hookSwitch"
+    private val key_color_primary = "colorPrimary"
+    private val key_hook_actionbar = "key_hook_actionbar"
+    private val key_hook_avatar = "key_hook_avatar"
+    private val key_hook_ripple = "key_hook_ripple"
+    private val key_hook_float_button = "key_hook_float_button"
+    private val key_hook_search = "key_hook_search"
+    private val key_hook_tab = "key_hook_tab"
+    private val key_hook_menu_game = "key_hook_menu_game"
+    private val key_hook_menu_shop = "key_hook_menu_shop"
+    private val key_is_play = "key_is_play"
+    private val key_hook_bubble_tint = "key_hook_bubble_tint"
+    private val key_hook_menu_qrcode = "key_hook_menu_qrcode"
+    private val key_hook_menu_shake = "key_hook_menu_shake"
+    private val key_hook_menu_near = "key_hook_menu_near"
+    private val key_color_ripple = "key_color_ripple"
+    private val key_hook_hide_actionbar = "key_hook_hide_actionbar"
+    private val key_hook_float_button_move = "key_hook_float_button_move"
+    private val key_color_conversation_top = "key_color_conversation_top"
+    private val key_hook_menu_sns = "key_hook_menu_sns"
+    private val key_hook_menu_appbrand = "key_hook_menu_appbrand"
+    private val key_hook_bubble = "key_hook_bubble"
+    private val key_hook_bubble_tint_left = "key_hook_bubble_tint_left"
+    private val key_hook_bubble_tint_right = "key_hook_bubble_tint_right"
+    private val key_hook_chat_text_color_left = "key_hook_chat_text_color_left"
+    private val key_hook_chat_text_color_right = "key_hook_chat_text_color_right"
 
-    val colorPrimary: Int
+    val is_hook_switch: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getInt(KEY_COLORPRIMARY, Color.parseColor("#009688"))
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_switch, true)
         }
-
-    val isHookswitch: Boolean
+    val get_color_primary: Int
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_HOOKSWITCH, true)
+            return WeChatHelper.XMOD_PREFS.getInt(key_color_primary, Color.BLACK)
         }
-
-    val isPlay: Boolean
+    val is_hook_actionbar: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_IS_PLAY, false)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_actionbar, true)
         }
-
-    val isHookactionbar: Boolean
+    val is_hook_avatar: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_actionbar, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_avatar, true)
         }
-
-    val isHookavatar: Boolean
+    val is_hook_ripple: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_avatar, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_ripple, true)
         }
-
-    val isHookripple: Boolean
+    val is_hook_float_button: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_ripple, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_float_button, true)
         }
-
-    val isHookfloat_button: Boolean
+    val is_hook_search: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_float_button, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_search, true)
         }
-
-    val isHooksearch: Boolean
+    val is_hook_tab: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_search, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_tab, true)
         }
-
-    val isHooktab: Boolean
+    val is_hook_menu_game: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_tab, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_game, true)
         }
-
-    val isHookmenu_game: Boolean
+    val is_hook_menu_shop: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_game, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_shop, true)
         }
-
-    val isHookmenu_shop: Boolean
+    val is_play: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_shop, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_is_play, true)
         }
-
-    val isHookmenu_qrcode: Boolean
+    val is_hook_bubble_tint: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_qrcode, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_bubble_tint, false)
         }
-
-    val isHookmenu_shake: Boolean
+    val is_hook_menu_qrcode: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_shake, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_qrcode, true)
         }
-
-    val isHookmenu_near: Boolean
+    val is_hook_menu_shake: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_hook_menu_near, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_shake, true)
         }
-
-    val isHookBubbleTint: Boolean
+    val is_hook_menu_near: Boolean
         get() {
-            WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(KEY_BUBBLE_TINT, false)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_near, true)
+        }
+    val get_color_ripple: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_color_ripple, Color.GRAY)
+        }
+    val is_hook_hide_actionbar: Boolean
+        get() {
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_hide_actionbar, true)
+        }
+    val is_hook_float_button_move: Boolean
+        get() {
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_float_button_move, true)
+        }
+    val get_color_conversation_top: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_color_conversation_top, Color.GRAY)
+        }
+    val is_hook_menu_sns: Boolean
+        get() {
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_sns, true)
+        }
+    val is_hook_menu_appbrand: Boolean
+        get() {
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_appbrand, true)
+        }
+    val is_hook_bubble: Boolean
+        get() {
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_bubble, true)
+        }
+    val get_hook_bubble_tint_left: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_hook_bubble_tint_left, Color.WHITE)
+        }
+    val get_hook_bubble_tint_right: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_hook_bubble_tint_right, Color.WHITE)
+        }
+    val get_hook_chat_text_color_left: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_hook_chat_text_color_left, Color.BLACK)
+        }
+    val get_hook_chat_text_color_right: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_hook_chat_text_color_right, Color.BLACK)
         }
 }

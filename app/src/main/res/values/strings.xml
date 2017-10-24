@@ -39,8 +39,6 @@
     <string name="text_money">收付款</string>
     <string name="text_chat_group">群聊</string>
     <string name="text_friend_add">添加好友</string>
-    <string name="text_app_about">关于</string>
-    <string name="text_app_about_info" />
     <string name="text_app_thank">感谢</string>
     <string name="text_app_thank_content">感谢 hzknm@coolapk 设计的 Logo.</string>
     <string name="key_hook_bubble_tint">key_hook_bubble_tint</string>
@@ -91,4 +89,5 @@
     <string name="key_reset_icon_config">key_reset_icon_config</string>
     <string name="text_reset_icon_config">重置图标资源</string>
     <string name="text_reset_icon_config_info">如果你替换图标效果不理想/无效,请重置,目录在/sdcard/mdwechat/icon/目录下,替换图标尽量保证尺寸一致,否则可能显示会有问题</string>
+    <string name="msg_reset_ok">重置成功,重启生效,可手动去该目录查看</string>
 </resources>

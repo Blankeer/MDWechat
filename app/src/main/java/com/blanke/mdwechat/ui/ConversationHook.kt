@@ -1,6 +1,5 @@
 package com.blanke.mdwechat.ui
 
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import com.blanke.mdwechat.WeChatHelper.wxConfig
@@ -34,7 +33,7 @@ class ConversationHook : BaseHookUi() {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
-                        if (!HookConfig.isHookripple) {
+                        if (!HookConfig.is_hook_ripple) {
                             return
                         }
                         val i = param.args [0] as Int
@@ -43,7 +42,7 @@ class ConversationHook : BaseHookUi() {
                         val isTop = XposedHelpers.getBooleanField(topInfo, wxConfig.fields.TopInfo_isTop)
                         val view = param.result as View
 //                        log("$i isTop = $isTop")
-                        view.background = if (!isTop) getTransparentRippleDrawable() else getRippleDrawable(Color.parseColor("#1e000000"))
+                        view.background = if (!isTop) getTransparentRippleDrawable() else getRippleDrawable(HookConfig.get_color_conversation_top)
                     }
                 })
     }

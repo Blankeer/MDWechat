@@ -71,7 +71,7 @@ abstract class BaseHookUi {
         }
 
     protected val colorPrimary: Int
-        get() = HookConfig.colorPrimary
+        get() = HookConfig.get_color_primary
 
     protected fun getDefaultRippleDrawable(context: Context): Drawable {
         if (rippleDrawable == null) {
@@ -100,13 +100,13 @@ abstract class BaseHookUi {
     protected fun getTransparentRippleDrawable(): Drawable? {
         val context = WxObjects.MdContext?.get() ?: return null
         return DrawableUtils.getTransparentColorRippleDrawable(Color.WHITE,
-                ContextCompat.getColor(context, R.color.colorPressGrey))
+                HookConfig.get_color_ripple)
     }
 
     protected fun getRippleDrawable(normalColor: Int): Drawable? {
         val context = WxObjects.MdContext?.get() ?: return null
         return DrawableUtils.getColorRippleDrawable(normalColor,
-                ContextCompat.getColor(context, R.color.colorPressGrey))
+                HookConfig.get_color_ripple)
     }
 
     /**

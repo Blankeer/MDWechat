@@ -46,7 +46,7 @@ object WeChatHelper {
         log("支持该微信版本:" + ver)
         WxClass.init(wxConfig, lpparam.classLoader)
         initHookUis()
-        val hook = HookConfig.isHookswitch
+        val hook = HookConfig.is_hook_switch
         log("hook 开关:" + hook)
         if (hook) {
             val application = WxObjects.Application?.get()

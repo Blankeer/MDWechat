@@ -33,7 +33,7 @@ class ActionBarHook : BaseHookUi() {
     }
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (!HookConfig.isHookactionbar) {
+        if (!HookConfig.is_hook_actionbar) {
             return
         }
         xMethod(wxConfig.classes.ActionBarContainer,

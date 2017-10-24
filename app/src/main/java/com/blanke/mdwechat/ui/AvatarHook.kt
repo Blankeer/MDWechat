@@ -18,7 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class AvatarHook : BaseHookUi() {
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (!HookConfig.isHookavatar) {
+        if (!HookConfig.is_hook_avatar) {
             return
         }
         // hook avatar bitmap

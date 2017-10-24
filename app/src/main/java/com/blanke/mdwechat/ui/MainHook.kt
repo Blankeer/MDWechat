@@ -91,18 +91,18 @@ class MainHook : BaseHookUi() {
                             return
                         }
                         WxObjects.LauncherUIBottomTabView = WeakReference(tabView)
-                        if (HookConfig.isHooktab) {
+                        if (HookConfig.is_hook_tab) {
                             linearLayoutContent.removeView(tabView)
                         }
                         //ActionBar hide
                         val actionBar = XposedHelpers.getObjectField(mHomeUi, wxConfig.fields.HomeUI_mActionBar)
                         this@MainHook.actionBar = WeakReference(actionBar)
-                        if (actionBar != null) {
-//                            XposedHelpers.callMethod(actionBar, "hide")
+                        if (actionBar != null && HookConfig.is_hook_hide_actionbar) {
+                            XposedHelpers.callMethod(actionBar, "hide")
                         }
 
                         //add searchView
-                        if (HookConfig.isHooksearch) {
+                        if (HookConfig.is_hook_search) {
                             if (actionBar != null) {
                                 val actionView = XposedHelpers.callMethod(actionBar, "getCustomView") as View
                                 val actionLayout = actionView.parent?.parent
@@ -113,12 +113,12 @@ class MainHook : BaseHookUi() {
                         }
 
                         //add tabLayout
-                        if (HookConfig.isHooktab) {
+                        if (HookConfig.is_hook_tab) {
                             addTabLayout(linearLayoutContent, viewPager)
                         }
 
                         //add float Button
-                        if (HookConfig.isHookfloat_button) {
+                        if (HookConfig.is_hook_float_button) {
                             addFloatButton(contentFrameLayout)
                         }
 
@@ -130,13 +130,13 @@ class MainHook : BaseHookUi() {
                 , C.Int, object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 val view = param?.thisObject as View
-//                if (view == contentFrameLayout?.get()) {
-////                  log("contentFrameLayout padding=${param.args[1]}")
-//                    param.args[1] = 0
-//                }
+                if (view == contentFrameLayout?.get() && HookConfig.is_hook_hide_actionbar) {
+//                  log("contentFrameLayout padding=${param.args[1]}")
+                    param.args[1] = 0
+                }
             }
         })
-        if (HookConfig.isHooksearch) {
+        if (HookConfig.is_hook_search) {
             //search hook when click menuItem
             xMethod(WxClass.LauncherUI!!,
                     "onOptionsItemSelected", C.MenuItem, object : XC_MethodHook() {
@@ -159,10 +159,6 @@ class MainHook : BaseHookUi() {
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
-                            val sview = searchView?.get()
-                            if (sview == null) {
-                                return
-                            }
                             if (!TextUtils.isEmpty(searchKey)) {
                                 val editText = param.thisObject as EditText
 //                                log("ActionBarEditText context=${editText.context}")
@@ -174,7 +170,7 @@ class MainHook : BaseHookUi() {
                         }
                     })
         }
-        if (HookConfig.isHooktab) {
+        if (HookConfig.is_hook_tab) {
             //hook viewPager OnPageChangeListener
             xMethod(WxClass.HomeUiViewPagerChangeListener!!,
                     wxConfig.methods.HomeUiViewPagerChangeListener_onPageScrolled,
@@ -240,7 +236,7 @@ class MainHook : BaseHookUi() {
                 }
             })
         }
-        if (HookConfig.isHookfloat_button) {
+        if (HookConfig.is_hook_float_button) {
             //hide more icon in actionBar
             xMethod(WxClass.LauncherUI!!, "onCreateOptionsMenu", C.Menu, object : XC_MethodHook() {
                 @Throws(Throwable::class)
@@ -256,13 +252,13 @@ class MainHook : BaseHookUi() {
                 }
             })
         }
-        if (HookConfig.isHooksearch || HookConfig.isHookfloat_button) {
+        if (HookConfig.is_hook_search || HookConfig.is_hook_float_button) {
             //hook onKeyEvent
             xMethod(WxClass.LauncherUI!!, "dispatchKeyEvent", C.KeyEvent, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam) {
                     val keyEvent = param.args[0] as KeyEvent
-                    if (keyEvent.keyCode == KeyEvent.KEYCODE_MENU && HookConfig.isHooksearch) {//hide menu
+                    if (keyEvent.keyCode == KeyEvent.KEYCODE_MENU && HookConfig.is_hook_search) {//hide menu
                         param.result = true
                         return
                     }
@@ -357,35 +353,37 @@ class MainHook : BaseHookUi() {
         params.rightMargin = margin
         params.bottomMargin = margin
         params.gravity = Gravity.END or Gravity.BOTTOM
-        actionMenu.menuButton.setOnTouchListener(object : View.OnTouchListener {
-            internal var lastX: Float = 0.toFloat()
-            internal var lastY: Float = 0.toFloat()
-            internal var downTime: Long = 0
+        if (HookConfig.is_hook_float_button_move) {
+            actionMenu.menuButton.setOnTouchListener(object : View.OnTouchListener {
+                internal var lastX: Float = 0.toFloat()
+                internal var lastY: Float = 0.toFloat()
+                internal var downTime: Long = 0
 
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    lastX = event.rawX
-                    lastY = event.rawY
-                    downTime = System.currentTimeMillis()
-                } else if (event.action == MotionEvent.ACTION_MOVE) {
-                    val nowX = event.rawX
-                    val nowY = event.rawY
-                    val dx = (nowX - lastX).toInt().toFloat()
-                    val dy = (nowY - lastY).toInt().toFloat()
-                    lastX = nowX
-                    lastY = nowY
-                    actionMenu.x = actionMenu.x + dx
-                    actionMenu.y = actionMenu.y + dy
-                } else if (event.action == MotionEvent.ACTION_UP) {
-                    val nowTime = System.currentTimeMillis()
-                    if (nowTime - downTime > 300) {
-                        actionMenu.menuButton.isPressed = false
-                        return true
+                override fun onTouch(v: View, event: MotionEvent): Boolean {
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        lastX = event.rawX
+                        lastY = event.rawY
+                        downTime = System.currentTimeMillis()
+                    } else if (event.action == MotionEvent.ACTION_MOVE) {
+                        val nowX = event.rawX
+                        val nowY = event.rawY
+                        val dx = (nowX - lastX).toInt().toFloat()
+                        val dy = (nowY - lastY).toInt().toFloat()
+                        lastX = nowX
+                        lastY = nowY
+                        actionMenu.x = actionMenu.x + dx
+                        actionMenu.y = actionMenu.y + dy
+                    } else if (event.action == MotionEvent.ACTION_UP) {
+                        val nowTime = System.currentTimeMillis()
+                        if (nowTime - downTime > 300) {
+                            actionMenu.menuButton.isPressed = false
+                            return true
+                        }
                     }
+                    return false
                 }
-                return false
-            }
-        })
+            })
+        }
 
         val backgroundView = View(context)
 //        backgroundView.setBackgroundColor(Color.parseColor("#88000000"))

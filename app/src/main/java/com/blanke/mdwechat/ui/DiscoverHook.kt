@@ -26,20 +26,26 @@ class DiscoverHook : BaseHookUi() {
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
         hookMenus = arrayListOf()
-        if (HookConfig.isHookmenu_game) {
+        if (HookConfig.is_hook_menu_game) {
             hookMenus.add("more_tab_game_recommend")
         }
-        if (HookConfig.isHookmenu_shop) {
+        if (HookConfig.is_hook_menu_shop) {
             hookMenus.add("jd_market_entrance")
         }
-        if (HookConfig.isHookmenu_qrcode) {
+        if (HookConfig.is_hook_menu_qrcode) {
             hookMenus.add("find_friends_by_qrcode")
         }
-        if (HookConfig.isHookmenu_shake) {
+        if (HookConfig.is_hook_menu_shake) {
             hookMenus.add("find_friends_by_shake")
         }
-        if (HookConfig.isHookmenu_near) {
+        if (HookConfig.is_hook_menu_near) {
             hookMenus.add("find_friends_by_near")
+        }
+        if (HookConfig.is_hook_menu_sns) {
+            hookMenus.add("album_dyna_photo_ui_title")
+        }
+        if (HookConfig.is_hook_menu_appbrand) {
+            hookMenus.add("app_brand_entrance")
         }
         if (hookMenus.size > 0) {
             xMethod(wxConfig.classes.MMPreferenceAdapter,
@@ -90,11 +96,11 @@ class DiscoverHook : BaseHookUi() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                         val view = param!!.result as View
-                        if (HookConfig.isHookripple) {
+                        if (HookConfig.is_hook_ripple) {
                             if (view is TextView && view.contentDescription == "分隔栏") {
                                 view.visibility = View.GONE
                             } else {
-                                view.background = getDefaultRippleDrawable(view.context)
+                                view.background = getTransparentRippleDrawable()
                             }
                         }
                     }
