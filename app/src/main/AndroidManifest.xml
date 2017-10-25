@@ -21,7 +21,6 @@
             android:name="xposedminversion"
             android:value="42" />
 
-        <activity android:name=".MainActivity"></activity>
         <activity android:name=".settings.SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
