@@ -16,7 +16,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_done"
         app:fab_colorNormal="@color/colorPrimary"
         app:fab_colorPressed="@color/colorPrimary"
         app:fab_colorRipple="@color/colorAccent" />

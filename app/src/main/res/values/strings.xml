@@ -92,4 +92,5 @@
     <string name="msg_reset_ok">重置成功,重启生效,可手动去该目录查看</string>
     <string name="key_hook_statusbar_transparent">key_hook_statusbar_transparent</string>
     <string name="text_hook_statusbar_transparent">状态栏全透明</string>
+    <string name="msg_kill_wechat">请手动强行停止微信,再打开微信看效果.</string>
 </resources>

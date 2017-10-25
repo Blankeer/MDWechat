@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.ActivityCompat
+import android.widget.Toast
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.util.FileUtils
@@ -31,6 +32,7 @@ class SettingsActivity : Activity() {
     }
 
     private fun goToWechatSettingPage() {
+        Toast.makeText(this, R.string.msg_kill_wechat, Toast.LENGTH_SHORT).show()
         val intent = Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
         intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
         intent.data = Uri.fromParts("package", Common.WECHAT_PACKAGENAME, null)
