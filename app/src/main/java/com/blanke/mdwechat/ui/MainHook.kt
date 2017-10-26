@@ -19,7 +19,10 @@ import com.blanke.mdwechat.WeChatHelper.startPluginActivity
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
 import com.blanke.mdwechat.bean.FLoatButtonConfigItem
-import com.blanke.mdwechat.config.*
+import com.blanke.mdwechat.config.AppCustomConfig
+import com.blanke.mdwechat.config.C
+import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.config.WxObjects
 import com.blanke.mdwechat.util.ConvertUtils
 import com.blanke.mdwechat.widget.MaterialSearchView
 import com.flyco.tablayout.CommonTabLayout
@@ -52,7 +55,7 @@ class MainHook : BaseHookUi() {
     }
 
     private fun hookWechatMain(lpparam: XC_LoadPackage.LoadPackageParam) {
-        xMethod(WxClass.LauncherUI!!,
+        xMethod(wxConfig.classes.LauncherUI,
                 wxConfig.methods.LauncherUI_startMainUI,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
@@ -136,153 +139,179 @@ class MainHook : BaseHookUi() {
                 }
             }
         })
-        if (HookConfig.is_hook_search) {
-            //search hook when click menuItem
-            xMethod(WxClass.LauncherUI!!,
-                    "onOptionsItemSelected", C.MenuItem, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    val menuItem = param!!.args[0] as MenuItem
-                    if (menuItem.itemId == 1) {//search
-                        //log("hook launcherUi click action search icon success");
-                        val sview = searchView?.get()
-                        if (sview != null) {
-                            sview.show()
-                            param.result = true
-                        }
+
+        //search hook when click menuItem
+        xMethod(wxConfig.classes.LauncherUI,
+                "onOptionsItemSelected", C.MenuItem, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_search) {
+                    return
+                }
+                val menuItem = param!!.args[0] as MenuItem
+                if (menuItem.itemId == 1) {//search
+                    //log("hook launcherUi click action search icon success");
+                    val sview = searchView?.get()
+                    if (sview != null) {
+                        sview.show()
+                        param.result = true
                     }
                 }
-            })
-            // search searchKey hook
-            XposedHelpers.findAndHookConstructor(wxConfig.classes.ActionBarEditText,
-                    lpparam.classLoader, C.Context, C.AttributeSet,
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
-                            if (!TextUtils.isEmpty(searchKey)) {
-                                val editText = param.thisObject as EditText
+            }
+        })
+        // search searchKey hook
+        XposedHelpers.findAndHookConstructor(wxConfig.classes.ActionBarEditText,
+                lpparam.classLoader, C.Context, C.AttributeSet,
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
+                        if (!HookConfig.is_hook_search) {
+                            return
+                        }
+                        if (!TextUtils.isEmpty(searchKey)) {
+                            val editText = param.thisObject as EditText
 //                                log("ActionBarEditText context=${editText.context}")
-                                editText.postDelayed({
-                                    editText.setText(searchKey)
-                                    searchKey = null
-                                }, 300)
-                            }
+                            editText.postDelayed({
+                                editText.setText(searchKey)
+                                searchKey = null
+                            }, 300)
                         }
-                    })
-        }
-        if (HookConfig.is_hook_tab) {
-            //hook viewPager OnPageChangeListener
-            xMethod(WxClass.HomeUiViewPagerChangeListener!!,
-                    wxConfig.methods.HomeUiViewPagerChangeListener_onPageScrolled,
-                    C.Int, C.Float, C.Int, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    val tabLayout = this@MainHook.tabLayout?.get() ?: return
-                    val positionOffset = param!!.args[1] as Float
-                    val position = param.args[0] as Int
-                    tabLayout.startScrollPosition = position
-                    tabLayout.indicatorOffset = positionOffset
-                }
-            })
-            xMethod(WxClass.HomeUiViewPagerChangeListener!!,
-                    wxConfig.methods.HomeUiViewPagerChangeListener_onPageSelected,
-                    C.Int, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    val tabLayout = this@MainHook.tabLayout?.get() ?: return
-                    val position = param!!.args[0] as Int
-                    tabLayout.currentTab = position
-                }
-            })
-            // hook tab unread msg
-            xMethod(WxClass.LauncherUIBottomTabView!!,
-                    wxConfig.methods.LauncherUIBottomTabView_setMainTabUnread,
-                    C.Int, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    val tabLayout = this@MainHook.tabLayout?.get() ?: return
-                    //log("msg unread=" + param.args[0]);
-                    tabLayout.showMsg(0, param!!.args[0] as Int)
-                }
-            })
-            xMethod(WxClass.LauncherUIBottomTabView!!,
-                    wxConfig.methods.LauncherUIBottomTabView_setContactTabUnread,
-                    C.Int, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    val tabLayout = this@MainHook.tabLayout?.get() ?: return
-                    //log("contact unread=" + param.args[0]);
-                    tabLayout.showMsg(1, param!!.args[0] as Int)
-                }
-            })
-            xMethod(WxClass.LauncherUIBottomTabView!!,
-                    wxConfig.methods.LauncherUIBottomTabView_setFriendTabUnread,
-                    C.Int, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    val tabLayout = this@MainHook.tabLayout?.get() ?: return
-                    //log("friend unread=" + param.args[0]);
-                    tabLayout.showMsg(2, param!!.args[0] as Int)
-                }
-            })
-            xMethod(WxClass.LauncherUIBottomTabView!!,
-                    wxConfig.methods.LauncherUIBottomTabView_showFriendTabUnreadPoint,
-                    C.Boolean, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    val tabLayout = this@MainHook.tabLayout?.get() ?: return
-                    val show = param!!.args[0] as Boolean
-                    tabLayout.showMsg(2, if (show) -1 else 0)
-                }
-            })
-        }
-        if (HookConfig.is_hook_float_button) {
-            //hide more icon in actionBar
-            xMethod(WxClass.LauncherUI!!, "onCreateOptionsMenu", C.Menu, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                    //                log("homeUI=" + mHomeUi);
-                    val mHomeUi = WxObjects.HomeUI?.get()
-                    if (mHomeUi != null) {
-                        //hide actionbar more add icon
-                        val moreMenuItem = getObjectField(mHomeUi, wxConfig.fields.HomeUI_mMoreMenuItem) as MenuItem
-                        //log("moreMenuItem=" + moreMenuItem);
-                        moreMenuItem.isVisible = false
                     }
+                })
+
+        //hook viewPager OnPageChangeListener
+        xMethod(wxConfig.classes.HomeUiViewPagerChangeListener,
+                wxConfig.methods.HomeUiViewPagerChangeListener_onPageScrolled,
+                C.Int, C.Float, C.Int, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_tab) {
+                    return
                 }
-            })
-        }
-        if (HookConfig.is_hook_search || HookConfig.is_hook_float_button) {
-            //hook onKeyEvent
-            xMethod(WxClass.LauncherUI!!, "dispatchKeyEvent", C.KeyEvent, object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam) {
-                    val keyEvent = param.args[0] as KeyEvent
-                    if (keyEvent.keyCode == KeyEvent.KEYCODE_MENU && HookConfig.is_hook_search) {//hide menu
+                val tabLayout = this@MainHook.tabLayout?.get() ?: return
+                val positionOffset = param!!.args[1] as Float
+                val position = param.args[0] as Int
+                tabLayout.startScrollPosition = position
+                tabLayout.indicatorOffset = positionOffset
+            }
+        })
+        xMethod(wxConfig.classes.HomeUiViewPagerChangeListener,
+                wxConfig.methods.HomeUiViewPagerChangeListener_onPageSelected,
+                C.Int, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_tab) {
+                    return
+                }
+                val tabLayout = this@MainHook.tabLayout?.get() ?: return
+                val position = param!!.args[0] as Int
+                tabLayout.currentTab = position
+            }
+        })
+        // hook tab unread msg
+        xMethod(wxConfig.classes.LauncherUIBottomTabView,
+                wxConfig.methods.LauncherUIBottomTabView_setMainTabUnread,
+                C.Int, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_tab) {
+                    return
+                }
+                val tabLayout = this@MainHook.tabLayout?.get() ?: return
+                //log("msg unread=" + param.args[0]);
+                tabLayout.showMsg(0, param!!.args[0] as Int)
+            }
+        })
+        xMethod(wxConfig.classes.LauncherUIBottomTabView,
+                wxConfig.methods.LauncherUIBottomTabView_setContactTabUnread,
+                C.Int, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_tab) {
+                    return
+                }
+                val tabLayout = this@MainHook.tabLayout?.get() ?: return
+                //log("contact unread=" + param.args[0]);
+                tabLayout.showMsg(1, param!!.args[0] as Int)
+            }
+        })
+        xMethod(wxConfig.classes.LauncherUIBottomTabView,
+                wxConfig.methods.LauncherUIBottomTabView_setFriendTabUnread,
+                C.Int, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_tab) {
+                    return
+                }
+                val tabLayout = this@MainHook.tabLayout?.get() ?: return
+                //log("friend unread=" + param.args[0]);
+                tabLayout.showMsg(2, param!!.args[0] as Int)
+            }
+        })
+        xMethod(wxConfig.classes.LauncherUIBottomTabView,
+                wxConfig.methods.LauncherUIBottomTabView_showFriendTabUnreadPoint,
+                C.Boolean, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_tab) {
+                    return
+                }
+                val tabLayout = this@MainHook.tabLayout?.get() ?: return
+                val show = param!!.args[0] as Boolean
+                tabLayout.showMsg(2, if (show) -1 else 0)
+            }
+        })
+
+        //hide more icon in actionBar
+        xMethod(wxConfig.classes.LauncherUI, "onCreateOptionsMenu", C.Menu, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                if (!HookConfig.is_hook_float_button) {
+                    return
+                }
+                //                log("homeUI=" + mHomeUi);
+                val mHomeUi = WxObjects.HomeUI?.get()
+                if (mHomeUi != null) {
+                    //hide actionbar more add icon
+                    val moreMenuItem = getObjectField(mHomeUi, wxConfig.fields.HomeUI_mMoreMenuItem) as MenuItem
+                    //log("moreMenuItem=" + moreMenuItem);
+                    moreMenuItem.isVisible = false
+                }
+            }
+        })
+
+        //hook onKeyEvent
+        xMethod(wxConfig.classes.LauncherUI, "dispatchKeyEvent", C.KeyEvent, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam) {
+                if (!HookConfig.is_hook_search && !HookConfig.is_hook_float_button) {
+                    return
+                }
+                val keyEvent = param.args[0] as KeyEvent
+                if (keyEvent.keyCode == KeyEvent.KEYCODE_MENU && HookConfig.is_hook_search) {//hide menu
+                    param.result = true
+                    return
+                }
+                if (keyEvent.keyCode == KeyEvent.KEYCODE_BACK) {//hook back
+                    if (searchView?.get() == null) {
+                        return
+                    }
+                    if (searchView!!.get()!!.isSearchViewVisible) {
+                        searchView?.get()?.hide()
                         param.result = true
                         return
                     }
-                    if (keyEvent.keyCode == KeyEvent.KEYCODE_BACK) {//hook back
-                        if (searchView?.get() == null) {
-                            return
-                        }
-                        if (searchView!!.get()!!.isSearchViewVisible) {
-                            searchView?.get()?.hide()
-                            param.result = true
-                            return
-                        }
-                        if (actionMenu?.get() == null) {
-                            return
-                        }
-                        if (actionMenu!!.get()!!.isOpened) {
-                            actionMenu?.get()?.close(true)
-                            param.result = true
-                            return
-                        }
+                    if (actionMenu?.get() == null) {
+                        return
+                    }
+                    if (actionMenu!!.get()!!.isOpened) {
+                        actionMenu?.get()?.close(true)
+                        param.result = true
+                        return
                     }
                 }
-            })
-        }
+            }
+        })
     }
 
     private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
@@ -393,8 +422,7 @@ class MainHook : BaseHookUi() {
             actionMenu.close(true)
             view.visibility = View.GONE
         }
-        actionMenu.setOnMenuToggleListener {
-            opened ->
+        actionMenu.setOnMenuToggleListener { opened ->
             backgroundView.visibility = if (opened) View.VISIBLE else View.GONE
         }
         frameLayout.addView(backgroundView, params2)

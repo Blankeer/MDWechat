@@ -17,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class SettingsHook : BaseHookUi() {
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        xMethod(WxClass.SettingsFragment!!,
+        xMethod(wxConfig.classes.SettingsFragment,
                 wxConfig.methods.MainFragment_onTabCreate, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {

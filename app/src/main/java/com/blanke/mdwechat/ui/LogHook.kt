@@ -5,7 +5,6 @@ import android.os.Bundle
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
 import com.blanke.mdwechat.config.C
-import com.blanke.mdwechat.config.WxClass
 import com.blanke.mdwechat.util.LogUtil.bundleToString
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -20,7 +19,7 @@ class LogHook : BaseHookUi() {
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
         hookTouchEvents()
         hookCreateActivity()
-        hookXLogSetup()
+        hookXLogSetup(lpparam)
     }
 
     private fun hookTouchEvents() {
@@ -54,8 +53,9 @@ class LogHook : BaseHookUi() {
         })
     }
 
-    private fun hookXLogSetup() {
-        XposedBridge.hookAllMethods(WxClass.XLogSetup, wxConfig.methods.XLogSetup_keep_setupXLog, object : XC_MethodHook() {
+    private fun hookXLogSetup(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val XLogSetup = XposedHelpers.findClass(wxConfig.classes.XLogSetup, lpparam.classLoader)
+        XposedBridge.hookAllMethods(XLogSetup, wxConfig.methods.XLogSetup_keep_setupXLog, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 param.args[5] = true

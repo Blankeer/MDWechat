@@ -7,7 +7,6 @@ import com.blanke.mdwechat.WeChatHelper.xMethod
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
-import com.blanke.mdwechat.config.WxClass
 import com.blanke.mdwechat.util.DrawableUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -20,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class ChatHook : BaseHookUi() {
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        xMethod(WxClass.ChatViewHolder!!,
+        xMethod(wxConfig.classes.ChatViewHolder,
                 wxConfig.methods.ChatViewHolder_loadView, C.View, C.Boolean, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
@@ -57,7 +56,7 @@ class ChatHook : BaseHookUi() {
                 }
             }
         })
-        xMethod(WxClass.ChatAudioViewHolder!!, wxConfig.methods.ChatAudioViewHolder_loadView, C.View, C.Boolean, object : XC_MethodHook() {
+        xMethod(wxConfig.classes.ChatAudioViewHolder, wxConfig.methods.ChatAudioViewHolder_loadView, C.View, C.Boolean, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val bubbleLeft = AppCustomConfig.getBubbleLeftIcon()
                 val bubbleRight = AppCustomConfig.getBubbleRightIcon()

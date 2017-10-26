@@ -1,12 +1,11 @@
 package com.blanke.mdwechat.config
 
 import android.content.Context
-import android.os.Bundle
-import android.util.AttributeSet
-import android.view.*
-import android.widget.ListView
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.view.*
+import android.widget.ListView
 
 /**
  * Created by blanke on 2017/10/11.
@@ -20,7 +19,7 @@ object C {
     val Menu = Menu::class.java
     val KeyEvent = KeyEvent::class.java
     val Context = Context::class.java
-    val AttributeSet = AttributeSet::class.java
+    val AttributeSet = android.util.AttributeSet::class.java
     val Application = android.app.Application::class.java
     val Bundle = Bundle::class.java
     val ListView = ListView::class.java

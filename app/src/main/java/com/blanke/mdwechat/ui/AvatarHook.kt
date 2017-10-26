@@ -18,9 +18,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class AvatarHook : BaseHookUi() {
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (!HookConfig.is_hook_avatar) {
-            return
-        }
         // hook avatar bitmap
         xMethod(wxConfig.classes.AvatarUtils2,
                 wxConfig.methods.AvatarUtils2_getAvatarHDBitmap,
@@ -28,6 +25,9 @@ class AvatarHook : BaseHookUi() {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        if (!HookConfig.is_hook_avatar) {
+                            return
+                        }
                         val res = param!!.result
                         if (res != null) {
                             val bitmap = res as Bitmap
@@ -42,6 +42,9 @@ class AvatarHook : BaseHookUi() {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        if (!HookConfig.is_hook_avatar) {
+                            return
+                        }
                         val res = param!!.result
                         if (res != null) {
                             val bitmap = res as Bitmap
@@ -55,6 +58,9 @@ class AvatarHook : BaseHookUi() {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        if (!HookConfig.is_hook_avatar) {
+                            return
+                        }
                         val res = param!!.result
                         if (res != null) {
                             val bitmap = res as Bitmap
@@ -69,6 +75,9 @@ class AvatarHook : BaseHookUi() {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        if (!HookConfig.is_hook_avatar) {
+                            return
+                        }
                         val imageView = param!!.thisObject as ImageView
                         imageView.setBackgroundColor(Color.TRANSPARENT)
                         // setOnTouchListener is no use,will throw exception

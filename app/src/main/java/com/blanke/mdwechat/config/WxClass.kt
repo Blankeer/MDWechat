@@ -1,7 +1,5 @@
 package com.blanke.mdwechat.config
 
-import de.robv.android.xposed.XposedHelpers
-
 /**
  * Created by blanke on 2017/10/11.
  */
@@ -9,14 +7,9 @@ object WxClass {
     var LauncherUI: Class<*>? = null
     var HomeUI: Class<*>? = null
     var HomeUiTabHelper: Class<*>? = null
-    var MenuAdapterManager: Class<*>? = null
     var MMFragmentActivity: Class<*>? = null
     var AvatarUtils2: Class<*>? = null
     var TouchImageView: Class<*>? = null
-    var ChattingUIActivity: Class<*>? = null
-    var ChattingUIFragment: Class<*>? = null
-    var MenuItemViewHolderWrapper: Class<*>? = null
-    var MenuItemViewHolder: Class<*>? = null
     var FTSMainUI: Class<*>? = null
     var HomeUiViewPagerChangeListener: Class<*>? = null
     var WxViewPager: Class<*>? = null
@@ -38,35 +31,30 @@ object WxClass {
     var PluginHelper: Class<*>? = null
 
     fun init(config: WxVersionConfig, classLoader: ClassLoader) {
-        LauncherUI = XposedHelpers.findClassIfExists(config.classes.LauncherUI, classLoader)
-        HomeUI = XposedHelpers.findClassIfExists(config.classes.HomeUI, classLoader)
-        HomeUiTabHelper = XposedHelpers.findClassIfExists(config.classes.HomeUiTabHelper, classLoader)
-        MenuAdapterManager = XposedHelpers.findClassIfExists(config.classes.MenuAdapterManager, classLoader)
-        MMFragmentActivity = XposedHelpers.findClassIfExists(config.classes.MMFragmentActivity, classLoader)
-        AvatarUtils2 = XposedHelpers.findClassIfExists(config.classes.AvatarUtils2, classLoader)
-        TouchImageView = XposedHelpers.findClassIfExists(config.classes.TouchImageView, classLoader)
-        ChattingUIActivity = XposedHelpers.findClassIfExists(config.classes.ChattingUIActivity, classLoader)
-        ChattingUIFragment = XposedHelpers.findClassIfExists(config.classes.ChattingUIFragment, classLoader)
-        MenuItemViewHolderWrapper = XposedHelpers.findClassIfExists(config.classes.MenuItemViewHolderWrapper, classLoader)
-        MenuItemViewHolder = XposedHelpers.findClassIfExists(config.classes.MenuItemViewHolder, classLoader)
-        FTSMainUI = XposedHelpers.findClassIfExists(config.classes.FTSMainUI, classLoader)
-        HomeUiViewPagerChangeListener = XposedHelpers.findClassIfExists(config.classes.HomeUiViewPagerChangeListener, classLoader)
-        WxViewPager = XposedHelpers.findClassIfExists(config.classes.WxViewPager, classLoader)
-        LauncherUIBottomTabView = XposedHelpers.findClassIfExists(config.classes.LauncherUIBottomTabView, classLoader)
-        ActionBarContainer = XposedHelpers.findClassIfExists(config.classes.ActionBarContainer, classLoader)
-        ToolbarWidgetWrapper = XposedHelpers.findClassIfExists(config.classes.ToolbarWidgetWrapper, classLoader)
-        ActionBarSearchView = XposedHelpers.findClassIfExists(config.classes.ActionBarSearchView, classLoader)
-        ActionBarEditText = XposedHelpers.findClassIfExists(config.classes.ActionBarEditText, classLoader)
-        ConversationFragment = XposedHelpers.findClassIfExists(config.classes.ConversationFragment, classLoader)
-        ConversationAdapter = XposedHelpers.findClassIfExists(config.classes.ConversationAdapter, classLoader)
-        ContactFragment = XposedHelpers.findClassIfExists(config.classes.ContactFragment, classLoader)
-        ContactAdapter = XposedHelpers.findClassIfExists(config.classes.ContactAdapter, classLoader)
-        DiscoverFragment = XposedHelpers.findClassIfExists(config.classes.DiscoverFragment, classLoader)
-        MMPreferenceAdapter = XposedHelpers.findClassIfExists(config.classes.MMPreferenceAdapter, classLoader)
-        SettingsFragment = XposedHelpers.findClassIfExists(config.classes.SettingsFragment, classLoader)
-        ChatViewHolder = XposedHelpers.findClassIfExists(config.classes.ChatViewHolder, classLoader)
-        ChatAudioViewHolder = XposedHelpers.findClassIfExists(config.classes.ChatAudioViewHolder, classLoader)
-        XLogSetup = XposedHelpers.findClassIfExists(config.classes.XLogSetup, classLoader)
-        PluginHelper = XposedHelpers.findClassIfExists(config.classes.PluginHelper, classLoader)
+//        LauncherUI = XposedHelpers.findClass(config.classes.LauncherUI, classLoader)
+//        HomeUI = XposedHelpers.findClass(config.classes.HomeUI, classLoader)
+//        HomeUiTabHelper = XposedHelpers.findClass(config.classes.HomeUiTabHelper, classLoader)
+//        MMFragmentActivity = XposedHelpers.findClass(config.classes.MMFragmentActivity, classLoader)
+//        AvatarUtils2 = XposedHelpers.findClass(config.classes.AvatarUtils2, classLoader)
+//        TouchImageView = XposedHelpers.findClass(config.classes.TouchImageView, classLoader)
+//        FTSMainUI = XposedHelpers.findClass(config.classes.FTSMainUI, classLoader)
+//        HomeUiViewPagerChangeListener = XposedHelpers.findClass(config.classes.HomeUiViewPagerChangeListener, classLoader)
+//        WxViewPager = XposedHelpers.findClass(config.classes.WxViewPager, classLoader)
+//        LauncherUIBottomTabView = XposedHelpers.findClass(config.classes.LauncherUIBottomTabView, classLoader)
+//        ActionBarContainer = XposedHelpers.findClass(config.classes.ActionBarContainer, classLoader)
+//        ToolbarWidgetWrapper = XposedHelpers.findClass(config.classes.ToolbarWidgetWrapper, classLoader)
+//        ActionBarSearchView = XposedHelpers.findClass(config.classes.ActionBarSearchView, classLoader)
+//        ActionBarEditText = XposedHelpers.findClass(config.classes.ActionBarEditText, classLoader)
+//        ConversationFragment = XposedHelpers.findClass(config.classes.ConversationFragment, classLoader)
+//        ConversationAdapter = XposedHelpers.findClass(config.classes.ConversationAdapter, classLoader)
+//        ContactFragment = XposedHelpers.findClass(config.classes.ContactFragment, classLoader)
+//        ContactAdapter = XposedHelpers.findClass(config.classes.ContactAdapter, classLoader)
+//        DiscoverFragment = XposedHelpers.findClass(config.classes.DiscoverFragment, classLoader)
+//        MMPreferenceAdapter = XposedHelpers.findClass(config.classes.MMPreferenceAdapter, classLoader)
+//        SettingsFragment = XposedHelpers.findClass(config.classes.SettingsFragment, classLoader)
+//        ChatViewHolder = XposedHelpers.findClass(config.classes.ChatViewHolder, classLoader)
+//        ChatAudioViewHolder = XposedHelpers.findClass(config.classes.ChatAudioViewHolder, classLoader)
+//        XLogSetup = XposedHelpers.findClass(config.classes.XLogSetup, classLoader)
+//        PluginHelper = XposedHelpers.findClass(config.classes.PluginHelper, classLoader)
     }
 }

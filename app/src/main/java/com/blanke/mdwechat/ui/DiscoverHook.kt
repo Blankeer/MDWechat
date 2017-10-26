@@ -47,24 +47,25 @@ class DiscoverHook : BaseHookUi() {
         if (HookConfig.is_hook_menu_appbrand) {
             hookMenus.add("app_brand_entrance")
         }
-        if (hookMenus.size > 0) {
-            xMethod(wxConfig.classes.MMPreferenceAdapter,
-                    wxConfig.methods.MMPreferenceAdapter_setVisible,
-                    C.String, C.Boolean,
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                            val preName = param!!.args[0] as String
-                            //                        log("preName=" + preName + ",show=" + param.args[1])
-                            for (hookMenu in hookMenus) {
-                                if (hookMenu == preName) {
-                                    param.args[1] = true
-                                    break
-                                }
+        xMethod(wxConfig.classes.MMPreferenceAdapter,
+                wxConfig.methods.MMPreferenceAdapter_setVisible,
+                C.String, C.Boolean,
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        if (hookMenus.size == 0) {
+                            return
+                        }
+                        val preName = param!!.args[0] as String
+                        //                        log("preName=" + preName + ",show=" + param.args[1])
+                        for (hookMenu in hookMenus) {
+                            if (hookMenu == preName) {
+                                param.args[1] = true
+                                break
                             }
                         }
-                    })
-        }
+                    }
+                })
         val background = AppCustomConfig.getTabBg(2)
 
         xMethod(wxConfig.classes.DiscoverFragment,

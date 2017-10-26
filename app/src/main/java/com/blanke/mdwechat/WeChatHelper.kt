@@ -104,7 +104,8 @@ object WeChatHelper {
         val className = temp1.substring(temp1.indexOf(".ui."), temp1.length)
         val groupName = temp1.substringBefore(".ui")
         log("startPluginActivity groupName=$groupName,className=$className")
-        XposedHelpers.callStaticMethod(WxClass.PluginHelper, wxConfig.methods.PluginHelper_start,
+        val PluginHelper = XposedHelpers.findClass(wxConfig.classes.PluginHelper, loadPackageParam.classLoader)
+        XposedHelpers.callStaticMethod(PluginHelper, wxConfig.methods.PluginHelper_start,
                 context as Context, groupName, className)
     }
 
