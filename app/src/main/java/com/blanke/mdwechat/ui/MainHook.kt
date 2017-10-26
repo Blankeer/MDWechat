@@ -69,7 +69,7 @@ class MainHook : BaseHookUi() {
                         log("LauncherUI_startMainUI addView")
                         refreshPrefs()
                         //fix soft input ui move up
-                        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+//                        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
                         WxObjects.LauncherUI = WeakReference(activity)
                         val mHomeUi = getObjectField(activity, wxConfig.fields.LauncherUI_mHomeUi)
                         WxObjects.HomeUI = WeakReference(mHomeUi)
@@ -369,7 +369,8 @@ class MainHook : BaseHookUi() {
                     }
                     floatItems.add(it)
                     addFloatButton(actionMenu, context, it.text,
-                            BitmapDrawable(context.resources, drawable2), primaryColor)
+                            BitmapDrawable(context.resources,
+                                    AppCustomConfig.getScaleBitmap(drawable2)), primaryColor)
                 }
 
         actionMenu.setFloatButtonClickListener { fab, index ->

@@ -14,6 +14,7 @@ import java.io.InputStreamReader
  */
 
 object AppCustomConfig {
+    var bitmapScale = 1F
     fun getWxVersionConfig(version: String): WxVersionConfig {
         var configName = version + ".config"
         if (HookConfig.is_play) {
@@ -32,7 +33,7 @@ object AppCustomConfig {
     }
 
     fun getTabIcon(index: Int): Bitmap? {
-        return getIcon(Common.FILE_NAME_TAB_PREFIX + "$index.png")
+        return getScaleBitmap(getIcon(Common.FILE_NAME_TAB_PREFIX + "$index.png"))
     }
 
     fun getBubbleLeftIcon(): Bitmap? {
@@ -62,4 +63,8 @@ object AppCustomConfig {
         return BitmapFactory.decodeFile(filePath)
     }
 
+    fun getScaleBitmap(bitmap: Bitmap?): Bitmap? {
+        if (bitmap == null) return null
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * bitmapScale).toInt(), (bitmap.height * bitmapScale).toInt(), true)
+    }
 }

@@ -3,10 +3,7 @@ package com.blanke.mdwechat
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
-import com.blanke.mdwechat.config.HookConfig
-import com.blanke.mdwechat.config.WxClass
-import com.blanke.mdwechat.config.WxObjects
-import com.blanke.mdwechat.config.WxVersionConfig
+import com.blanke.mdwechat.config.*
 import com.blanke.mdwechat.ui.*
 import com.blanke.mdwechat.util.LogUtil.log
 import de.robv.android.xposed.XC_MethodHook
@@ -58,6 +55,11 @@ object WeChatHelper {
             WxObjects.MdContext = WeakReference(context)
             //防止被回收,弱引用
             XposedHelpers.setAdditionalInstanceField(application, "hookContext", context)
+            val resources = context.resources
+            val dm = resources.displayMetrics
+            val density = dm.density
+            AppCustomConfig.bitmapScale = density / 2.6F
+//            log("density=$density")
             executeHookUi()
         }
     }
