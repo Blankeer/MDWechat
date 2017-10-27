@@ -58,7 +58,7 @@ object WeChatHelper {
             val resources = context.resources
             val dm = resources.displayMetrics
             val density = dm.density
-            AppCustomConfig.bitmapScale = density / 2.6F
+            AppCustomConfig.bitmapScale = density / 3F
 //            log("density=$density")
             executeHookUi()
         }
