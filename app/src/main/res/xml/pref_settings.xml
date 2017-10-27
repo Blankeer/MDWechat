@@ -193,4 +193,6 @@
             android:key="@string/key_hook_menu_appbrand"
             android:title="@string/text_hook_menu_appbrand" />
     </PreferenceCategory>
+    <Preference />
+    <Preference />
 </PreferenceScreen>
