@@ -79,7 +79,7 @@ object HookConfig {
         }
     val is_play: Boolean
         get() {
-            return WeChatHelper.XMOD_PREFS.getBoolean(key_is_play, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_is_play, false)
         }
     val is_hook_bubble_tint: Boolean
         get() {
@@ -115,11 +115,11 @@ object HookConfig {
         }
     val is_hook_menu_sns: Boolean
         get() {
-            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_sns, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_sns, false)
         }
     val is_hook_menu_appbrand: Boolean
         get() {
-            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_appbrand, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_menu_appbrand, false)
         }
     val is_hook_bubble: Boolean
         get() {
