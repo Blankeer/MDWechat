@@ -25,34 +25,34 @@ class DiscoverHook : BaseHookUi() {
     private lateinit var hookMenus: MutableList<String>
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
-        hookMenus = arrayListOf()
-        if (HookConfig.is_hook_menu_game) {
-            hookMenus.add("more_tab_game_recommend")
-        }
-        if (HookConfig.is_hook_menu_shop) {
-            hookMenus.add("jd_market_entrance")
-        }
-        if (HookConfig.is_hook_menu_qrcode) {
-            hookMenus.add("find_friends_by_qrcode")
-        }
-        if (HookConfig.is_hook_menu_shake) {
-            hookMenus.add("find_friends_by_shake")
-        }
-        if (HookConfig.is_hook_menu_near) {
-            hookMenus.add("find_friends_by_near")
-        }
-        if (HookConfig.is_hook_menu_sns) {
-            hookMenus.add("album_dyna_photo_ui_title")
-        }
-        if (HookConfig.is_hook_menu_appbrand) {
-            hookMenus.add("app_brand_entrance")
-        }
         xMethod(wxConfig.classes.MMPreferenceAdapter,
                 wxConfig.methods.MMPreferenceAdapter_setVisible,
                 C.String, C.Boolean,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+                        hookMenus = arrayListOf()
+                        if (HookConfig.is_hook_menu_game) {
+                            hookMenus.add("more_tab_game_recommend")
+                        }
+                        if (HookConfig.is_hook_menu_shop) {
+                            hookMenus.add("jd_market_entrance")
+                        }
+                        if (HookConfig.is_hook_menu_qrcode) {
+                            hookMenus.add("find_friends_by_qrcode")
+                        }
+                        if (HookConfig.is_hook_menu_shake) {
+                            hookMenus.add("find_friends_by_shake")
+                        }
+                        if (HookConfig.is_hook_menu_near) {
+                            hookMenus.add("find_friends_by_near")
+                        }
+                        if (HookConfig.is_hook_menu_sns) {
+                            hookMenus.add("album_dyna_photo_ui_title")
+                        }
+                        if (HookConfig.is_hook_menu_appbrand) {
+                            hookMenus.add("app_brand_entrance")
+                        }
                         if (hookMenus.size == 0) {
                             return
                         }
