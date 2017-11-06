@@ -57,7 +57,7 @@ object FileUtils {
     }
 
     @Throws(IOException::class)
-    private fun copyFile(`in`: InputStream, out: OutputStream) {
+    fun copyFile(`in`: InputStream, out: OutputStream) {
         val buffer = ByteArray(1024)
         var read: Int
         do {
@@ -67,8 +67,5 @@ object FileUtils {
             }
             out.write(buffer, 0, read)
         } while (true)
-//        while ((read = `in`.read(buffer)) != -1) {
-//            out.write(buffer, 0, read)
-//        }
     }
 }

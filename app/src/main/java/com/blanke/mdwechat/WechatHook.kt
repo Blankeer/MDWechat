@@ -15,7 +15,6 @@ class WechatHook : XC_MethodHook(), IXposedHookZygoteInit, IXposedHookLoadPackag
     @Throws(Throwable::class)
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
         MODULE_PATH = startupParam.modulePath
-        WeChatHelper.initPrefs()
     }
 
     @Throws(Throwable::class)
@@ -23,6 +22,7 @@ class WechatHook : XC_MethodHook(), IXposedHookZygoteInit, IXposedHookLoadPackag
         if (lpparam.packageName != Common.WECHAT_PACKAGENAME) {
             return
         }
+        WeChatHelper.initPrefs()
         val context = XposedHelpers.callMethod(
                 XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null),
                         "currentActivityThread"), "getSystemContext") as Context

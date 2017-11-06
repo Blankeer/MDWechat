@@ -10,7 +10,11 @@ import android.support.v4.app.ActivityCompat
 import android.widget.Toast
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
+import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.util.FileUtils
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 
 /**
@@ -27,7 +31,18 @@ class SettingsActivity : Activity() {
         verifyStoragePermissions(this)
         copyConfig()
         findViewById(R.id.fab).setOnClickListener {
+            copySharedPrefences()
             goToWechatSettingPage()
+        }
+        copySharedPrefences()
+    }
+
+    fun copySharedPrefences() {
+        val sharedPrefsDir = File(filesDir, "../shared_prefs")
+        val sharedPrefsFile = File(sharedPrefsDir, Common.MOD_PREFS + ".xml")
+        if (sharedPrefsFile.exists()) {
+            val outStream = FileOutputStream(File(AppCustomConfig.getConfigFile(Common.MOD_PREFS + ".xml")))
+            FileUtils.copyFile(FileInputStream(sharedPrefsFile), outStream)
         }
     }
 

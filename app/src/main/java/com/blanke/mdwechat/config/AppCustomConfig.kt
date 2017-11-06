@@ -28,6 +28,10 @@ object AppCustomConfig {
         return Common.APP_DIR_PATH + Common.CONFIG_WECHAT_DIR + File.separator + fileName
     }
 
+    fun getConfigFile(fileName: String): String {
+        return Common.APP_DIR_PATH + Common.CONFIG_DIR + File.separator + fileName
+    }
+
     fun getViewConfigFile(fileName: String): String {
         return Common.APP_DIR_PATH + Common.CONFIG_VIEW_DIR + File.separator + fileName
     }

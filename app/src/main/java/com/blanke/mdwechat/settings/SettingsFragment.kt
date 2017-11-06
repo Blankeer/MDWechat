@@ -1,7 +1,6 @@
 package com.blanke.mdwechat.settings
 
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -20,7 +19,7 @@ import com.blanke.mdwechat.util.FileUtils
 class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferenceManager.setSharedPreferencesMode(Context.MODE_WORLD_READABLE)
+//        preferenceManager.setSharedPreferencesMode(Context.MODE_WORLD_READABLE)
         preferenceManager.setSharedPreferencesName(Common.MOD_PREFS)
         addPreferencesFromResource(R.xml.pref_settings)
 

@@ -125,8 +125,9 @@ object WeChatHelper {
     }
 
     fun initPrefs() {
-        XMOD_PREFS = XSharedPreferences(Common.MY_APPLICATION_PACKAGE, Common.MOD_PREFS)
+        XMOD_PREFS = XSharedPreferences(File(AppCustomConfig.getConfigFile(Common.MOD_PREFS + ".xml")))
         XMOD_PREFS.makeWorldReadable()
+        XMOD_PREFS.reload()
     }
 
     fun xMethod(className: String, methodName: String, vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook {
