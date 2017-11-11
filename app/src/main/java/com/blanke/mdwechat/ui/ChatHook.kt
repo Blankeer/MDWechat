@@ -1,14 +1,16 @@
 package com.blanke.mdwechat.ui
 
 import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.v4.graphics.drawable.DrawableCompat
+import android.graphics.drawable.StateListDrawable
 import android.view.View
 import com.blanke.mdwechat.WeChatHelper.wxConfig
 import com.blanke.mdwechat.WeChatHelper.xMethod
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.C
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.util.ColorUtils
 import com.blanke.mdwechat.util.DrawableUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -29,14 +31,8 @@ class ChatHook : BaseHookUi() {
                 val view = param.thisObject as View
                 if (view.id == leftAudioAnimView?.id) {
                     view.background = getLeftBubble(view.resources)
-                    if (HookConfig.is_hook_bubble_tint) {
-                        DrawableCompat.setTint(view.background, HookConfig.get_hook_bubble_tint_left)
-                    }
                 } else if (view.id == rightAudioAnimView?.id) {
                     view.background = getRightBubble(view.resources)
-                    if (HookConfig.is_hook_bubble_tint) {
-                        DrawableCompat.setTint(view.background, HookConfig.get_hook_bubble_tint_right)
-                    }
                 }
             }
         })
@@ -63,18 +59,11 @@ class ChatHook : BaseHookUi() {
                 if (!HookConfig.is_hook_bubble) {
                     return
                 }
-                (textMsgView.parent as View).elevation = 1F
                 if (isOther && bubbleLeft != null) {
                     textMsgView.background = bubbleLeft
-                    if (HookConfig.is_hook_bubble_tint) {
-                        DrawableCompat.setTint(textMsgView.background, HookConfig.get_hook_bubble_tint_left)
-                    }
                 }
                 if (!isOther && bubbleRight != null) {
                     textMsgView.background = bubbleRight
-                    if (HookConfig.is_hook_bubble_tint) {
-                        DrawableCompat.setTint(textMsgView.background, HookConfig.get_hook_bubble_tint_right)
-                    }
                 }
             }
         })
@@ -94,18 +83,11 @@ class ChatHook : BaseHookUi() {
                 if (!HookConfig.is_hook_bubble) {
                     return
                 }
-                (audioMsgView.parent as View).elevation = 1F
                 if (isOther && bubbleLeft != null) {
                     audioMsgView.background = bubbleLeft
-                    if (HookConfig.is_hook_bubble_tint) {
-                        DrawableCompat.setTint(audioMsgView.background, HookConfig.get_hook_bubble_tint_left)
-                    }
                 }
                 if (!isOther && bubbleRight != null) {
                     audioMsgView.background = bubbleRight
-                    if (HookConfig.is_hook_bubble_tint) {
-                        DrawableCompat.setTint(audioMsgView.background, HookConfig.get_hook_bubble_tint_right)
-                    }
                 }
                 leftAudioAnimView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mLeftAudioAnimImageView) as View
                 rightAudioAnimView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mRightAudioAnimImageView) as View
@@ -113,13 +95,45 @@ class ChatHook : BaseHookUi() {
         })
     }
 
-    private fun getLeftBubble(resources: Resources): Drawable? {
-        val bubbleLeft = AppCustomConfig.getBubbleLeftIcon()
-        return DrawableUtils.getNineDrawable(resources, bubbleLeft)
+    private fun getDarkColor(color: Int): Int {
+        return ColorUtils.getDarkerColor(color, 0.8F)
     }
 
-    private fun getRightBubble(resources: Resources): Drawable? {
+    private fun getLeftBubble(resources: Resources,
+                              isTint: Boolean = HookConfig.is_hook_bubble_tint,
+                              tintColor: Int = HookConfig.get_hook_bubble_tint_left): Drawable? {
+        val bubbleLeft = AppCustomConfig.getBubbleLeftIcon() ?: return null
+        val bubbleDrawable = DrawableUtils.getNineDrawable(resources, bubbleLeft)
+        val drawable = StateListDrawable()
+        val pressBubbleDrawable = bubbleDrawable.constantState!!.newDrawable().mutate()
+        if (isTint) {
+            bubbleDrawable.setTint(tintColor)
+            pressBubbleDrawable.setTint(getDarkColor(tintColor))
+        } else {
+            pressBubbleDrawable.setTint(getDarkColor(Color.WHITE))
+        }
+        drawable.addState(intArrayOf(android.R.attr.state_pressed), pressBubbleDrawable)
+        drawable.addState(intArrayOf(android.R.attr.state_focused), pressBubbleDrawable)
+        drawable.addState(intArrayOf(), bubbleDrawable)
+        return drawable
+    }
+
+    private fun getRightBubble(resources: Resources,
+                               isTint: Boolean = HookConfig.is_hook_bubble_tint,
+                               tintColor: Int = HookConfig.get_hook_bubble_tint_right): Drawable? {
         val bubble = AppCustomConfig.getBubbleRightIcon()
-        return DrawableUtils.getNineDrawable(resources, bubble)
+        val bubbleDrawable = DrawableUtils.getNineDrawable(resources, bubble)
+        val drawable = StateListDrawable()
+        val pressBubbleDrawable = bubbleDrawable.constantState!!.newDrawable().mutate()
+        if (isTint) {
+            bubbleDrawable.setTint(tintColor)
+            pressBubbleDrawable.setTint(getDarkColor(tintColor))
+        } else {
+            pressBubbleDrawable.setTint(getDarkColor(Color.WHITE))
+        }
+        drawable.addState(intArrayOf(android.R.attr.state_pressed), pressBubbleDrawable)
+        drawable.addState(intArrayOf(android.R.attr.state_focused), pressBubbleDrawable)
+        drawable.addState(intArrayOf(), bubbleDrawable)
+        return drawable
     }
 }
