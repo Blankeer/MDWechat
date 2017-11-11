@@ -62,6 +62,8 @@ class WxVersionConfig {
         lateinit var ChatAudioViewHolder_mChatTextView: String
         lateinit var TopInfo_isTop: String
         lateinit var CellTextView_mMsgView: String
+        lateinit var ChatAudioViewHolder_mLeftAudioAnimImageView: String
+        lateinit var ChatAudioViewHolder_mRightAudioAnimImageView: String
     }
 
     class Methods {
