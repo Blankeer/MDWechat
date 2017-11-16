@@ -477,7 +477,7 @@ class MainHook : BaseHookUi() {
         tabLayout.indicatorColor = Color.WHITE
         tabLayout.indicatorCornerRadius = dp2.toFloat()
         tabLayout.indicatorAnimDuration = 200
-        tabLayout.elevation = 0f
+        tabLayout.elevation = if (HookConfig.is_hook_tab_elevation) 5F else 0F
         tabLayout.textsize = context.getResources().getDimension(R.dimen.tabTextSize)
         tabLayout.unreadBackground = Color.WHITE
         tabLayout.unreadTextColor = primaryColor

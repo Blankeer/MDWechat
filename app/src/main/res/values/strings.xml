@@ -93,4 +93,6 @@
     <string name="key_hook_statusbar_transparent">key_hook_statusbar_transparent</string>
     <string name="text_hook_statusbar_transparent">状态栏全透明</string>
     <string name="msg_kill_wechat">请手动强行停止微信,再打开微信看效果.</string>
+    <string name="key_hook_tab_elevation">key_hook_tab_elevation</string>
+    <string name="text_hook_tab_elevation">TabLayout阴影</string>
 </resources>

@@ -17,6 +17,7 @@ object HookConfig {
     private val key_hook_float_button = "key_hook_float_button"
     private val key_hook_search = "key_hook_search"
     private val key_hook_tab = "key_hook_tab"
+    private val key_hook_tab_elevation = "key_hook_tab_elevation"
     private val key_hook_menu_game = "key_hook_menu_game"
     private val key_hook_menu_shop = "key_hook_menu_shop"
     private val key_is_play = "key_is_play"
@@ -76,6 +77,11 @@ object HookConfig {
         get() {
             WeChatHelper.XMOD_PREFS.reload()
             return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_tab, true)
+        }
+    val is_hook_tab_elevation: Boolean
+        get() {
+            WeChatHelper.XMOD_PREFS.reload()
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_tab_elevation, true)
         }
     val is_hook_menu_game: Boolean
         get() {
