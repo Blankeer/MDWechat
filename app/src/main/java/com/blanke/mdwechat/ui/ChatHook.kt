@@ -1,6 +1,7 @@
 package com.blanke.mdwechat.ui
 
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
@@ -102,27 +103,22 @@ class ChatHook : BaseHookUi() {
     private fun getLeftBubble(resources: Resources,
                               isTint: Boolean = HookConfig.is_hook_bubble_tint,
                               tintColor: Int = HookConfig.get_hook_bubble_tint_left): Drawable? {
-        val bubbleLeft = AppCustomConfig.getBubbleLeftIcon() ?: return null
-        val bubbleDrawable = DrawableUtils.getNineDrawable(resources, bubbleLeft)
-        val drawable = StateListDrawable()
-        val pressBubbleDrawable = bubbleDrawable.constantState!!.newDrawable().mutate()
-        if (isTint) {
-            bubbleDrawable.setTint(tintColor)
-            pressBubbleDrawable.setTint(getDarkColor(tintColor))
-        } else {
-            pressBubbleDrawable.setTint(getDarkColor(Color.WHITE))
-        }
-        drawable.addState(intArrayOf(android.R.attr.state_pressed), pressBubbleDrawable)
-        drawable.addState(intArrayOf(android.R.attr.state_focused), pressBubbleDrawable)
-        drawable.addState(intArrayOf(), bubbleDrawable)
-        return drawable
+        val bubble = AppCustomConfig.getBubbleLeftIcon() ?: return null
+        return getBubble(bubble, resources, isTint, tintColor)
     }
 
     private fun getRightBubble(resources: Resources,
                                isTint: Boolean = HookConfig.is_hook_bubble_tint,
                                tintColor: Int = HookConfig.get_hook_bubble_tint_right): Drawable? {
-        val bubble = AppCustomConfig.getBubbleRightIcon()
-        val bubbleDrawable = DrawableUtils.getNineDrawable(resources, bubble)
+        val bubble = AppCustomConfig.getBubbleRightIcon() ?: return null
+        return getBubble(bubble, resources, isTint, tintColor)
+    }
+
+    private fun getBubble(sourceBitmap: Bitmap,
+                          resources: Resources,
+                          isTint: Boolean = HookConfig.is_hook_bubble_tint,
+                          tintColor: Int = HookConfig.get_hook_bubble_tint_right): Drawable? {
+        val bubbleDrawable = DrawableUtils.getNineDrawable(resources, sourceBitmap)
         val drawable = StateListDrawable()
         val pressBubbleDrawable = bubbleDrawable.constantState!!.newDrawable().mutate()
         if (isTint) {
