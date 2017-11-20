@@ -23,17 +23,19 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  */
 
 class ChatHook : BaseHookUi() {
-    private var leftAudioAnimView: View? = null
-    private var rightAudioAnimView: View? = null
+    private var AUDIO_VIEW_TAG = 0
+    private var audioAnimView: View? = null
+    private var audioingView: View? = null
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
         xMethod(C.View, "setBackgroundResource", C.Int, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
-                if (view.id == leftAudioAnimView?.id) {
-                    view.background = getLeftBubble(view.resources)
-                } else if (view.id == rightAudioAnimView?.id) {
-                    view.background = getRightBubble(view.resources)
+                if (view.id == audioAnimView?.id || view.id === audioingView?.id) {
+                    val isOther = view.getTag(AUDIO_VIEW_TAG)
+                    if (isOther != null && isOther is Boolean) {
+                        view.background = if (isOther) getLeftBubble(view.resources) else getRightBubble(view.resources)
+                    }
                 }
             }
         })
@@ -90,8 +92,11 @@ class ChatHook : BaseHookUi() {
                 if (!isOther && bubbleRight != null) {
                     audioMsgView.background = bubbleRight
                 }
-                leftAudioAnimView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mLeftAudioAnimImageView) as View
-                rightAudioAnimView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mRightAudioAnimImageView) as View
+                audioAnimView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mAudioAnimImageView) as View
+                AUDIO_VIEW_TAG = audioAnimView!!.id
+                audioAnimView!!.setTag(AUDIO_VIEW_TAG, isOther)
+                audioingView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mAudioingImageView) as View
+                audioingView!!.setTag(AUDIO_VIEW_TAG, isOther)
             }
         })
     }
