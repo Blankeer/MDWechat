@@ -23,17 +23,16 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  */
 
 class ChatHook : BaseHookUi() {
-    private var AUDIO_VIEW_TAG = 0
-    private var audioAnimView: View? = null
-    private var audioingView: View? = null
+    private var audioAnimViewId = 0
+    private var audioSendingViewId = 0
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
         xMethod(C.View, "setBackgroundResource", C.Int, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
-                if (view.id == audioAnimView?.id || view.id === audioingView?.id) {
-                    val isOther = view.getTag(AUDIO_VIEW_TAG)
-                    if (isOther != null && isOther is Boolean) {
+                if (view.id == audioAnimViewId || view.id == audioSendingViewId) {
+                    val isOther = view.getTag(view.id)
+                    if (isOther is Boolean) {
                         view.background = if (isOther) getLeftBubble(view.resources) else getRightBubble(view.resources)
                     }
                 }
@@ -92,11 +91,16 @@ class ChatHook : BaseHookUi() {
                 if (!isOther && bubbleRight != null) {
                     audioMsgView.background = bubbleRight
                 }
-                audioAnimView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mAudioAnimImageView) as View
-                AUDIO_VIEW_TAG = audioAnimView!!.id
-                audioAnimView!!.setTag(AUDIO_VIEW_TAG, isOther)
-                audioingView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mAudioingImageView) as View
-                audioingView!!.setTag(AUDIO_VIEW_TAG, isOther)
+                val audioAnimView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mAudioAnimImageView)
+                if (audioAnimView is View) {
+                    audioAnimViewId = audioAnimView.id
+                    audioAnimView.setTag(audioAnimViewId, isOther)
+                }
+                val audioSendingView = getObjectField(viewHolder, wxConfig.fields.ChatAudioViewHolder_mAudioSendingImageView)
+                if (audioSendingView is View) {
+                    audioSendingViewId = audioSendingView.id
+                    audioSendingView.setTag(audioSendingViewId, isOther)
+                }
             }
         })
     }

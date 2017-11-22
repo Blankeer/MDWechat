@@ -8,6 +8,7 @@ import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.text.Editable
+import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -108,6 +109,8 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
         cardParams.rightMargin = cardParams.topMargin
         cardParams.leftMargin = cardParams.rightMargin
         addView(cardLayout, cardParams)
+
+        searchView.inputType = InputType.TYPE_CLASS_TEXT
 
         mClearSearch.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
         backArrowImg.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
