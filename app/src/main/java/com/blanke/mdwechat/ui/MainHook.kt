@@ -94,7 +94,7 @@ class MainHook : BaseHookUi() {
                             return
                         }
                         WxObjects.LauncherUIBottomTabView = WeakReference(tabView)
-                        if (HookConfig.is_hook_tab) {
+                        if (HookConfig.is_hook_hide_wx_tab) {
                             linearLayoutContent.removeView(tabView)
                         }
                         //ActionBar hide

@@ -112,6 +112,10 @@
             android:dependency="@string/key_hook_tab"
             android:key="@string/key_hook_tab_elevation"
             android:title="@string/text_hook_tab_elevation" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_hide_wx_tab"
+            android:title="@string/text_hook_hide_wx_tab" />
     </PreferenceCategory>
 
     <PreferenceCategory
