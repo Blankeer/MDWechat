@@ -45,6 +45,16 @@
         android:key="@string/key_feedback"
         android:title="@string/text_feedback" />
 
+    <Preference
+        android:key="@string/key_feedback_email"
+        android:summary="@string/text_feedback_email_info"
+        android:title="@string/text_feedback_email" />
+
+    <Preference
+        android:key="@string/key_github"
+        android:summary="@string/text_github_info"
+        android:title="@string/text_github" />
+
     <PreferenceCategory
         android:dependency="@string/key_hook_switch"
         android:title="@string/text_common_settings">

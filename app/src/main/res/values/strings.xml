@@ -97,4 +97,10 @@
     <string name="text_hook_tab_elevation">TabLayout阴影</string>
     <string name="key_hook_hide_wx_tab">key_hook_hide_wx_tab</string>
     <string name="text_hook_hide_wx_tab">隐藏微信底栏</string>
+    <string name="key_feedback_email">key_feedback_email</string>
+    <string name="text_feedback_email">给我发邮件反馈</string>
+    <string name="text_feedback_email_info">blanke.master+mdwechat@gmail.com,反馈问题请描述问题并提供日志,不定时检查回复</string>
+    <string name="key_github">key_github</string>
+    <string name="text_github">GitHub地址</string>
+    <string name="text_github_info">可以给个star嘛</string>
 </resources>

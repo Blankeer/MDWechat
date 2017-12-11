@@ -29,6 +29,8 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_reset_wechat_config)).onPreferenceClickListener = this
         findPreference(getString(R.string.key_reset_view_config)).onPreferenceClickListener = this
         findPreference(getString(R.string.key_reset_icon_config)).onPreferenceClickListener = this
+        findPreference(getString(R.string.key_feedback_email)).onPreferenceClickListener = this
+        findPreference(getString(R.string.key_github)).onPreferenceClickListener = this
     }
 
     override fun onPreferenceChange(preference: Preference, o: Any): Boolean {
@@ -45,6 +47,8 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             getString(R.string.key_reset_wechat_config) -> copyWechatConfig()
             getString(R.string.key_reset_view_config) -> copyViewConfig()
             getString(R.string.key_reset_icon_config) -> copyIcons()
+            "key_feedback_email" -> sendEmail()
+            "key_github" -> gotoGithub()
         }
         return true
     }
@@ -109,8 +113,24 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             startActivity(Intent("android.intent.action.VIEW",
                     Uri.parse("http://www.coolapk.com/apk/" + Common.MY_APPLICATION_PACKAGE)))
         }
-
     }
+
+    private fun sendEmail() {
+        try {
+            val info = "mailto:blanke.master+mdwechat@gmail.com?subject=[MDWechat] 请简明描述该问题" +
+                    "&body=请按以下步骤填写,不按此填写的邮件可能会被忽略,谢谢!%0d%0a[问题描述] 请描述遇到了什么问题%0d%0a[环境]请写明安卓版本 手机 rom xp 版本%0d%0a[日志]可以传附件"
+            val uri = Uri.parse(info)
+            startActivity(Intent(Intent.ACTION_SENDTO, uri))
+        } catch (e: Exception) {
+
+        }
+    }
+
+    private fun gotoGithub() {
+        val uri = Uri.parse("https://github.com/Blankeer/MDWechat")
+        startActivity(Intent(Intent.ACTION_VIEW, uri))
+    }
+
 
     private val weChatVersion: String
         get() = "unKnow"
