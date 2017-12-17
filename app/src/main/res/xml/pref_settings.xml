@@ -126,6 +126,14 @@
             android:defaultValue="true"
             android:key="@string/key_hook_hide_wx_tab"
             android:title="@string/text_hook_hide_wx_tab" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_hook_hide_wx_tab_2"
+            android:title="@string/text_hook_hide_wx_tab_2" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_hook_hide_wx_tab_3"
+            android:title="@string/text_hook_hide_wx_tab_3" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -103,4 +103,8 @@
     <string name="key_github">key_github</string>
     <string name="text_github">GitHub地址</string>
     <string name="text_github_info">可以给个star嘛</string>
+    <string name="key_hook_hide_wx_tab_2">key_hook_hide_wx_tab_2</string>
+    <string name="text_hook_hide_wx_tab_2">隐藏发现页面</string>
+    <string name="key_hook_hide_wx_tab_3">key_hook_hide_wx_tab_3</string>
+    <string name="text_hook_hide_wx_tab_3">隐藏设置页面</string>
 </resources>

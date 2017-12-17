@@ -890,8 +890,8 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
      * @param num      num小于0显示红点,num大于0显示数字 ,=0 hide
      */
     public void showMsg(int position, int num) {
-        if (position >= mTabCount) {
-            position = mTabCount - 1;
+        if (position >= mTabCount || position < 0) {
+            return;
         }
 //        post(new Runnable() {
 //            @Override

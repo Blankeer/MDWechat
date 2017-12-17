@@ -194,6 +194,9 @@ class MainHook : BaseHookUi() {
                 val position = param.args[0] as Int
                 tabLayout.startScrollPosition = position
                 tabLayout.indicatorOffset = positionOffset
+                if (HookConfig.is_hook_hide_wx_tab_2 && position == 2) {
+                    param.args[0] = 3
+                }
             }
         })
         xMethod(wxConfig.classes.HomeUiViewPagerChangeListener,
@@ -207,6 +210,9 @@ class MainHook : BaseHookUi() {
                 val tabLayout = this@MainHook.tabLayout?.get() ?: return
                 val position = param!!.args[0] as Int
                 tabLayout.currentTab = position
+                if (HookConfig.is_hook_hide_wx_tab_2 && position == 2) {
+                    param.args[0] = 3
+                }
             }
         })
         // hook tab unread msg
@@ -245,8 +251,9 @@ class MainHook : BaseHookUi() {
                     return
                 }
                 val tabLayout = this@MainHook.tabLayout?.get() ?: return
-                //log("friend unread=" + param.args[0]);
-                tabLayout.showMsg(2, param!!.args[0] as Int)
+                val position = if (HookConfig.is_hook_hide_wx_tab_2) -1 else 2
+//                log("friend unread=" + param!!.args[0] + ",position=$position")
+                tabLayout.showMsg(position, param!!.args[0] as Int)
             }
         })
         xMethod(wxConfig.classes.LauncherUIBottomTabView,
@@ -259,7 +266,8 @@ class MainHook : BaseHookUi() {
                 }
                 val tabLayout = this@MainHook.tabLayout?.get() ?: return
                 val show = param!!.args[0] as Boolean
-                tabLayout.showMsg(2, if (show) -1 else 0)
+                val position = if (HookConfig.is_hook_hide_wx_tab_2) -1 else 2
+                tabLayout.showMsg(position, if (show) -1 else 0)
             }
         })
 
@@ -313,6 +321,39 @@ class MainHook : BaseHookUi() {
                 }
             }
         })
+
+        xMethod(wxConfig.classes.HomeUiViewPagerChangeListener, wxConfig.methods.HomeUiViewPagerChangeListener_getCount,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        var hideTabCount = 0
+                        if (HookConfig.is_hook_hide_wx_tab_2) hideTabCount++
+                        if (HookConfig.is_hook_hide_wx_tab_3) hideTabCount++
+                        param.result = 4 - hideTabCount
+                    }
+                })
+        xMethod(wxConfig.classes.HomeUiViewPagerChangeListener,
+                wxConfig.methods.HomeUiViewPagerChangeListener_getFragment, C.Int,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        val position = param.args[0] as Int
+                        if (HookConfig.is_hook_hide_wx_tab_2 && position == 2) {
+                            param.args[0] = 3
+                        }
+                    }
+                })
+        xMethod(wxConfig.classes.HomeUiViewPagerChangeListener,
+                wxConfig.methods.HomeUiViewPagerChangeListener_visibleFragment, C.Int, C.Int,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        val position = param.args[0] as Int
+                        if (HookConfig.is_hook_hide_wx_tab_2 && position == 2) {
+                            param.result = if (HookConfig.is_hook_hide_wx_tab_3) Unit else 3
+                        }
+                        if (HookConfig.is_hook_hide_wx_tab_3 && position == 3) {
+                            param.result = Unit
+                        }
+                    }
+                })
     }
 
     private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
@@ -487,7 +528,8 @@ class MainHook : BaseHookUi() {
         tabLayout.unSelectIconColor = 0x1aaaaaaa
 
         val mTabEntities = intArrayOf(0, 1, 2, 3)
-                .map { it }
+                .filterNot { HookConfig.is_hook_hide_wx_tab_2 && it == 2 }
+                .filterNot { HookConfig.is_hook_hide_wx_tab_3 && it == 3 }
                 .mapTo(ArrayList<CustomTabEntity>()) {
                     object : CustomTabEntity.TabCustomData() {
                         override fun getTabIcon(): Drawable {
