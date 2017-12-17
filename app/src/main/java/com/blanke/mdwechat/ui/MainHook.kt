@@ -173,6 +173,7 @@ class MainHook : BaseHookUi() {
 //                                log("ActionBarEditText context=${editText.context}")
                             editText.postDelayed({
                                 editText.setText(searchKey)
+                                editText.setSelection(searchKey!!.length)
                                 searchKey = null
                             }, 300)
                         }
