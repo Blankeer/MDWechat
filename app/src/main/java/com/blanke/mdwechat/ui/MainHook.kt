@@ -333,6 +333,7 @@ class MainHook : BaseHookUi() {
                 intent.putExtra("list_attr", 4951)
                 startActivity(intent, wxConfig.classes.SelectContactUI)
             }
+            else -> startPluginActivity(item.type)
         }
     }
 
