@@ -29,6 +29,7 @@ MDWechat 是一个能让微信 Material Design 化的 Xposed 模块.
 ![main02](https://raw.githubusercontent.com/Blankeer/MDWechat/master/image/main02.png)
 ![main03](https://raw.githubusercontent.com/Blankeer/MDWechat/master/image/main03.png)
 ![main04](https://raw.githubusercontent.com/Blankeer/MDWechat/master/image/main04.png)
+![main05](https://raw.githubusercontent.com/Blankeer/MDWechat/master/image/main05.png)
 ![chat01](https://raw.githubusercontent.com/Blankeer/MDWechat/master/image/chat01.png)
 
 # 使用教程
