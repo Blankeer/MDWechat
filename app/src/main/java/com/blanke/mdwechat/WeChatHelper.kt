@@ -100,7 +100,8 @@ object WeChatHelper {
         }
     }
 
-    fun startPluginActivity(classFullName: String) {
+    fun startPluginActivity(classFullName: String?) {
+        if (classFullName == null) return
         try {
             val context = WxObjects.LauncherUI?.get() ?: return
             val temp1 = classFullName.substringAfterLast("plugin.")
@@ -123,7 +124,8 @@ object WeChatHelper {
         context.startActivity(intent)
     }
 
-    fun startActivity(intent: Intent, actName: String) {
+    fun startActivity(intent: Intent, actName: String?) {
+        if (actName == null) return
         val context = WxObjects.LauncherUI?.get() ?: return
         intent.setClassName(context as Context, actName)
         context.startActivity(intent)
@@ -135,11 +137,13 @@ object WeChatHelper {
         XMOD_PREFS.reload()
     }
 
-    fun xMethod(className: String, methodName: String, vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook {
+    fun xMethod(className: String?, methodName: String?, vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook? {
+        if (className == null || methodName == null) return null
         return findAndHookMethod(className, loadPackageParam.classLoader, methodName, *parameterTypesAndCallback)
     }
 
-    fun xMethod(clazz: Class<*>, methodName: String, vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook {
+    fun xMethod(clazz: Class<*>?, methodName: String?, vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook? {
+        if (clazz == null || methodName == null) return null
         return findAndHookMethod(clazz, methodName, *parameterTypesAndCallback)
     }
 

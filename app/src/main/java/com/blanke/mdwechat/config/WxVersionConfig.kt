@@ -13,81 +13,84 @@ class WxVersionConfig {
     lateinit var methods: Methods
 
     class Classes {
-        lateinit var LauncherUI: String
-        lateinit var HomeUI: String
-        lateinit var HomeUiTabHelper: String
-        lateinit var MMFragmentActivity: String
-        lateinit var AvatarUtils2: String
-        lateinit var TouchImageView: String
-        lateinit var FTSMainUI: String
-        lateinit var HomeUiViewPagerChangeListener: String
-        lateinit var WxViewPager: String
-        lateinit var LauncherUIBottomTabView: String
-        lateinit var ActionBarContainer: String
-        lateinit var ToolbarWidgetWrapper: String
-        lateinit var ActionBarSearchView: String
-        lateinit var ActionBarEditText: String
-        lateinit var ConversationFragment: String
-        lateinit var ConversationAdapter: String
-        lateinit var ContactFragment: String
-        lateinit var ContactAdapter: String
-        lateinit var DiscoverFragment: String
-        lateinit var MMPreferenceAdapter: String
-        lateinit var SettingsFragment: String
-        lateinit var ChatViewHolder: String
-        lateinit var ChatAudioViewHolder: String
-        lateinit var XLogSetup: String
-        lateinit var PluginHelper: String
-        lateinit var SnsTimeLineUI: String
-        lateinit var WalletOfflineCoinPurseUI: String
-        lateinit var BaseScanUI: String
-        lateinit var AddMoreFriendsUI: String
-        lateinit var AppBrandLauncherUI: String
-        lateinit var MallIndexUI: String
-        lateinit var FavoriteIndexUI: String
-        lateinit var SelectContactUI: String
+        var LauncherUI: String? = null
+        var HomeUI: String? = null
+        var HomeUiTabHelper: String? = null
+        var MMFragmentActivity: String? = null
+        var AvatarUtils2: String? = null
+        var TouchImageView: String? = null
+        var FTSMainUI: String? = null
+        var HomeUiViewPagerChangeListener: String? = null
+        var WxViewPager: String? = null
+        var LauncherUIBottomTabView: String? = null
+        var ActionBarContainer: String? = null
+        var ToolbarWidgetWrapper: String? = null
+        var ActionBarSearchView: String? = null
+        var ActionBarEditText: String? = null
+        var ConversationFragment: String? = null
+        var ConversationAdapter: String? = null
+        var ContactFragment: String? = null
+        var ContactAdapter: String? = null
+        var DiscoverFragment: String? = null
+        var MMPreferenceAdapter: String? = null
+        var SettingsFragment: String? = null
+        var ChatViewHolder: String? = null
+        var ChatAudioViewHolder: String? = null
+        var XLogSetup: String? = null
+        var PluginHelper: String? = null
+        var SnsTimeLineUI: String? = null
+        var WalletOfflineCoinPurseUI: String? = null
+        var BaseScanUI: String? = null
+        var AddMoreFriendsUI: String? = null
+        var AppBrandLauncherUI: String? = null
+        var MallIndexUI: String? = null
+        var FavoriteIndexUI: String? = null
+        var SelectContactUI: String? = null
     }
 
     class Fields {
-        lateinit var ActionBarContainer_mBackground: String
-        lateinit var LauncherUI_mHomeUi: String
-        lateinit var HomeUI_mActionBar: String
-        lateinit var HomeUi_mHomeUiTabHelper: String
-        lateinit var HomeUiTabHelper_mViewPager: String
-        lateinit var HomeUI_mMoreMenuItem: String
-        lateinit var ConversationFragment_mListView: String
-        lateinit var ContactFragment_mListView: String
-        lateinit var PreferenceFragment_mListView: String
-        lateinit var ChatViewHolder_mChatTextView: String
-        lateinit var ChatAudioViewHolder_mChatTextView: String
-        lateinit var TopInfo_isTop: String
-        lateinit var CellTextView_mMsgView: String
-        lateinit var ChatAudioViewHolder_mAudioAnimImageView: String
-        lateinit var ChatAudioViewHolder_mAudioSendingImageView: String
+        var ActionBarContainer_mBackground: String? = null
+        var LauncherUI_mHomeUi: String? = null
+        var HomeUI_mActionBar: String? = null
+        var HomeUi_mHomeUiTabHelper: String? = null
+        var HomeUiTabHelper_mViewPager: String? = null
+        var HomeUI_mMoreMenuItem: String? = null
+        var ConversationFragment_mListView: String? = null
+        var ContactFragment_mListView: String? = null
+        var PreferenceFragment_mListView: String? = null
+        var ChatViewHolder_mChatTextView: String? = null
+        var ChatAudioViewHolder_mChatTextView: String? = null
+        var TopInfo_isTop: String? = null
+        var CellTextView_mMsgView: String? = null
+        var ChatAudioViewHolder_mAudioAnimImageView: String? = null
+        var ChatAudioViewHolder_mAudioSendingImageView: String? = null
     }
 
     class Methods {
-        lateinit var LauncherUI_startMainUI: String
-        lateinit var AvatarUtils2_getAvatarHDBitmap: String
-        lateinit var AvatarUtils2_getAvatarBitmap: String
-        lateinit var AvatarUtils2_getDefaultAvatarBitmap: String
-        lateinit var TouchImageView_init: String
-        lateinit var HomeUiViewPagerChangeListener_onPageScrolled: String
-        lateinit var HomeUiViewPagerChangeListener_onPageSelected: String
-        lateinit var WxViewPager_setCurrentItem: String
-        lateinit var LauncherUIBottomTabView_setMainTabUnread: String
-        lateinit var LauncherUIBottomTabView_setContactTabUnread: String
-        lateinit var LauncherUIBottomTabView_setFriendTabUnread: String
-        lateinit var LauncherUIBottomTabView_showFriendTabUnreadPoint: String
-        lateinit var ActionBarSearchView_init: String
-        lateinit var MainFragment_onTabCreate: String
-        lateinit var MMPreferenceAdapter_setVisible: String
-        lateinit var ChatViewHolder_loadView: String
-        lateinit var ChatAudioViewHolder_loadView: String
-        lateinit var XLogSetup_keep_setupXLog: String
-        lateinit var PluginHelper_start: String
-        lateinit var ConversationAdapter_getUserInfo: String
-        lateinit var ConversationAdapter_getTopInfo: String
+        var LauncherUI_startMainUI: String? = null
+        var AvatarUtils2_getAvatarHDBitmap: String? = null
+        var AvatarUtils2_getAvatarBitmap: String? = null
+        var AvatarUtils2_getDefaultAvatarBitmap: String? = null
+        var TouchImageView_init: String? = null
+        var HomeUiViewPagerChangeListener_onPageScrolled: String? = null
+        var HomeUiViewPagerChangeListener_onPageSelected: String? = null
+        var HomeUiViewPagerChangeListener_getCount: String? = null
+        var HomeUiViewPagerChangeListener_getFragment: String? = null
+        var HomeUiViewPagerChangeListener_visibleFragment: String? = null
+        var WxViewPager_setCurrentItem: String? = null
+        var LauncherUIBottomTabView_setMainTabUnread: String? = null
+        var LauncherUIBottomTabView_setContactTabUnread: String? = null
+        var LauncherUIBottomTabView_setFriendTabUnread: String? = null
+        var LauncherUIBottomTabView_showFriendTabUnreadPoint: String? = null
+        var ActionBarSearchView_init: String? = null
+        var MainFragment_onTabCreate: String? = null
+        var MMPreferenceAdapter_setVisible: String? = null
+        var ChatViewHolder_loadView: String? = null
+        var ChatAudioViewHolder_loadView: String? = null
+        var XLogSetup_keep_setupXLog: String? = null
+        var PluginHelper_start: String? = null
+        var ConversationAdapter_getUserInfo: String? = null
+        var ConversationAdapter_getTopInfo: String? = null
     }
 
     companion object {
