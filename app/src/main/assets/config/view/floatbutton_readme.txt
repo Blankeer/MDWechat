@@ -28,3 +28,13 @@ appbrand:小程序
 mywallet:钱包
 favorite:收藏
 chatgroup:群聊
+
+新增自定义 type: 可以是 plugin 页面的 class 全名
+形式必须是: com.tencent.mm.plugin.*.ui.* ,其他包下的 Activity 不支持
+比如: 发朋友圈页面是 com.tencent.mm.plugin.sns.ui.En_c4f742e5
+只能是无参数的页面,好友个人资料页面就不行
+支持的页面,举个例子: 设置 我的个人信息页 卡包 我的表情 公众号 等
+以上具体未测试
+Activity class 名称的获取需要借助其他工具,比如: AutoJS,开发者助手
+
+
