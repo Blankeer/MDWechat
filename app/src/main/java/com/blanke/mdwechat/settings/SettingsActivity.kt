@@ -31,10 +31,9 @@ class SettingsActivity : Activity() {
         verifyStoragePermissions(this)
         copyConfig()
         findViewById(R.id.fab).setOnClickListener {
-            copySharedPrefences()
+            copyConfig()
             goToWechatSettingPage()
         }
-        copySharedPrefences()
     }
 
     fun copySharedPrefences() {
@@ -60,6 +59,7 @@ class SettingsActivity : Activity() {
                 FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_WECHAT_DIR)
                 FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_VIEW_DIR)
                 FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.ICON_DIR)
+                copySharedPrefences()
             }
         }.start()
     }
