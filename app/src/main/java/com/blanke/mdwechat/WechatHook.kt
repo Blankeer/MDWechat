@@ -11,9 +11,8 @@ import java.lang.ref.WeakReference
 class WechatHook : IXposedHookLoadPackage {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (lpparam.packageName != Common.WECHAT_PACKAGENAME) {
+        if (!(lpparam.packageName.contains("com.tencent") && lpparam.packageName.contains("mm")))
             return
-        }
         WeChatHelper.initPrefs()
         val context = XposedHelpers.callMethod(
                 XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null),
