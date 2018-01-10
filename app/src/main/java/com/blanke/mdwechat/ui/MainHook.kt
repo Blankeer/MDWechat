@@ -78,12 +78,11 @@ class MainHook : BaseHookUi() {
                         WxObjects.HomeUiTabHelper = WeakReference(mHomeUiTabHelper)
 
                         val viewPager = XposedHelpers.getObjectField(mHomeUiTabHelper, wxConfig.fields.HomeUiTabHelper_mViewPager)
-                        WxObjects.HomeUI_ViewPager = WeakReference(viewPager)
-
-                        if (viewPager !is View) {
+                        if (viewPager == null || viewPager !is ViewGroup) {
                             log("HomeUI_ViewPager not is View,MainHook fail! viewPager=$viewPager")
                             return
                         }
+                        WxObjects.HomeUI_ViewPager = WeakReference(viewPager)
                         val linearLayoutContent = viewPager.parent as ViewGroup
                         val contentFrameLayout = linearLayoutContent.parent as ViewGroup
                         this@MainHook.contentFrameLayout = WeakReference(contentFrameLayout)
@@ -91,11 +90,11 @@ class MainHook : BaseHookUi() {
                         val tabView = linearLayoutContent.getChildAt(1)
                         if (tabView == null || tabView !is RelativeLayout) {
                             log("HomeUI_tabView not found,MainHook fail! tabView=$tabView")
-                            return
-                        }
-                        WxObjects.LauncherUIBottomTabView = WeakReference(tabView)
-                        if (HookConfig.is_hook_hide_wx_tab) {
-                            linearLayoutContent.removeView(tabView)
+                        } else {
+                            WxObjects.LauncherUIBottomTabView = WeakReference(tabView)
+                            if (HookConfig.is_hook_hide_wx_tab) {
+                                linearLayoutContent.removeView(tabView)
+                            }
                         }
                         //ActionBar hide
                         val actionBar = XposedHelpers.getObjectField(mHomeUi, wxConfig.fields.HomeUI_mActionBar)
