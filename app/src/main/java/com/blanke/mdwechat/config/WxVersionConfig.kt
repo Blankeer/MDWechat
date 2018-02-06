@@ -59,6 +59,7 @@ class WxVersionConfig {
         var ContactFragment_mListView: String? = null
         var PreferenceFragment_mListView: String? = null
         var ChatViewHolder_mChatTextView: String? = null
+        var ChatViewHolder_mTextColor: String? = null
         var ChatAudioViewHolder_mChatTextView: String? = null
         var TopInfo_isTop: String? = null
         var CellTextView_mMsgView: String? = null

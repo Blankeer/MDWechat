@@ -49,9 +49,13 @@ class ChatHook : BaseHookUi() {
                     return
                 }
                 val msgTextView = XposedHelpers.getObjectField(textMsgView, wxConfig.fields.CellTextView_mMsgView)
+                val textColor = if (isOther) HookConfig.get_hook_chat_text_color_left else HookConfig.get_hook_chat_text_color_right
                 if (msgTextView != null) {
-                    val textColor = if (isOther) HookConfig.get_hook_chat_text_color_left else HookConfig.get_hook_chat_text_color_right
                     XposedHelpers.callMethod(msgTextView, "setTextColor", textColor)
+                }
+                // 6.6.2 新增
+                if (wxConfig.fields.ChatViewHolder_mTextColor != null) {
+                    XposedHelpers.setObjectField(textMsgView, wxConfig.fields.ChatViewHolder_mTextColor, textColor)
                 }
                 val bubbleLeft = getLeftBubble(textMsgView.resources)
                 val bubbleRight = getRightBubble(textMsgView.resources)
