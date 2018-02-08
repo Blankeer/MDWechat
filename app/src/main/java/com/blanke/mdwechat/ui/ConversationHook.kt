@@ -45,7 +45,8 @@ class ConversationHook : BaseHookUi() {
                 if (listViewRef != null
                         && listViewRef!!.get()?.id == (param.thisObject as View).id
                         && HookConfig.is_hook_remove_foot_view) {
-                    param.result = null
+                    val view = param.args[0] as View
+                    view.background = transparentDrawable
                 }
             }
         })
