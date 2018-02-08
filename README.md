@@ -19,9 +19,10 @@ MDWechat 是一个能让微信 Material Design 化的 Xposed 模块.
 10. 支持聊天列表置顶底色修改
 11. 聊天气泡修改,支持.9图,支持修改着色,支持修改文本颜色
 12. 发现页面支持隐藏朋友圈/扫一扫/摇一摇/附近的人/游戏/购物/小程序
+13. 移除会话列表下拉小程序,最低支持微信 6.6.2
 
 # 版本支持
-1. 支持的微信版本: [酷安渠道版](https://www.coolapk.com/apk/com.tencent.mm)(6.5.19 6.5.22 6.5.23), [play 版](https://play.google.com/store/apps/details?id=com.tencent.mm)(6.5.16 6.5.23)
+1. 支持的微信版本: [酷安渠道版](https://www.coolapk.com/apk/com.tencent.mm)(6.5.19 6.5.22 6.5.23 6.6.0 6.6.1 6.6.2), [play 版](https://play.google.com/store/apps/details?id=com.tencent.mm)(6.5.16 6.5.23 6.6.1 6.6.2)
 2. 只支持 Android 5.0 以上
 
 # 效果预览
