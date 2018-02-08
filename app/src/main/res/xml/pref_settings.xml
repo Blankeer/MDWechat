@@ -146,6 +146,18 @@
             android:title="@string/text_color_conversation_top"
             app:cpv_colorPresets="@array/colors"
             app:cpv_showAlphaSlider="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_hook_remove_appbrand"
+            android:summary="@string/key_hook_remove_appbrand_summary"
+            android:title="@string/text_hook_remove_appbrand" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_hook_remove_foot_view"
+            android:summary="@string/text_hook_remove_foot_view_summary"
+            android:title="@string/text_hook_remove_foot_view" />
     </PreferenceCategory>
     <PreferenceCategory
         android:dependency="@string/key_hook_switch"

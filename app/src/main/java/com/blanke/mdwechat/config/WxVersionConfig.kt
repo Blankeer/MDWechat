@@ -56,6 +56,7 @@ class WxVersionConfig {
         var HomeUiTabHelper_mViewPager: String? = null
         var HomeUI_mMoreMenuItem: String? = null
         var ConversationFragment_mListView: String? = null
+        var ConversationFragment_mAppBrandEnable: String? = null
         var ContactFragment_mListView: String? = null
         var PreferenceFragment_mListView: String? = null
         var ChatViewHolder_mChatTextView: String? = null

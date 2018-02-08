@@ -107,4 +107,10 @@
     <string name="text_hook_hide_wx_tab_2">隐藏发现页面</string>
     <string name="key_hook_hide_wx_tab_3">key_hook_hide_wx_tab_3</string>
     <string name="text_hook_hide_wx_tab_3">隐藏设置页面</string>
+    <string name="key_hook_remove_appbrand">key_hook_remove_appbrand</string>
+    <string name="text_hook_remove_appbrand">移除顶部下拉小程序</string>
+    <string name="key_hook_remove_appbrand_summary">该功能最低支持微信版本为 6.6.2</string>
+    <string name="key_hook_remove_foot_view">key_hook_remove_foot_view</string>
+    <string name="text_hook_remove_foot_view">移除列表底部空白</string>
+    <string name="text_hook_remove_foot_view_summary">最低支持微信版本 6.6.1,如显示异常,尝试关闭此项</string>
 </resources>

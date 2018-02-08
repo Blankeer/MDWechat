@@ -32,6 +32,8 @@ object HookConfig {
     private val key_hook_hide_actionbar = "key_hook_hide_actionbar"
     private val key_hook_float_button_move = "key_hook_float_button_move"
     private val key_color_conversation_top = "key_color_conversation_top"
+    private val key_hook_remove_appbrand = "key_hook_remove_appbrand"
+    private val key_hook_remove_foot_view = "key_hook_remove_foot_view"
     private val key_hook_menu_sns = "key_hook_menu_sns"
     private val key_hook_menu_appbrand = "key_hook_menu_appbrand"
     private val key_hook_bubble = "key_hook_bubble"
@@ -155,6 +157,16 @@ object HookConfig {
         get() {
             WeChatHelper.XMOD_PREFS.reload()
             return WeChatHelper.XMOD_PREFS.getInt(key_color_conversation_top, Color.GRAY)
+        }
+    val is_hook_remove_appbrand: Boolean
+        get() {
+            WeChatHelper.XMOD_PREFS.reload()
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_remove_appbrand, false)
+        }
+    val is_hook_remove_foot_view: Boolean
+        get() {
+            WeChatHelper.XMOD_PREFS.reload()
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_remove_foot_view, true)
         }
     val is_hook_menu_sns: Boolean
         get() {
