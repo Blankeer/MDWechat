@@ -113,4 +113,5 @@
     <string name="key_hook_remove_foot_view">key_hook_remove_foot_view</string>
     <string name="text_hook_remove_foot_view">移除列表底部空白</string>
     <string name="text_hook_remove_foot_view_summary">最低支持微信版本 6.6.1,如显示异常,尝试关闭此项</string>
+    <string name="msg_permission_fail">请授予必要的存储权限,存储目录在 /sdcard/mdwechat 下.</string>
 </resources>

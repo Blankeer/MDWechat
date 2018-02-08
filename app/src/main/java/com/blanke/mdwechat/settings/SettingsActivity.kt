@@ -29,7 +29,6 @@ class SettingsActivity : Activity() {
         fragmentManager.beginTransaction().replace(R.id.setting_fl_container,
                 SettingsFragment()).commit()
         verifyStoragePermissions(this)
-        copyConfig()
         findViewById(R.id.fab).setOnClickListener {
             copyConfig()
             goToWechatSettingPage()
@@ -72,9 +71,24 @@ class SettingsActivity : Activity() {
                     "android.permission.WRITE_EXTERNAL_STORAGE")
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE)
+            } else {
+                copyConfig()
             }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            if (grantResults.isNotEmpty()
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                copyConfig()
+            } else {
+                Toast.makeText(this, R.string.msg_permission_fail, Toast.LENGTH_LONG).show()
+                finish()
+            }
         }
     }
 }
