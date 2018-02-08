@@ -30,16 +30,23 @@ class ConversationHook : BaseHookUi() {
                         val background = AppCustomConfig.getTabBg(0)
                         listView.background = if (background != null) BitmapDrawable(background) else whiteDrawable
                         listViewRef = WeakReference(listView)
-
-                        // remove appBrand
-                        if (HookConfig.is_hook_remove_appbrand) {
-                            val enable = wxConfig.fields.ConversationFragment_mAppBrandEnable
-                            if (enable != null) {
-                                XposedHelpers.setBooleanField(listView, enable, false)
-                            }
-                        }
                     }
                 })
+
+        //remove head app brand
+        if (wxConfig.classes.ConversationWithAppBrandListView != null) {
+            xMethod(wxConfig.classes.ConversationWithAppBrandListView,
+                    wxConfig.methods.ConversationWithAppBrandListView_isAppBrandHeaderEnable,
+                    C.Boolean, object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    if (HookConfig.is_hook_remove_appbrand) {
+                        param?.result = false
+                    }
+                }
+            })
+        }
+
+        //remove foot view
         xMethod(C.ListView, "addFooterView", C.View, object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 if (listViewRef != null

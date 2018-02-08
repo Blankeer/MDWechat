@@ -28,6 +28,7 @@ class WxVersionConfig {
         var ActionBarSearchView: String? = null
         var ActionBarEditText: String? = null
         var ConversationFragment: String? = null
+        var ConversationWithAppBrandListView: String? = null
         var ConversationAdapter: String? = null
         var ContactFragment: String? = null
         var ContactAdapter: String? = null
@@ -56,7 +57,6 @@ class WxVersionConfig {
         var HomeUiTabHelper_mViewPager: String? = null
         var HomeUI_mMoreMenuItem: String? = null
         var ConversationFragment_mListView: String? = null
-        var ConversationFragment_mAppBrandEnable: String? = null
         var ContactFragment_mListView: String? = null
         var PreferenceFragment_mListView: String? = null
         var ChatViewHolder_mChatTextView: String? = null
@@ -93,6 +93,7 @@ class WxVersionConfig {
         var PluginHelper_start: String? = null
         var ConversationAdapter_getUserInfo: String? = null
         var ConversationAdapter_getTopInfo: String? = null
+        var ConversationWithAppBrandListView_isAppBrandHeaderEnable: String? = null
     }
 
     companion object {
