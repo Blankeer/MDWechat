@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.util.FileUtils
+import java.io.File
 
 /**
  * Created by blanke on 2017/6/8.
@@ -75,6 +76,10 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         Thread {
             kotlin.run {
                 FileUtils.copyAssets(activity, Common.APP_DIR_PATH, Common.ICON_DIR, true)
+                val nomediaFile = File(Common.APP_DIR_PATH + Common.ICON_DIR + File.separator + ".nomedia")
+                if (!nomediaFile.exists()) {
+                    nomediaFile.createNewFile()
+                }
             }
         }.start()
         Toast.makeText(activity, R.string.msg_reset_ok, Toast.LENGTH_SHORT).show()
