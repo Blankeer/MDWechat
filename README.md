@@ -22,7 +22,7 @@ MDWechat 是一个能让微信 Material Design 化的 Xposed 模块.
 13. 移除会话列表下拉小程序,最低支持微信 6.6.2
 
 # 版本支持
-1. 支持的微信版本: [酷安渠道版](https://www.coolapk.com/apk/com.tencent.mm)(6.5.19 6.5.22 6.5.23 6.6.0 6.6.1 6.6.2), [play 版](https://play.google.com/store/apps/details?id=com.tencent.mm)(6.5.16 6.5.23 6.6.1 6.6.2)
+1. 支持的微信版本: [酷安渠道版](https://www.coolapk.com/apk/com.tencent.mm)(6.5.19 6.5.22 6.5.23 6.6.0 6.6.1 6.6.2 6.6.3 6.6.5), [play 版](https://play.google.com/store/apps/details?id=com.tencent.mm)(6.5.16 6.5.23 6.6.1 6.6.2)
 2. 只支持 Android 5.0 以上
 
 # 效果预览
