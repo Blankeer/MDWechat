@@ -110,7 +110,7 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
         cardParams.leftMargin = cardParams.rightMargin
         addView(cardLayout, cardParams)
 
-        searchView.inputType = InputType.TYPE_CLASS_TEXT
+        searchView.inputType = InputType.TYPE_NULL
 
         mClearSearch.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
         backArrowImg.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)

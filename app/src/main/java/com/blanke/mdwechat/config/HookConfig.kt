@@ -76,7 +76,7 @@ object HookConfig {
     val is_hook_search: Boolean
         get() {
             WeChatHelper.XMOD_PREFS.reload()
-            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_search, true)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_search, false)
         }
     val is_hook_tab: Boolean
         get() {
