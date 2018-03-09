@@ -42,13 +42,24 @@ repositories {
     mavenCentral()
 }
 
+// 每次修改运行后自动让 VXP 中的模块`即时生效` ,需要将 (Debug Configurations) - Before Launch - Gradle aware Make - 修改为 :app:installDebug
 afterEvaluate {
     installDebug.doLast {
         updateVirtualXposedAPP.execute()
+        rebootVirtualXposedAPP.execute()
+//        launchVirtualXposedAPP.execute()
     }
 }
-
+// 更新 VXP 中的 app
 task updateVirtualXposedAPP(type: Exec) {
     def pkg = android.defaultConfig.applicationId
     commandLine android.adbExecutable, 'shell', 'am', 'broadcast', '-a', 'io.va.exposed.CMD', '-e', 'cmd', 'update', '-e', 'pkg', pkg
+}
+// 重启 VXP
+task rebootVirtualXposedAPP(type: Exec) {
+    commandLine android.adbExecutable, 'shell', 'am', 'broadcast', '-a', 'io.va.exposed.CMD', '-e', 'cmd', 'reboot'
+}
+// 重启 VXP 微信
+task launchVirtualXposedAPP(type: Exec) {
+    // 有待 VXP 增加
 }
