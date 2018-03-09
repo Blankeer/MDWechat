@@ -41,3 +41,14 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+afterEvaluate {
+    installDebug.doLast {
+        updateVirtualXposedAPP.execute()
+    }
+}
+
+task updateVirtualXposedAPP(type: Exec) {
+    def pkg = android.defaultConfig.applicationId
+    commandLine android.adbExecutable, 'shell', 'am', 'broadcast', '-a', 'io.va.exposed.CMD', '-e', 'cmd', 'update', '-e', 'pkg', pkg
+}
