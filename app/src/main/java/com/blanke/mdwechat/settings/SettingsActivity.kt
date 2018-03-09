@@ -5,8 +5,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.support.v4.app.ActivityCompat
+import android.view.View
 import android.widget.Toast
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
@@ -22,25 +25,38 @@ import java.io.FileOutputStream
  */
 
 class SettingsActivity : Activity() {
+    private lateinit var fab: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        fragmentManager.beginTransaction().replace(R.id.setting_fl_container,
-                SettingsFragment()).commit()
         verifyStoragePermissions(this)
-        findViewById(R.id.fab).setOnClickListener {
+        fab = findViewById(R.id.fab)
+        fab.setOnClickListener {
             copyConfig()
             goToWechatSettingPage()
         }
     }
 
-    fun copySharedPrefences() {
+    private fun showSettingsFragment() {
+        findViewById(R.id.pb_loading).visibility = View.GONE
+        fab.visibility = View.VISIBLE
+        fragmentManager.beginTransaction().replace(R.id.setting_fl_container,
+                SettingsFragment()).commit()
+    }
+
+    private fun copySharedPrefences() {
         val sharedPrefsDir = File(filesDir, "../shared_prefs")
         val sharedPrefsFile = File(sharedPrefsDir, Common.MOD_PREFS + ".xml")
+        val sdSPFile = File(AppCustomConfig.getConfigFile(Common.MOD_PREFS + ".xml"))
         if (sharedPrefsFile.exists()) {
-            val outStream = FileOutputStream(File(AppCustomConfig.getConfigFile(Common.MOD_PREFS + ".xml")))
+            val outStream = FileOutputStream(sdSPFile)
             FileUtils.copyFile(FileInputStream(sharedPrefsFile), outStream)
+        } else if (sdSPFile.exists()) { // restore sharedPrefsFile
+            sharedPrefsFile.parentFile.mkdirs()
+            val input = FileInputStream(sdSPFile)
+            val outStream = FileOutputStream(sharedPrefsFile)
+            FileUtils.copyFile(input, outStream)
         }
     }
 
@@ -59,6 +75,9 @@ class SettingsActivity : Activity() {
                 FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_VIEW_DIR)
                 FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.ICON_DIR)
                 copySharedPrefences()
+                Handler(Looper.getMainLooper()).post {
+                    showSettingsFragment()
+                }
             }
         }.start()
     }
