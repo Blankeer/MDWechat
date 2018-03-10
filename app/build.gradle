@@ -47,7 +47,7 @@ afterEvaluate {
     installDebug.doLast {
         updateVirtualXposedAPP.execute()
         rebootVirtualXposedAPP.execute()
-//        launchVirtualXposedAPP.execute()
+        launchVirtualXposedAPP.execute()
     }
 }
 // 更新 VXP 中的 app
@@ -61,5 +61,6 @@ task rebootVirtualXposedAPP(type: Exec) {
 }
 // 重启 VXP 微信
 task launchVirtualXposedAPP(type: Exec) {
-    // 有待 VXP 增加
+    def pkg = 'com.tencent.mm'
+    commandLine android.adbExecutable, 'shell', 'am', 'broadcast', '-a', 'io.va.exposed.CMD', '-e', 'cmd', 'launch', '-e', 'pkg', pkg
 }
