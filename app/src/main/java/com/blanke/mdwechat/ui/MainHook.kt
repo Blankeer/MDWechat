@@ -301,21 +301,19 @@ class MainHook : BaseHookUi() {
                     return
                 }
                 if (keyEvent.keyCode == KeyEvent.KEYCODE_BACK) {//hook back
-                    if (searchView?.get() == null) {
-                        return
+                    if (searchView?.get() != null) {
+                        if (searchView!!.get()!!.isSearchViewVisible) {
+                            searchView?.get()?.hide()
+                            param.result = true
+                            return
+                        }
                     }
-                    if (searchView!!.get()!!.isSearchViewVisible) {
-                        searchView?.get()?.hide()
-                        param.result = true
-                        return
-                    }
-                    if (actionMenu?.get() == null) {
-                        return
-                    }
-                    if (actionMenu!!.get()!!.isOpened) {
-                        actionMenu?.get()?.close(true)
-                        param.result = true
-                        return
+                    if (actionMenu?.get() != null) {
+                        if (actionMenu!!.get()!!.isOpened) {
+                            actionMenu?.get()?.close(true)
+                            param.result = true
+                            return
+                        }
                     }
                 }
             }

@@ -20,7 +20,6 @@ import com.blanke.mdwechat.R
 
 
 class MaterialSearchView @JvmOverloads constructor(private val mContext: Context, attrs: AttributeSet? = null, defStyle: Int = -1) : FrameLayout(mContext, attrs, defStyle), View.OnClickListener {
-    private val inputMethodManager: InputMethodManager
 
     interface onSearchListener {
         fun onSearch(query: String)
@@ -112,7 +111,7 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
         cardParams.leftMargin = cardParams.rightMargin
         addView(cardLayout, cardParams)
 
-        searchView.inputType = InputType.TYPE_NULL
+        searchView.inputType = InputType.TYPE_CLASS_TEXT
 
         mClearSearch.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
         backArrowImg.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
@@ -143,8 +142,6 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
         mClearSearch.setOnClickListener(this)
         visibility = View.GONE
         clearAnimation()
-
-        inputMethodManager = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     fun setOnSearchListener(l: onSearchListener) {
@@ -158,19 +155,19 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
             toggleClearSearchButton(query)
         }
 
-    val isSearchViewVisible: Boolean
-        get() = visibility == View.VISIBLE
+    var isSearchViewVisible: Boolean = visibility == View.VISIBLE
 
     // Show the SearchView
     fun show() {
         if (isSearchViewVisible) return
+        isSearchViewVisible = true
         visibility = View.VISIBLE
         if (mOnSearchListener != null) {
             mOnSearchListener!!.searchViewOpened()
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val animator = ViewAnimationUtils.createCircularReveal(cardLayout,
-                    cardLayout.width - 20,
+                    cardLayout.width - 40,
                     cardLayout.height / 2,
                     0f,
                     Math.hypot(cardLayout.width.toDouble(), cardLayout.height.toDouble()).toFloat())
@@ -178,9 +175,7 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
                 override fun onAnimationStart(animation: Animator) {}
 
                 override fun onAnimationEnd(animation: Animator) {
-                    searchView.requestFocus()
-                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                            InputMethodManager.HIDE_IMPLICIT_ONLY)
+                    showKeyboard(searchView)
                 }
 
                 override fun onAnimationCancel(animation: Animator) {
@@ -200,30 +195,30 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
         } else {
             cardLayout.visibility = View.VISIBLE
             cardLayout.isEnabled = true
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+            showKeyboard(searchView)
         }
 
     }
 
     fun hide() {
         if (!isSearchViewVisible) return
+        isSearchViewVisible = false
         if (mOnSearchListener != null) {
             mOnSearchListener!!.searchViewClosed()
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val animatorHide = ViewAnimationUtils.createCircularReveal(cardLayout,
-                    cardLayout.width - 20,
+                    cardLayout.width - 40,
                     cardLayout.height / 2,
                     Math.hypot(cardLayout.width.toDouble(), cardLayout.height.toDouble()).toFloat(),
                     0f)
             animatorHide.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {
-
+                    hideKeyboard(searchView)
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
                     cardLayout.visibility = View.GONE
-                    inputMethodManager.hideSoftInputFromWindow(cardLayout.windowToken, 0)
                     clearSearch()
                     visibility = View.GONE
                 }
@@ -239,7 +234,7 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
             animatorHide.duration = 300
             animatorHide.start()
         } else {
-            inputMethodManager.hideSoftInputFromWindow(cardLayout.windowToken, 0)
+            hideKeyboard(searchView)
             cardLayout.visibility = View.GONE
             clearSearch()
             visibility = View.GONE
@@ -303,5 +298,20 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
     protected fun dp2px(dp: Float): Int {
         val scale = mContext.resources.displayMetrics.density
         return (dp * scale + 0.5f).toInt()
+    }
+
+    fun showKeyboard(view: View) {
+        val imm = view.context
+                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        view.requestFocus()
+        view.isFocusableInTouchMode = true
+        view.isFocusable = true
+        imm.showSoftInput(view, 0)
+    }
+
+    fun hideKeyboard(view: View) {
+        val imm = view.context
+                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
