@@ -4,9 +4,9 @@ import android.animation.Animator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextUtils
@@ -54,7 +54,7 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
     val searchView: EditText
     private val mClearSearch: ImageView
     private var mOnSearchListener: onSearchListener? = null
-    val cardLayout: CardView
+    private val cardLayout: FrameLayout
     private val backArrowImg: ImageView
     private val noResultsFoundText: TextView? = null
 
@@ -63,16 +63,18 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
     }
 
     init {
-        cardLayout = CardView(mContext)
-        cardLayout.setCardBackgroundColor(Color.WHITE)
-        cardLayout.radius = dp2px(2f).toFloat()
+        cardLayout = FrameLayout(mContext)
+        val gd = GradientDrawable()
+        gd.setColor(Color.WHITE)
+        gd.cornerRadius = dp2px(2f).toFloat()
+        cardLayout.background = gd
 
         val contentLayout = LinearLayout(mContext)
         contentLayout.orientation = LinearLayout.HORIZONTAL
 
         backArrowImg = ImageView(mContext)
-        //        backArrowImg.setClickable(true);
-        //        backArrowImg.setBackground(ContextCompat.getDrawable(context, android.R.attr.selectableItemBackgroundBorderless));
+//        backArrowImg.isClickable = true
+//        backArrowImg.background = ContextCompat.getDrawable(context, android.R.attr.selectableItemBackgroundBorderless)
         backArrowImg.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_arrow_back))
         val p = dp2px(8f)
         backArrowImg.setPadding(p, p, p, p)
@@ -94,8 +96,8 @@ class MaterialSearchView @JvmOverloads constructor(private val mContext: Context
         contentLayout.addView(searchView, editParams)
 
         mClearSearch = ImageView(mContext)
-        //        mClearSearch.setClickable(true);
-        //        mClearSearch.setBackground(ContextCompat.getDrawable(context, android.R.attr.selectableItemBackgroundBorderless));
+//        mClearSearch.isClickable = true
+//        mClearSearch.background = ContextCompat.getDrawable(context, android.R.attr.selectableItemBackgroundBorderless)
         mClearSearch.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_clear))
         mClearSearch.visibility = View.INVISIBLE
         mClearSearch.setPadding(p, p, p, p)
