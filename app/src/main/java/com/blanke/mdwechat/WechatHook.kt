@@ -13,6 +13,10 @@ class WechatHook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (!(lpparam.packageName.contains("com.tencent") && lpparam.packageName.contains("mm")))
             return
+        // 暂时不 hook 小程序
+        if (lpparam.processName.contains("appbrand")) {
+            return
+        }
         WeChatHelper.initPrefs()
         val context = XposedHelpers.callMethod(
                 XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null),
