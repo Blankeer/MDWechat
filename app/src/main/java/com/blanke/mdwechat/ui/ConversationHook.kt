@@ -11,14 +11,12 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import java.lang.ref.WeakReference
 
 /**
  * Created by blanke on 2017/8/1.
  */
 
 class ConversationHook : BaseHookUi() {
-    private var listViewRef: WeakReference<View>? = null
 
     override fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
         xMethod(wxConfig.classes.ConversationFragment,
@@ -29,7 +27,6 @@ class ConversationHook : BaseHookUi() {
                         val listView = getObjectField(param!!.thisObject, wxConfig.fields.ConversationFragment_mListView) as View
                         val background = AppCustomConfig.getTabBg(0)
                         listView.background = if (background != null) BitmapDrawable(background) else whiteDrawable
-                        listViewRef = WeakReference(listView)
                     }
                 })
 
@@ -47,16 +44,17 @@ class ConversationHook : BaseHookUi() {
         }
 
         //remove foot view
-        xMethod(C.ListView, "addFooterView", C.View, object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                if (listViewRef != null
-                        && listViewRef!!.get()?.id == (param.thisObject as View).id
-                        && HookConfig.is_hook_remove_foot_view) {
-                    val view = param.args[0] as View
-                    view.background = transparentDrawable
+        if (wxConfig.classes.ConversationWithAppBrandListView != null) {
+            xMethod(C.ListView, "addFooterView", C.View, object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    if (HookConfig.is_hook_remove_foot_view
+                            && param.thisObject::class.java.name == wxConfig.classes.ConversationWithAppBrandListView) {
+                        val view = param.args[0] as View
+                        view.background = transparentDrawable
+                    }
                 }
-            }
-        })
+            })
+        }
         xMethod(wxConfig.classes.ConversationAdapter,
                 "getView", C.Int, C.View, C.ViewGroup,
                 object : XC_MethodHook() {
