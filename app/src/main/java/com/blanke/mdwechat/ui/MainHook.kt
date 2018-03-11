@@ -68,8 +68,6 @@ class MainHook : BaseHookUi() {
                         }
                         log("LauncherUI_startMainUI addView")
                         refreshPrefs()
-                        //fix soft input ui move up
-//                        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
                         WxObjects.LauncherUI = WeakReference(activity)
                         val mHomeUi = getObjectField(activity, wxConfig.fields.LauncherUI_mHomeUi)
                         WxObjects.HomeUI = WeakReference(mHomeUi)
@@ -495,6 +493,20 @@ class MainHook : BaseHookUi() {
                 searchKey = query
                 searchView.hide()
                 gotoSearchActivity()
+            }
+
+            override fun searchViewOpened() {
+                val launcherUI = WxObjects.LauncherUI?.get()
+                if(launcherUI!=null && launcherUI is Activity) {
+                    launcherUI.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+                }
+            }
+
+            override fun searchViewClosed() {
+                val launcherUI = WxObjects.LauncherUI?.get()
+                if(launcherUI!=null && launcherUI is Activity) {
+                    launcherUI.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                }
             }
         })
         val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
