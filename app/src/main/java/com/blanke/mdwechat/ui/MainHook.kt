@@ -66,6 +66,7 @@ class MainHook : BaseHookUi() {
                         if (isMainInit != null && isMainInit as Boolean) {
                             return
                         }
+                        XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true)
                         log("LauncherUI_startMainUI addView")
                         refreshPrefs()
                         WxObjects.LauncherUI = WeakReference(activity)
@@ -122,7 +123,6 @@ class MainHook : BaseHookUi() {
                             addFloatButton(contentFrameLayout)
                         }
 
-                        XposedHelpers.setAdditionalInstanceField(activity, KEY_ISMAININIT, true)
                     }
                 })
         //hide main actionBar, change paddingTop = 0
@@ -497,14 +497,14 @@ class MainHook : BaseHookUi() {
 
             override fun searchViewOpened() {
                 val launcherUI = WxObjects.LauncherUI?.get()
-                if(launcherUI!=null && launcherUI is Activity) {
+                if (launcherUI != null && launcherUI is Activity) {
                     launcherUI.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
                 }
             }
 
             override fun searchViewClosed() {
                 val launcherUI = WxObjects.LauncherUI?.get()
-                if(launcherUI!=null && launcherUI is Activity) {
+                if (launcherUI != null && launcherUI is Activity) {
                     launcherUI.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }
             }
