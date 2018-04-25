@@ -26,8 +26,7 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:53'
     compileOnly 'de.robv.android.xposed:api:53:sources'
 
-    implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.2'
-
+    implementation project(':spellbook')
     implementation project(':fab-lib')
     implementation project(':tablayout-lib')
     implementation project(':ColorPicker')
