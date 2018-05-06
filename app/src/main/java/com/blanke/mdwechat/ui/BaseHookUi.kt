@@ -5,11 +5,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.blanke.mdwechat.R
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.config.WxObjects
@@ -132,7 +130,7 @@ abstract class BaseHookUi {
     }
 
     protected fun printActivityViewTree(activity: Activity) {
-        val contentView = activity.findViewById(android.R.id.content)
+        val contentView = activity.findViewById<View>(android.R.id.content)
         printViewTree(contentView, 0)
     }
 

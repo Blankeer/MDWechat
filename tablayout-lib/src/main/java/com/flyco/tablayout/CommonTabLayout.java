@@ -127,7 +127,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     private Interpolator mInterpolator = new LinearInterpolator();
 
     private FragmentChangeManager mFragmentChangeManager;
-    private float indicatorOffset = -1;
+    private float indicatorOffset = 0;
     private int startScrollPosition = -1;
     private int unreadBackground = Color.BLACK, unreadTextColor = Color.WHITE;
     private int unSelectIconColor = Color.GRAY, selectIconColor = Color.WHITE;
@@ -554,6 +554,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     //setter and getter
     public void setCurrentTab(int currentTab) {
         mLastTab = this.mCurrentTab;
+        startScrollPosition = currentTab;
         this.mCurrentTab = currentTab;
         updateTabSelection(currentTab);
         if (mFragmentChangeManager != null) {
@@ -893,12 +894,6 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         if (position >= mTabCount || position < 0) {
             return;
         }
-//        post(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        });
         View tabView = mTabsContainer.getChildAt(position);
         MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
         if (tipView != null) {
@@ -907,17 +902,19 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             if (mInitSetMap.get(position) != null && mInitSetMap.get(position)) {
                 return;
             }
-
-//            if (!mIconVisible) {
-//                setMsgMargin(position, 2, 2);
-//            } else {
-//                setMsgMargin(position, 0,
-//                        mIconGravity == Gravity.LEFT || mIconGravity == Gravity.RIGHT ? 4 : 0);
-//            }
             setMsgMargin(position, 0, 4);
 
             mInitSetMap.put(position, true);
         }
+    }
+
+    public boolean hasMsg(int position) {
+        if (position >= mTabCount || position < 0) {
+            return false;
+        }
+        View tabView = mTabsContainer.getChildAt(position);
+        MsgView tipView = (MsgView) tabView.findViewById(R.id.rtv_msg_tip);
+        return tipView != null && tipView.getVisibility() == View.VISIBLE;
     }
 
     /**

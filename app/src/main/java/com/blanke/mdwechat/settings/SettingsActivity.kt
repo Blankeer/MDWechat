@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.config.AppCustomConfig
+import com.blanke.mdwechat.hookers.LauncherUIHooker
 import com.blanke.mdwechat.util.FileUtils
 import java.io.File
 import java.io.FileInputStream
@@ -39,7 +40,7 @@ class SettingsActivity : Activity() {
     }
 
     private fun showSettingsFragment() {
-        findViewById(R.id.pb_loading).visibility = View.GONE
+        findViewById<View>(R.id.pb_loading).visibility = View.GONE
         fab.visibility = View.VISIBLE
         fragmentManager.beginTransaction().replace(R.id.setting_fl_container,
                 SettingsFragment()).commit()

@@ -1,0 +1,32 @@
+package com.blanke.mdwechat
+
+import com.blanke.mdwechat.CC.voidd
+import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
+import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
+import com.blanke.mdwechat.Classes.MainTabUIPageAdapter
+import com.blanke.mdwechat.Classes.WxViewPager
+import com.gh0u1l5.wechatmagician.spellbook.C
+import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal
+import com.gh0u1l5.wechatmagician.spellbook.util.ReflectionUtil.findMethodsByExactParameters
+import java.lang.reflect.Method
+
+object Methods {
+    val MainTabUIPageAdapter_getCount: Method by WechatGlobal.wxLazy("MainTabUIPageAdapter_getCount") {
+        MainTabUIPageAdapter.getMethod("getCount", C.Int)
+    }
+
+    val MainTabUIPageAdapter_onPageScrolled: Method by WechatGlobal.wxLazy("MainTabUIPageAdapter_onPageScrolled") {
+        findMethodsByExactParameters(MainTabUIPageAdapter, voidd, C.Int, Float::class.java, C.Int)
+                .firstOrNull()?.apply { isAccessible = true }
+    }
+
+    val WxViewPager_selectedPage: Method by WechatGlobal.wxLazy("WxViewPager_selectedPage") {
+        findMethodsByExactParameters(WxViewPager, voidd, C.Int, C.Boolean, C.Boolean, C.Int)
+                .firstOrNull()?.apply { isAccessible = true }
+    }
+
+    val LauncherUIBottomTabView_getTabItemView: Method by WechatGlobal.wxLazy("LauncherUIBottomTabView_getTabItemView") {
+        findMethodsByExactParameters(LauncherUIBottomTabView, LauncherUIBottomTabViewItem, C.Int)
+                .firstOrNull()?.apply { isAccessible = true }
+    }
+}
