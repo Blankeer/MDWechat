@@ -15,6 +15,8 @@ import com.blanke.mdwechat.Objects
 import com.blanke.mdwechat.Objects.Main.LauncherUI_mTabLayout
 import com.blanke.mdwechat.Objects.Main.LauncherUI_mViewPager
 import com.blanke.mdwechat.WeChatHelper
+import com.blanke.mdwechat.config.AppCustomConfig
+import com.blanke.mdwechat.hookers.main.FloatMenuHook
 import com.blanke.mdwechat.hookers.main.TabLayoutHook
 import com.blanke.mdwechat.util.LogUtil.log
 import com.blanke.mdwechat.util.ViewUtils
@@ -51,6 +53,9 @@ object LauncherUIHooker : HookerProvider {
             }
 
             private fun initHookLauncherUI(activity: Activity) {
+                val density = activity.resources.displayMetrics.density
+                AppCustomConfig.bitmapScale = density / 3F
+
                 Objects.Main.LauncherUI = WeakReference(activity)
                 val homeUI = LauncherUI_mHomeUI.get(activity)
                 val mainTabUI = HomeUI_mMainTabUI.get(homeUI)
@@ -73,6 +78,11 @@ object LauncherUIHooker : HookerProvider {
 
                 try {
                     TabLayoutHook.addTabLayout(linearViewGroup)
+                } catch (e: Throwable) {
+                    log(e)
+                }
+                try {
+                    FloatMenuHook.addFloatMenu(contentViewGroup)
                 } catch (e: Throwable) {
                     log(e)
                 }
