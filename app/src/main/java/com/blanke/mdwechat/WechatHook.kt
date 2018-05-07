@@ -12,6 +12,7 @@ class WechatHook : IXposedHookLoadPackage {
         try {
             log("hook wechat success")
             if (SpellBook.isImportantWechatProcess(lpparam)) {
+                WeChatHelper.initPrefs()
                 SpellBook.startup(lpparam, listOf(
 //                        XLogPlugin
                 ), listOf(LauncherUIHooker))
