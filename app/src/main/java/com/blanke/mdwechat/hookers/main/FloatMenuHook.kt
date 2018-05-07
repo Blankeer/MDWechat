@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.blanke.mdwechat.Common
+import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.bean.FLoatButtonConfigItem
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
@@ -97,7 +98,6 @@ object FloatMenuHook {
         }
 
         val backgroundView = View(context)
-//        backgroundView.setBackgroundColor(Color.parseColor("#88000000"))
         val params2 = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         backgroundView.visibility = View.GONE
         backgroundView.setOnClickListener { view ->
@@ -126,6 +126,6 @@ object FloatMenuHook {
 
 
     private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
+        WeChatHelper.startActivity(item.type)
     }
-
 }
