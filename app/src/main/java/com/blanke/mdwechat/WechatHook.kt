@@ -1,9 +1,6 @@
 package com.blanke.mdwechat
 
-import com.blanke.mdwechat.hookers.ActionBarHooker
-import com.blanke.mdwechat.hookers.AvatarHooker
-import com.blanke.mdwechat.hookers.LauncherUIHooker
-import com.blanke.mdwechat.hookers.StatusBarHooker
+import com.blanke.mdwechat.hookers.*
 import com.blanke.mdwechat.util.LogUtil.log
 import com.gh0u1l5.wechatmagician.spellbook.SpellBook
 import de.robv.android.xposed.IXposedHookLoadPackage
@@ -16,14 +13,18 @@ class WechatHook : IXposedHookLoadPackage {
             log("hook wechat success")
             if (SpellBook.isImportantWechatProcess(lpparam)) {
                 WeChatHelper.initPrefs()
-                SpellBook.startup(lpparam, listOf(
-//                        XLogPlugin
-                ), listOf(
+                val hookers = mutableListOf(
                         LauncherUIHooker,
                         ActionBarHooker,
                         StatusBarHooker,
                         AvatarHooker
-                ))
+                )
+                if (BuildConfig.DEBUG) {
+                    hookers.add(DebugHooker)
+                }
+                SpellBook.startup(lpparam, listOf(
+//                        XLogPlugin
+                ), hookers)
             }
         } catch (e: Throwable) {
             log(e)

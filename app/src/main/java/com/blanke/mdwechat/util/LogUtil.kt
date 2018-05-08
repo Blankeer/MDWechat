@@ -66,7 +66,7 @@ object LogUtil {
         log("---------logParentView end----------")
     }
 
-    fun logView(view: View): String {
+    fun logView(view: View) {
         val className = view.javaClass.name
         val id = view.id
         var text = ""
@@ -75,7 +75,7 @@ object LogUtil {
             text = textView.text.toString()
             text += "(" + textView.hint + ")"
         }
-        return "$className,$id,$text,$view"
+        log("view = $className,$id,$text,$view")
     }
 
 }
