@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
 import com.blanke.mdwechat.Classes.WxViewPager
+import com.blanke.mdwechat.Fields
 import com.blanke.mdwechat.Fields.HomeUI_mMainTabUI
 import com.blanke.mdwechat.Fields.LauncherUI_mHomeUI
 import com.blanke.mdwechat.Fields.MainTabUI_mCustomViewPager
@@ -86,9 +87,11 @@ object LauncherUIHooker : HookerProvider {
                         log("contentViewGroup=$contentViewGroup")
 
                         // hide actionBar
-                        //                val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
-                        //                log("actionBar=$actionBar")
-                        //                XposedHelpers.callMethod(actionBar, "hide")
+                        if (HookConfig.is_hook_hide_actionbar) {
+                            val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
+//                            log("actionBar=$actionBar")
+                            XposedHelpers.callMethod(actionBar, "hide")
+                        }
                         if (HookConfig.is_hook_tab) {
                             try {
                                 TabLayoutHook.addTabLayout(linearViewGroup)
