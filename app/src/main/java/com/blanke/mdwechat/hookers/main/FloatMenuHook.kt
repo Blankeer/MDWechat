@@ -124,8 +124,11 @@ object FloatMenuHook {
         return fab
     }
 
-
     private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
-        WeChatHelper.startActivity(item.type)
+        try {
+            WeChatHelper.startActivity(item.type)
+        } catch (e: Throwable) {
+            log(e)
+        }
     }
 }
