@@ -32,6 +32,16 @@ object WeChatHelper {
             return imageRippleDrawable!!
         }
 
+    val defaultImageRippleBorderDrawable: Drawable?
+        get() {
+            val context = Objects.Main.LauncherUI.get() ?: return null
+            val attrs = intArrayOf(android.R.attr.selectableItemBackgroundBorderless)
+            val ta = context.obtainStyledAttributes(attrs)
+            val imageRippleDrawable = ta.getDrawable(0)
+            ta.recycle()
+            return imageRippleDrawable!!
+        }
+
     fun startActivity(actName: String) {
         val context = Objects.Main.LauncherUI.get() ?: return
         val intent = Intent()

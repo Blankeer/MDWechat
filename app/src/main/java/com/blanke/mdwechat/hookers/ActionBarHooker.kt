@@ -10,6 +10,7 @@ import com.blanke.mdwechat.Classes.ActionBarContainer
 import com.blanke.mdwechat.Objects.Main.LauncherUI_mActionBarContainer
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.WeChatHelper.colorPrimaryDrawable
+import com.blanke.mdwechat.WeChatHelper.defaultImageRippleBorderDrawable
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ViewUtils
 import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
@@ -64,6 +65,10 @@ object ActionBarHooker : HookerProvider {
                         && ivParent.getChildAt(0) is ImageView) {
 //                    log("frameLayout =$frameLayout")
                     iv.visibility = View.GONE
+
+                    val backIv = ivParent.getChildAt(0) as ImageView
+                    backIv.background = defaultImageRippleBorderDrawable
+                    ivParent.background = null
                 }
             }
         })
