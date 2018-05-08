@@ -30,10 +30,10 @@ object ActionBarHooker : HookerProvider {
     private val actionBarHooker = Hooker {
         findAndHookMethod(ActionBarContainer, "onFinishInflate", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam?) {
+                WeChatHelper.reloadPrefs()
                 if (!HookConfig.is_hook_actionbar) {
                     return
                 }
-                WeChatHelper.reloadPrefs()
                 val actionBar = param?.thisObject as ViewGroup
                 ActionBarContainer.declaredFields.filter { it.type.name == Drawable::class.java.name }
                         .forEach {
