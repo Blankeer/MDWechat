@@ -73,4 +73,8 @@ object Classes {
                 .filterBySuper(HorizontalScrollView::class.java)
                 .firstOrNull()
     }
+
+    val PhoneWindow: Class<*> by WechatGlobal.wxLazy("PhoneWindow") {
+        ReflectionUtil.findClassIfExists("com.android.internal.policy.PhoneWindow", WechatGlobal.wxLoader!!)
+    }
 }

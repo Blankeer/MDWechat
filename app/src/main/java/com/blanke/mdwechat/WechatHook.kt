@@ -2,6 +2,7 @@ package com.blanke.mdwechat
 
 import com.blanke.mdwechat.hookers.ActionBarHooker
 import com.blanke.mdwechat.hookers.LauncherUIHooker
+import com.blanke.mdwechat.hookers.StatusBarHooker
 import com.blanke.mdwechat.util.LogUtil.log
 import com.gh0u1l5.wechatmagician.spellbook.SpellBook
 import de.robv.android.xposed.IXposedHookLoadPackage
@@ -18,7 +19,8 @@ class WechatHook : IXposedHookLoadPackage {
 //                        XLogPlugin
                 ), listOf(
                         LauncherUIHooker,
-                        ActionBarHooker
+                        ActionBarHooker,
+                        StatusBarHooker
                 ))
             }
         } catch (e: Throwable) {
