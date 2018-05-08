@@ -1,6 +1,7 @@
 package com.blanke.mdwechat
 
 import com.blanke.mdwechat.hookers.ActionBarHooker
+import com.blanke.mdwechat.hookers.AvatarHooker
 import com.blanke.mdwechat.hookers.LauncherUIHooker
 import com.blanke.mdwechat.hookers.StatusBarHooker
 import com.blanke.mdwechat.util.LogUtil.log
@@ -20,7 +21,8 @@ class WechatHook : IXposedHookLoadPackage {
                 ), listOf(
                         LauncherUIHooker,
                         ActionBarHooker,
-                        StatusBarHooker
+                        StatusBarHooker,
+                        AvatarHooker
                 ))
             }
         } catch (e: Throwable) {

@@ -1,5 +1,6 @@
 package com.blanke.mdwechat
 
+import android.graphics.Bitmap
 import android.os.Handler
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
@@ -64,6 +65,7 @@ object Classes {
                 .filterByField(ImageView::class.java.name)
                 .firstOrNull()
     }
+
     val ActionBarContainer: Class<*> by WechatGlobal.wxLazy("ActionBarContainer") {
         ReflectionUtil.findClassIfExists("android.support.v7.widget.ActionBarContainer", WechatGlobal.wxLoader!!)
     }
@@ -76,5 +78,14 @@ object Classes {
 
     val PhoneWindow: Class<*> by WechatGlobal.wxLazy("PhoneWindow") {
         ReflectionUtil.findClassIfExists("com.android.internal.policy.PhoneWindow", WechatGlobal.wxLoader!!)
+    }
+
+    val AvatarUtils: Class<*> by WechatGlobal.wxLazy("AvatarUtils") {
+        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.app")
+                .filterByField(Bitmap::class.java.name)
+                .filterByMethod(Bitmap::class.java)
+                .filterByMethod(Bitmap::class.java, C.String)
+                .filterByMethod(Bitmap::class.java, C.String, C.Int, C.Int, C.Int)
+                .firstOrNull()
     }
 }

@@ -1,6 +1,8 @@
 package com.blanke.mdwechat
 
+import android.graphics.Bitmap
 import com.blanke.mdwechat.CC.voidd
+import com.blanke.mdwechat.Classes.AvatarUtils
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
 import com.blanke.mdwechat.Classes.MainTabUIPageAdapter
@@ -28,5 +30,14 @@ object Methods {
     val LauncherUIBottomTabView_getTabItemView: Method by WechatGlobal.wxLazy("LauncherUIBottomTabView_getTabItemView") {
         findMethodsByExactParameters(LauncherUIBottomTabView, LauncherUIBottomTabViewItem, C.Int)
                 .firstOrNull()?.apply { isAccessible = true }
+    }
+
+    val AvatarUtils_getDefaultAvatarBitmap: Method by WechatGlobal.wxLazy("AvatarUtils_getDefaultAvatarBitmap") {
+        findMethodsByExactParameters(AvatarUtils, Bitmap::class.java)
+                .firstOrNull()?.apply { isAccessible = true }
+    }
+
+    val AvatarUtils_getAvatarBitmaps: List<Method> by WechatGlobal.wxLazy("AvatarUtils_getAvatarBitmaps") {
+        findMethodsByExactParameters(AvatarUtils, Bitmap::class.java, C.String)
     }
 }
