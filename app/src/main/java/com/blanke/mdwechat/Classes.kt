@@ -1,6 +1,7 @@
 package com.blanke.mdwechat
 
 import android.os.Handler
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.TextView
 import com.blanke.mdwechat.CC.voidd
@@ -61,6 +62,15 @@ object Classes {
                 .filterByField(C.View.name)
                 .filterByField(TextView::class.java.name)
                 .filterByField(ImageView::class.java.name)
+                .firstOrNull()
+    }
+    val ActionBarContainer: Class<*> by WechatGlobal.wxLazy("ActionBarContainer") {
+        ReflectionUtil.findClassIfExists("android.support.v7.widget.ActionBarContainer", WechatGlobal.wxLoader!!)
+    }
+
+    val ScrollingTabContainerView: Class<*> by WechatGlobal.wxLazy("ScrollingTabContainerView") {
+        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "android.support.v7.widget")
+                .filterBySuper(HorizontalScrollView::class.java)
                 .firstOrNull()
     }
 }

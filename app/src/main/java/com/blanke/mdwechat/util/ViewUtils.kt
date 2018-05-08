@@ -1,6 +1,7 @@
 package com.blanke.mdwechat.util
 
 import android.view.View
+import android.view.ViewGroup
 
 object ViewUtils {
 
@@ -15,5 +16,18 @@ object ViewUtils {
             }
         }
         return currentView
+    }
+
+    fun findFirstChildView(rootView: ViewGroup, viewClassName: String): View? {
+        val childCount = rootView.childCount
+        for (i in 0 until childCount) {
+            val v = rootView.getChildAt(i)
+            if (v.javaClass.name == viewClassName) {
+                return v
+            } else if (v is ViewGroup) {
+                return findFirstChildView(v, viewClassName)
+            }
+        }
+        return null
     }
 }

@@ -39,5 +39,4 @@ object Fields {
     val LauncherUIBottomTabViewItem_mTextViews: List<Field> by wxLazy("LauncherUIBottomTabViewItem_mTextViews") {
         findFieldsWithType(LauncherUIBottomTabViewItem, TextView::class.java.name)
     }
-
 }

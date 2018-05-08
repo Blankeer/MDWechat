@@ -1,5 +1,6 @@
 package com.blanke.mdwechat
 
+import com.blanke.mdwechat.hookers.ActionBarHooker
 import com.blanke.mdwechat.hookers.LauncherUIHooker
 import com.blanke.mdwechat.util.LogUtil.log
 import com.gh0u1l5.wechatmagician.spellbook.SpellBook
@@ -15,7 +16,10 @@ class WechatHook : IXposedHookLoadPackage {
                 WeChatHelper.initPrefs()
                 SpellBook.startup(lpparam, listOf(
 //                        XLogPlugin
-                ), listOf(LauncherUIHooker))
+                ), listOf(
+                        LauncherUIHooker,
+                        ActionBarHooker
+                ))
             }
         } catch (e: Throwable) {
             log(e)

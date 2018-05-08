@@ -16,6 +16,7 @@ import com.blanke.mdwechat.Objects.Main.LauncherUI_mTabLayout
 import com.blanke.mdwechat.Objects.Main.LauncherUI_mViewPager
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.config.AppCustomConfig
+import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.main.FloatMenuHook
 import com.blanke.mdwechat.hookers.main.TabLayoutHook
 import com.blanke.mdwechat.util.LogUtil.log
@@ -29,68 +30,82 @@ import de.robv.android.xposed.XposedHelpers
 import java.lang.ref.WeakReference
 
 object LauncherUIHooker : HookerProvider {
-    val keyInit = "key_init"
+    const val keyInit = "key_init"
 
     override fun provideStaticHookers(): List<Hooker>? {
-        return listOf(launcherResumeHooker, mainTabUIPageAdapterHook)
+        return listOf(launcherLifeHooker, mainTabUIPageAdapterHook)
     }
 
-    val launcherResumeHooker = Hooker {
-        XposedHelpers.findAndHookMethod(C.Activity, "onPostResume", object : XC_MethodHook() {
+    private val launcherLifeHooker = Hooker {
+        XposedHelpers.findAndHookMethod(C.Activity, "onDestroy", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val activity = param.thisObject as? Activity ?: return
                 if (activity::class.java != Classes.LauncherUI) {
                     return
                 }
-                WeChatHelper.reloadPrefs()
-                val isInit = XposedHelpers.getAdditionalInstanceField(activity, keyInit)
-                if (isInit != null) {
-                    log("LauncherUI 已经hook过")
-                    return
-                }
-                XposedHelpers.setAdditionalInstanceField(activity, keyInit, true)
-                initHookLauncherUI(activity)
-            }
-
-            private fun initHookLauncherUI(activity: Activity) {
-                val density = activity.resources.displayMetrics.density
-                AppCustomConfig.bitmapScale = density / 3F
-
-                Objects.Main.LauncherUI = WeakReference(activity)
-                val homeUI = LauncherUI_mHomeUI.get(activity)
-                val mainTabUI = HomeUI_mMainTabUI.get(homeUI)
-                val viewPager = MainTabUI_mCustomViewPager.get(mainTabUI) as View
-                LauncherUI_mViewPager = WeakReference(viewPager)
-
-                // remove tabView
-                val linearViewGroup = viewPager.parent as ViewGroup
-                val tabView = linearViewGroup.getChildAt(1)
-                log("tabView=$tabView")
-                linearViewGroup.removeView(tabView)
-
-                val contentViewGroup = linearViewGroup.parent as ViewGroup
-                log("contentViewGroup=$contentViewGroup")
-
-                // hide actionBar
-//                val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
-//                log("actionBar=$actionBar")
-//                XposedHelpers.callMethod(actionBar, "hide")
-
-                try {
-                    TabLayoutHook.addTabLayout(linearViewGroup)
-                } catch (e: Throwable) {
-                    log(e)
-                }
-                try {
-                    FloatMenuHook.addFloatMenu(contentViewGroup)
-                } catch (e: Throwable) {
-                    log(e)
-                }
+                log("LauncherUI onDestroy()")
+                Objects.clear()
             }
         })
+
+        XposedHelpers.findAndHookMethod(C.Activity, "onPostResume",
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val activity = param.thisObject as? Activity ?: return
+                        if (activity::class.java != Classes.LauncherUI) {
+                            return
+                        }
+                        WeChatHelper.reloadPrefs()
+                        val isInit = XposedHelpers.getAdditionalInstanceField(activity, keyInit)
+                        if (isInit != null) {
+                            log("LauncherUI 已经hook过")
+                            return
+                        }
+                        log("LauncherUI start hook")
+                        XposedHelpers.setAdditionalInstanceField(activity, keyInit, true)
+                        initHookLauncherUI(activity)
+                    }
+
+                    private fun initHookLauncherUI(activity: Activity) {
+                        val density = activity.resources.displayMetrics.density
+                        AppCustomConfig.bitmapScale = density / 3F
+
+                        Objects.Main.LauncherUI = WeakReference(activity)
+                        val homeUI = LauncherUI_mHomeUI.get(activity)
+                        val mainTabUI = HomeUI_mMainTabUI.get(homeUI)
+                        val viewPager = MainTabUI_mCustomViewPager.get(mainTabUI) as View
+                        LauncherUI_mViewPager = WeakReference(viewPager)
+
+                        // remove tabView
+                        val linearViewGroup = viewPager.parent as ViewGroup
+                        val tabView = linearViewGroup.getChildAt(1)
+                        log("tabView=$tabView")
+                        linearViewGroup.removeView(tabView)
+
+                        val contentViewGroup = linearViewGroup.parent as ViewGroup
+                        log("contentViewGroup=$contentViewGroup")
+
+                        // hide actionBar
+                        //                val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
+                        //                log("actionBar=$actionBar")
+                        //                XposedHelpers.callMethod(actionBar, "hide")
+                        if (HookConfig.is_hook_tab) {
+                            try {
+                                TabLayoutHook.addTabLayout(linearViewGroup)
+                            } catch (e: Throwable) {
+                                log(e)
+                            }
+                        }
+                        try {
+                            FloatMenuHook.addFloatMenu(contentViewGroup)
+                        } catch (e: Throwable) {
+                            log(e)
+                        }
+                    }
+                })
     }
 
-    val mainTabUIPageAdapterHook = Hooker {
+    private val mainTabUIPageAdapterHook = Hooker {
         XposedHelpers.findAndHookMethod(WxViewPager, WxViewPager_selectedPage.name, C.Int, C.Boolean, C.Boolean, C.Int, object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 val vp = param?.thisObject
