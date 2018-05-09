@@ -17,14 +17,13 @@ class WechatHook : IXposedHookLoadPackage {
                         LauncherUIHooker,
                         ActionBarHooker,
                         StatusBarHooker,
-                        AvatarHooker
+                        AvatarHooker,
+                        ListViewHooker
                 )
                 if (BuildConfig.DEBUG) {
                     hookers.add(DebugHooker)
                 }
-                SpellBook.startup(lpparam, listOf(
-//                        XLogPlugin
-                ), hookers)
+                SpellBook.startup(lpparam, hookers)
             }
         } catch (e: Throwable) {
             log(e)

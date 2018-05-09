@@ -26,15 +26,17 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:53'
     compileOnly 'de.robv.android.xposed:api:53:sources'
 
-    implementation project(':spellbook')
     implementation project(':fab-lib')
     implementation project(':tablayout-lib')
     implementation project(':ColorPicker')
 
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation 'com.githang:status-bar-compat:0.7'
+
+    implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.4'
+    implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.4:sources'
 }
 
 // 每次修改运行后自动让 VXP 中的模块`即时生效` ,需要将 (Debug Configurations) - Before Launch - Gradle aware Make - 修改为 :app:installDebug

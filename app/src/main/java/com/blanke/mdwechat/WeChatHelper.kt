@@ -2,6 +2,7 @@ package com.blanke.mdwechat
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import com.blanke.mdwechat.config.AppCustomConfig
@@ -12,8 +13,12 @@ import java.io.File
 object WeChatHelper {
     lateinit var XMOD_PREFS: XSharedPreferences
 
-    val colorPrimary: Int
-        get() = HookConfig.get_color_primary
+    val colorPrimary: Int by lazy {
+        HookConfig.get_color_primary
+    }
+
+    val transparentDrawable: ColorDrawable
+        get() = ColorDrawable(Color.TRANSPARENT)
 
     val colorPrimaryDrawable: ColorDrawable
         get() {
