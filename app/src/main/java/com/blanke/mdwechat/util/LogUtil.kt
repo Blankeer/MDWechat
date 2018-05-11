@@ -2,6 +2,7 @@ package com.blanke.mdwechat.util
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import de.robv.android.xposed.XposedBridge
 
@@ -67,15 +68,30 @@ object LogUtil {
     }
 
     fun logView(view: View) {
-        val className = view.javaClass.name
-        val id = view.id
-        var text = ""
-        if (view is TextView) {
-            val textView = view
-            text = textView.text.toString()
-            text += "(" + textView.hint + ")"
-        }
-        log("view = $className,$id,$text,$view")
+        log(getViewLogInfo(view))
     }
 
+    fun getViewLogInfo(view: View): String {
+        val sb = StringBuffer(view.toString())
+        if (view is TextView) {
+            sb.append("${view.text}(" + view.hint + ")")
+        } else if (view is ViewGroup) {
+            sb.append(" childCount = ${view.childCount}")
+        }
+        return sb.toString()
+    }
+
+    fun logViewStackTraces(view: View, level: Int = 0) {
+        val sb = StringBuffer()
+        for (i in 0..level) {
+            sb.append("\t")
+        }
+        sb.append(getViewLogInfo(view))
+        log(sb.toString())
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                logViewStackTraces(view.getChildAt(i), level + 1)
+            }
+        }
+    }
 }

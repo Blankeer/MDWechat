@@ -80,6 +80,7 @@ object Classes {
         ReflectionUtil.findClassIfExists("com.android.internal.policy.PhoneWindow", WechatGlobal.wxLoader!!)
     }
 
+
     val AvatarUtils: Class<*> by WechatGlobal.wxLazy("AvatarUtils") {
         ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.app")
                 .filterByField(Bitmap::class.java.name)
@@ -87,5 +88,9 @@ object Classes {
                 .filterByMethod(Bitmap::class.java, C.String)
                 .filterByMethod(Bitmap::class.java, C.String, C.Int, C.Int, C.Int)
                 .firstOrNull()
+    }
+
+    val NoDrawingCacheLinearLayout: Class<*> by WechatGlobal.wxLazy("NoDrawingCacheLinearLayout") {
+        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.NoDrawingCacheLinearLayout", WechatGlobal.wxLoader!!)
     }
 }
