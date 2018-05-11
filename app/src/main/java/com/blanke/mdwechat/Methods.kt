@@ -3,6 +3,7 @@ package com.blanke.mdwechat
 import android.graphics.Bitmap
 import com.blanke.mdwechat.CC.voidd
 import com.blanke.mdwechat.Classes.AvatarUtils
+import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
 import com.blanke.mdwechat.Classes.MainTabUIPageAdapter
@@ -39,5 +40,10 @@ object Methods {
 
     val AvatarUtils_getAvatarBitmaps: List<Method> by WechatGlobal.wxLazy("AvatarUtils_getAvatarBitmaps") {
         findMethodsByExactParameters(AvatarUtils, Bitmap::class.java, C.String)
+    }
+
+    val ConversationWithAppBrandListView_isAppBrandHeaderEnable: Method by WechatGlobal.wxLazy("ConversationWithAppBrandListView_isAppBrandHeaderEnable") {
+        findMethodsByExactParameters(ConversationWithAppBrandListView, C.Boolean, C.Boolean)
+                .firstOrNull()?.apply { isAccessible = true }
     }
 }

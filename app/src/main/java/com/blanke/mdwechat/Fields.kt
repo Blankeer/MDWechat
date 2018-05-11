@@ -1,6 +1,8 @@
 package com.blanke.mdwechat
 
 import android.widget.TextView
+import com.blanke.mdwechat.Classes.ConversationFragment
+import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Classes.CustomViewPager
 import com.blanke.mdwechat.Classes.HomeUI
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
@@ -38,5 +40,10 @@ object Fields {
 
     val LauncherUIBottomTabViewItem_mTextViews: List<Field> by wxLazy("LauncherUIBottomTabViewItem_mTextViews") {
         findFieldsWithType(LauncherUIBottomTabViewItem, TextView::class.java.name)
+    }
+
+    val ConversationFragment_mListView: Field by wxLazy("ConversationFragment_mListView") {
+        findFieldsWithType(ConversationFragment, ConversationWithAppBrandListView.name)
+                .firstOrNull()?.apply { isAccessible = true }
     }
 }
