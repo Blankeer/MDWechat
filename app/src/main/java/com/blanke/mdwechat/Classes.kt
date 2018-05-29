@@ -1,8 +1,11 @@
 package com.blanke.mdwechat
 
 import android.app.ProgressDialog
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Handler
+import android.view.MenuItem
+import android.view.View
 import android.view.animation.Animation
 import android.widget.*
 import com.blanke.mdwechat.CC.voidd
@@ -123,5 +126,34 @@ object Classes {
 
     val Fragment: Class<*> by WechatGlobal.wxLazy("Fragment") {
         ReflectionUtil.findClassIfExists("android.support.v4.app.Fragment", WechatGlobal.wxLoader!!)
+    }
+
+    val DiscoverFragment: Class<*> by WechatGlobal.wxLazy("DiscoverFragment") {
+        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
+                .filterByField(CheckBox::class.java.name)
+                .filterByField(TextView::class.java.name)
+                .filterByField(View::class.java.name)
+                .filterByField(C.Int.name)
+                .filterByField(C.String.name)
+                .filterByField(C.Boolean.name)
+                .filterByField(C.Long.name)
+                .filterByMethod(voidd, "onActivityCreated", C.Bundle)
+                .filterByMethod(C.Boolean, "supportNavigationSwipeBack")
+                .filterByMethod(C.Boolean, "noActionBar")
+                .firstOrNull()
+    }
+
+    val PreferenceFragment: Class<*> by WechatGlobal.wxLazy("PreferenceFragment") {
+        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui.base.preference")
+                .filterByField(SharedPreferences::class.java.name)
+                .filterByField(C.ListView.name)
+                .filterByField(C.Boolean.name)
+                .filterByField(C.Long.name)
+                .filterByMethod(C.Int, "getLayoutId")
+                .filterByMethod(C.View, "getLayoutView")
+                .filterByMethod(voidd, "onResume")
+                .filterByMethod(voidd, "onActivityCreated", C.Bundle)
+                .filterByMethod(C.Boolean, "onContextItemSelected", MenuItem::class.java)
+                .firstOrNull()
     }
 }

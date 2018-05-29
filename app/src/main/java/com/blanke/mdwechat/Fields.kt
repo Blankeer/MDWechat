@@ -9,6 +9,7 @@ import com.blanke.mdwechat.Classes.CustomViewPager
 import com.blanke.mdwechat.Classes.HomeUI
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
 import com.blanke.mdwechat.Classes.MainTabUI
+import com.blanke.mdwechat.Classes.PreferenceFragment
 import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal.wxLazy
 import com.gh0u1l5.wechatmagician.spellbook.mirror.com.tencent.mm.ui.Classes.LauncherUI
 import com.gh0u1l5.wechatmagician.spellbook.util.ReflectionUtil.findFieldsWithType
@@ -51,6 +52,11 @@ object Fields {
 
     val ContactFragment_mListView: Field by wxLazy("ContactFragment_mListView") {
         findFieldsWithType(ContactFragment, ListView::class.java.name)
+                .firstOrNull()?.apply { isAccessible = true }
+    }
+
+    val PreferenceFragment_mListView: Field by wxLazy("PreferenceFragment_mListView") {
+        findFieldsWithType(PreferenceFragment, ListView::class.java.name)
                 .firstOrNull()?.apply { isAccessible = true }
     }
 }

@@ -20,7 +20,8 @@ class WechatHook : IXposedHookLoadPackage {
                         AvatarHooker,
                         ListViewHooker,
                         ConversationHooker,
-                        ContactHooker
+                        ContactHooker,
+                        DiscoverHooker
                 )
                 if (BuildConfig.DEBUG) {
                     hookers.add(DebugHooker)
