@@ -3,6 +3,7 @@ package com.blanke.mdwechat
 import android.graphics.Bitmap
 import com.blanke.mdwechat.CC.voidd
 import com.blanke.mdwechat.Classes.AvatarUtils
+import com.blanke.mdwechat.Classes.ContactFragment
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
@@ -12,6 +13,7 @@ import com.gh0u1l5.wechatmagician.spellbook.C
 import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal
 import com.gh0u1l5.wechatmagician.spellbook.util.ReflectionUtil.findMethodsByExactParameters
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object Methods {
     val MainTabUIPageAdapter_getCount: Method by WechatGlobal.wxLazy("MainTabUIPageAdapter_getCount") {
@@ -45,5 +47,12 @@ object Methods {
     val ConversationWithAppBrandListView_isAppBrandHeaderEnable: Method by WechatGlobal.wxLazy("ConversationWithAppBrandListView_isAppBrandHeaderEnable") {
         findMethodsByExactParameters(ConversationWithAppBrandListView, C.Boolean, C.Boolean)
                 .firstOrNull()?.apply { isAccessible = true }
+    }
+
+    // 所有生命周期方法
+    val HomeFragment_lifecycles: List<Method> by WechatGlobal.wxLazy("ContactFragment_lifecycles") {
+        findMethodsByExactParameters(ContactFragment, voidd)
+                .filter { it.modifiers and Modifier.FINAL != 0 }
+                .filter { it.modifiers and Modifier.PROTECTED != 0 }
     }
 }

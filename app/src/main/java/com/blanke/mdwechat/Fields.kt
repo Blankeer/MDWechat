@@ -1,6 +1,8 @@
 package com.blanke.mdwechat
 
+import android.widget.ListView
 import android.widget.TextView
+import com.blanke.mdwechat.Classes.ContactFragment
 import com.blanke.mdwechat.Classes.ConversationFragment
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Classes.CustomViewPager
@@ -44,6 +46,11 @@ object Fields {
 
     val ConversationFragment_mListView: Field by wxLazy("ConversationFragment_mListView") {
         findFieldsWithType(ConversationFragment, ConversationWithAppBrandListView.name)
+                .firstOrNull()?.apply { isAccessible = true }
+    }
+
+    val ContactFragment_mListView: Field by wxLazy("ContactFragment_mListView") {
+        findFieldsWithType(ContactFragment, ListView::class.java.name)
                 .firstOrNull()?.apply { isAccessible = true }
     }
 }
