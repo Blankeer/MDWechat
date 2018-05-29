@@ -1,8 +1,9 @@
 package com.blanke.mdwechat.hookers
 
 import android.graphics.drawable.BitmapDrawable
+import android.support.v4.app.Fragment
 import android.view.View
-import com.blanke.mdwechat.Classes.ConversationFragment
+import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Fields.ConversationFragment_mListView
 import com.blanke.mdwechat.Methods.ConversationWithAppBrandListView_isAppBrandHeaderEnable
@@ -24,18 +25,22 @@ object ConversationHooker : HookerProvider {
     }
 
     private val resumeHook = Hooker {
-        XposedHelpers.findAndHookMethod(ConversationFragment, "onResume", object : XC_MethodHook() {
+        XposedHelpers.findAndHookMethod(Classes.Fragment, "performResume", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam?) {
+                LogUtil.log("Fragment.performResume f=${param!!.thisObject::class.java.name}")
                 val fragment = param?.thisObject
-                if (fragment != null) {
-                    val isInit = XposedHelpers.getAdditionalInstanceField(fragment, keyInit)
-                    if (isInit != null) {
-                        LogUtil.log("ConversationFragment 已经hook过")
-                        return
-                    }
-                    XposedHelpers.setAdditionalInstanceField(fragment, keyInit, true)
-                    init(fragment)
+                if (fragment.javaClass.name != Classes.ConversationFragment.name) {
+                    return
                 }
+//                LogUtil.logSuperClasses(param!!.thisObject::class.java)
+                LogUtil.log("ConversationFragment.onResume(): ${param!!.thisObject is Fragment}")
+                val isInit = XposedHelpers.getAdditionalInstanceField(fragment, keyInit)
+                if (isInit != null) {
+                    LogUtil.log("ConversationFragment 已经hook过")
+                    return
+                }
+                XposedHelpers.setAdditionalInstanceField(fragment, keyInit, true)
+                init(fragment)
             }
 
             private fun init(fragment: Any) {
@@ -46,6 +51,26 @@ object ConversationHooker : HookerProvider {
                 }
             }
         })
+        //
+//        XposedBridge.hookAllConstructors(ConversationWithCacheAdapter, object : XC_MethodHook() {
+//            override fun afterHookedMethod(param: MethodHookParam?) {
+//                val context = param?.args!![0]
+//                val arg1 = param?.args!![1]
+//                log("ConversationWithCacheAdapter context=$context,arg1=$arg1")
+////                log("LauncherUI is FragmentActivity = ${context is FragmentActivity}")
+//
+////                if (context.javaClass.name == Classes.LauncherUI.name) {
+////                val act = context as FragmentActivity
+//                val fm = XposedHelpers.callMethod(context, "getSupportFragmentManager")
+//                log(" fm = $fm,class=${fm.javaClass.name}")
+//                val fragmets = XposedHelpers.callMethod(fm, "be") as List<*>
+//                log("fm= $fm,fragment =${fragmets}")
+//
+//                fragmets.forEach {
+//                    log("LauncherUI fragment = $it ,class=${it?.javaClass?.name},id = ${XposedHelpers.callMethod(it!!, "getId")}")
+//                }
+//            }
+//        })
     }
     private val disableAppBrand = Hooker {
         XposedHelpers.findAndHookMethod(ConversationWithAppBrandListView,

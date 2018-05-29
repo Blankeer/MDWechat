@@ -1,10 +1,10 @@
 package com.blanke.mdwechat
 
+import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.os.Handler
-import android.widget.HorizontalScrollView
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.animation.Animation
+import android.widget.*
 import com.blanke.mdwechat.CC.voidd
 import com.gh0u1l5.wechatmagician.spellbook.C
 import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal
@@ -103,5 +103,25 @@ object Classes {
                 .filterByField(TextView::class.java.name)
                 .filterByMethod(voidd, "onResume")
                 .firstOrNull()
+    }
+
+    val ContactFragment: Class<*> by WechatGlobal.wxLazy("ContactFragment") {
+        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui.contact")
+                .filterByField(ProgressDialog::class.java.name)
+                .filterByField(TextView::class.java.name)
+                .filterByField(Animation::class.java.name)
+                .filterByField(ListView::class.java.name)
+                .filterByField(LinearLayout::class.java.name)
+                .filterByMethod(C.Int, "getLayoutId")
+                .filterByMethod(C.Boolean, "noActionBar")
+                .firstOrNull()
+    }
+
+    val FragmentActivity: Class<*> by WechatGlobal.wxLazy("FragmentActivity") {
+        ReflectionUtil.findClassIfExists("android.support.v4.app.FragmentActivity", WechatGlobal.wxLoader!!)
+    }
+
+    val Fragment: Class<*> by WechatGlobal.wxLazy("Fragment") {
+        ReflectionUtil.findClassIfExists("android.support.v4.app.Fragment", WechatGlobal.wxLoader!!)
     }
 }

@@ -26,6 +26,13 @@ object LogUtil {
         return "{$str}"
     }
 
+    fun logSuperClasses(clazz: Class<*>) {
+        log(clazz.name)
+        if (clazz.superclass != null) {
+            logSuperClasses(clazz.superclass)
+        }
+    }
+
     fun logStackTraces(methodCount: Int = 15, methodOffset: Int = 3) {
         val trace = Thread.currentThread().stackTrace
         var level = ""
