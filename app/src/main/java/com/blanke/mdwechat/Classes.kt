@@ -143,6 +143,16 @@ object Classes {
                 .firstOrNull()
     }
 
+    val SettingsFragment: Class<*> by WechatGlobal.wxLazy("SettingsFragment") {
+        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
+                .filterByMethod(voidd, "onCreate", C.Bundle)
+                .filterByMethod(voidd, "onActivityCreated", C.Bundle)
+                .filterByMethod(voidd, "onDestroy")
+                .filterByMethod(C.Boolean, "supportNavigationSwipeBack")
+                .filterByMethod(C.Boolean, "noActionBar")
+                .firstOrNull()
+    }
+
     val PreferenceFragment: Class<*> by WechatGlobal.wxLazy("PreferenceFragment") {
         ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui.base.preference")
                 .filterByField(SharedPreferences::class.java.name)
