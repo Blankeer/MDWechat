@@ -2,16 +2,19 @@ package com.blanke.mdwechat.hookers
 
 import android.graphics.drawable.BitmapDrawable
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Fields.ContactFragment_mListView
 import com.blanke.mdwechat.Methods.HomeFragment_lifecycles
+import com.blanke.mdwechat.Objects
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.util.LogUtil
+import com.gcssloop.widget.RCRelativeLayout
 import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
 import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
@@ -63,6 +66,9 @@ object ContactHooker : HookerProvider {
                                             if (itemContent != null) {
                                                 // 新的朋友 等几个 item
                                                 itemContent.background = defaultImageRippleDrawable
+//                                                LogUtil.log("-------------")
+//                                                LogUtil.logViewStackTraces(itemContent)
+//                                                LogUtil.log("-------------")
                                                 if (itemContent is ViewGroup) {
                                                     val childView = itemContent.getChildAt(0)
                                                     childView.background = transparentDrawable
@@ -76,6 +82,19 @@ object ContactHooker : HookerProvider {
                                                             // 去掉分割线
                                                             ll.getChildAt(0).background = transparentDrawable
                                                         }
+                                                    } else if (childView is ViewGroup) {// 新的朋友 群聊 公众号
+                                                        val maskLayout = childView.getChildAt(0)
+                                                        if (maskLayout is ViewGroup) {
+                                                            val iv = maskLayout.getChildAt(0)
+                                                            if (iv is ImageView) {
+                                                                val roundLayout = RCRelativeLayout(Objects.Main.LauncherUI.get())
+                                                                roundLayout.isRoundAsCircle = true
+                                                                maskLayout.addView(roundLayout,iv.layoutParams)
+                                                                maskLayout.removeView(iv)
+                                                                roundLayout.addView(iv)
+                                                            }
+                                                        }
+
                                                     }
                                                 }
                                             }
