@@ -1,10 +1,14 @@
 package com.blanke.mdwechat.hookers
 
 import android.graphics.drawable.BitmapDrawable
-import android.view.View
+import android.view.ViewGroup
+import android.widget.ListView
+import android.widget.TextView
 import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Fields.ContactFragment_mListView
 import com.blanke.mdwechat.Methods.HomeFragment_lifecycles
+import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
+import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.util.LogUtil
@@ -12,6 +16,7 @@ import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
 import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.getObjectField
 
 object ContactHooker : HookerProvider {
     const val keyInit = "key_init"
@@ -37,9 +42,50 @@ object ContactHooker : HookerProvider {
 
                 private fun init(fragment: Any) {
                     val listView = ContactFragment_mListView.get(fragment)
-                    if (listView != null && listView is View) {
+                    if (listView != null && listView is ListView) {
                         val background = AppCustomConfig.getTabBg(1)
                         listView.background = if (background != null) BitmapDrawable(background) else whiteDrawable
+//                        LogUtil.log("ContactFragment listview= $listView, ${listView.javaClass.name}")
+                        if (listView.headerViewsCount > 0) {
+                            val mHeaderViewInfos = getObjectField(listView, "mHeaderViewInfos") as ArrayList<ListView.FixedViewInfo>
+                            for (j in 0 until mHeaderViewInfos.size) {
+                                val header = mHeaderViewInfos[j].view
+                                if (header != null) {
+//                                        printViewTree(header, 0)
+                                    if (header is ViewGroup) {
+                                        val headLayout = header
+                                        for (i in 0 until headLayout.childCount) {
+                                            val item = headLayout.getChildAt(i)
+                                            if (item !is ViewGroup || item.childCount == 0) {
+                                                continue
+                                            }
+                                            val itemContent = item.getChildAt(0)
+                                            if (itemContent != null) {
+                                                // 新的朋友 等几个 item
+                                                itemContent.background = defaultImageRippleDrawable
+                                                if (itemContent is ViewGroup) {
+                                                    val childView = itemContent.getChildAt(0)
+                                                    childView.background = transparentDrawable
+                                                    if (childView is TextView) {// 企业号
+                                                        itemContent.background = transparentDrawable
+                                                        val lll = (itemContent.getChildAt(1) as ViewGroup)
+                                                        for (m in 0 until lll.childCount) {
+                                                            val comItem = (lll.getChildAt(m) as ViewGroup)
+                                                            val ll = comItem.getChildAt(0) as ViewGroup
+                                                            ll.background = defaultImageRippleDrawable
+                                                            // 去掉分割线
+                                                            ll.getChildAt(0).background = transparentDrawable
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
                     }
                 }
             })
