@@ -14,10 +14,12 @@ object ViewTreeUtils {
             return false
         }
         if (view is ViewGroup) {
-            LogUtil.log("view.childCount=${view.childCount},tree.children.size=${tree.children.size}")
-            if (view.childCount == tree.children.size) {
-                for (i in 0 until view.childCount) {
-                    if (!equals(tree.children[i], view.getChildAt(i))) {
+            if (view.childCount >= tree.children.size) {
+                for (i in 0 until tree.children.size) {
+                    if (tree.children[i] == null) {
+                        continue
+                    }
+                    if (!equals(tree.children[i]!!, view.getChildAt(i))) {
                         return false
                     }
                 }
