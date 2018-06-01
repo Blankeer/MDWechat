@@ -4,6 +4,22 @@ import android.view.View
 import android.view.ViewGroup
 
 object ViewUtils {
+    fun getChildView(view: View, vararg indexs: Int): View? {
+        var parentView: View = view
+        var childView: View? = null
+        for (index in indexs) {
+            childView = getChildView(parentView, index) ?: break
+            parentView = childView
+        }
+        return childView
+    }
+
+    fun getChildView(view: View, index: Int): View? {
+        if (view is ViewGroup) {
+            return view.getChildAt(index)
+        }
+        return null
+    }
 
     fun getParentView(view: View, index: Int): View? {
         var currentView = view

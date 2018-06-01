@@ -166,4 +166,8 @@ object Classes {
                 .filterByMethod(C.Boolean, "onContextItemSelected", MenuItem::class.java)
                 .firstOrNull()
     }
+
+    val NoMeasuredTextView: Class<*> by WechatGlobal.wxLazy("NoMeasuredTextView") {
+        ReflectionUtil.findClassIfExists("com.tencent.mm.ui.base.NoMeasuredTextView", WechatGlobal.wxLoader!!)
+    }
 }
