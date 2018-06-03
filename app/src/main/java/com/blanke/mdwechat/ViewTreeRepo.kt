@@ -80,4 +80,65 @@ object ViewTreeRepo {
                 )
         )
     }
+
+    val DiscoverViewItem: ViewTreeItem by lazy {
+        ViewTreeItem(
+                CC.LinearLayout.name,
+                arrayOf(
+                        ViewTreeItem(
+                                CC.LinearLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(
+                                                CC.LinearLayout.name,
+                                                arrayOf(
+                                                        ViewTreeItem(
+                                                                CC.LinearLayout.name,
+                                                                arrayOf(
+                                                                        ViewTreeItem("com.tencent.mm.ui.MMImageView"),
+                                                                        ViewTreeItem(
+                                                                                CC.LinearLayout.name,
+                                                                                arrayOf(
+                                                                                        ViewTreeItem(
+                                                                                                CC.LinearLayout.name,
+                                                                                                arrayOf(
+                                                                                                        ViewTreeItem(CC.TextView.name),
+                                                                                                        ViewTreeItem(CC.TextView.name),
+                                                                                                        ViewTreeItem(CC.ImageView.name)
+                                                                                                )
+                                                                                        ),
+                                                                                        ViewTreeItem(CC.TextView.name)
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                )
+        )
+    }
+
+    val SettingAvatarView: ViewTreeItem by lazy {
+        ViewTreeItem(
+                CC.LinearLayout.name,
+                arrayOf(
+                        ViewTreeItem(
+                                CC.RelativeLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(CC.ImageView.name),
+                                        ViewTreeItem(
+                                                CC.LinearLayout.name,
+                                                arrayOf(
+                                                        ViewTreeItem(Classes.NoMeasuredTextView.name),
+                                                        ViewTreeItem(CC.TextView.name)
+                                                )
+                                        ),
+                                        ViewTreeItem(CC.TextView.name)
+                                )
+                        ),
+                        ViewTreeItem(CC.ImageView.name)
+                )
+        )
+    }
 }

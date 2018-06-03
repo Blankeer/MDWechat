@@ -80,6 +80,25 @@ object ListViewHooker : HookerProvider {
                     headTextView.setTextColor(headTextColor)
                     XposedHelpers.callMethod(titleView, "setNickNameTextColor", ColorStateList.valueOf(titleTextColor))
                 }
+
+                // 发现 设置 item
+                if (ViewTreeUtils.equals(ViewTreeRepo.DiscoverViewItem, view)) {
+                    val iconImageView = ViewUtils.getChildView(view, 0, 0, 0, 0) as View
+                    if (iconImageView.visibility == View.VISIBLE) {
+                        val titleView = ViewUtils.getChildView(view, 0, 0, 0, 1, 0, 0) as TextView
+                        titleView.setTextColor(titleTextColor)
+                    }
+                }
+
+                // 设置 头像
+                if (ViewTreeUtils.equals(ViewTreeRepo.SettingAvatarView, view)) {
+                    val nickNameView = ViewUtils.getChildView(view, 0, 1, 0)
+                    val wechatTextView = ViewUtils.getChildView(view, 0, 1, 1) as TextView
+                    if (wechatTextView.text.startsWith("微信号")) {
+                        wechatTextView.setTextColor(titleTextColor)
+                        XposedHelpers.callMethod(nickNameView, "setTextColor", titleTextColor)
+                    }
+                }
             }
         })
     }
