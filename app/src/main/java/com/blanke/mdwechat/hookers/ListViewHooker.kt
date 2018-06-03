@@ -23,6 +23,9 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
 object ListViewHooker : HookerProvider {
+    private var headTextColor = Color.BLUE
+    private var titleTextColor = Color.RED
+
     override fun provideStaticHookers(): List<Hooker>? {
         return listOf(listViewHook)
     }
@@ -61,12 +64,21 @@ object ListViewHooker : HookerProvider {
                     val unreadCountView = ViewUtils.getChildView(view, 0, 1) as TextView
                     val unreadView = ViewUtils.getChildView(view, 0, 2) as ImageView
 
-                    LogUtil.log("chatNameView=$chatNameView,chatTimeView=$chatTimeView,recentMsgView=$recentMsgView")
+//                    LogUtil.log("chatNameView=$chatNameView,chatTimeView=$chatTimeView,recentMsgView=$recentMsgView")
                     XposedHelpers.callMethod(chatNameView, "setTextColor", Color.RED)
                     XposedHelpers.callMethod(chatTimeView, "setTextColor", Color.BLUE)
                     XposedHelpers.callMethod(recentMsgView, "setTextColor", Color.YELLOW)
                     unreadCountView.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                     unreadView.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                }
+
+                // 联系人列表
+                if (ViewTreeUtils.equals(ViewTreeRepo.ContactListViewItem, view)) {
+                    val headTextView = ViewUtils.getChildView(view, 0) as TextView
+                    val titleView = ViewUtils.getChildView(view, 1, 0, 3)
+//                    log("headTextView=$headTextView,titleView=$titleView")
+                    headTextView.setTextColor(headTextColor)
+                    XposedHelpers.callMethod(titleView, "setNickNameTextColor", ColorStateList.valueOf(titleTextColor))
                 }
             }
         })

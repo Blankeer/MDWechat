@@ -57,4 +57,27 @@ object ViewTreeRepo {
                 )
         )
     }
+
+    val ContactListViewItem: ViewTreeItem by lazy {
+        ViewTreeItem(
+                Classes.NoDrawingCacheLinearLayout.name,
+                arrayOf(
+                        ViewTreeItem(CC.TextView.name),
+                        ViewTreeItem(
+                                CC.LinearLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(
+                                                CC.RelativeLayout.name,
+                                                arrayOf(
+                                                        ViewTreeItem(CC.TextView.name),
+                                                        ViewTreeItem(CC.TextView.name),
+                                                        ViewTreeItem(CC.TextView.name),
+                                                        ViewTreeItem("com.tencent.mm.ui.AddressView")
+                                                )
+                                        )
+                                )
+                        )
+                )
+        )
+    }
 }
