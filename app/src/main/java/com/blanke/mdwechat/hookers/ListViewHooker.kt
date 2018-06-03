@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.TextView
-import com.blanke.mdwechat.Classes.NoDrawingCacheLinearLayout
 import com.blanke.mdwechat.ViewTreeRepo
+import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.transparentDrawable
+import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.LogUtil
 import com.blanke.mdwechat.util.LogUtil.log
 import com.blanke.mdwechat.util.ViewTreeUtils
@@ -44,18 +45,6 @@ object ListViewHooker : HookerProvider {
                 LogUtil.logViewStackTraces(view)
                 log("--------------------")
 
-                // ContactFragment 联系人 item
-                if (view.javaClass == NoDrawingCacheLinearLayout && view is ViewGroup) {
-                    view.background = transparentDrawable
-                    val contentView = view.getChildAt(1)
-                    if (contentView != null && contentView is ViewGroup) {
-                        contentView.background = defaultImageRippleDrawable
-                        val innerView = contentView.getChildAt(0)
-                        // 去掉分割线
-                        innerView?.background = transparentDrawable
-                    }
-                }
-
                 // ConversationFragment 聊天列表 item
                 if (ViewTreeUtils.equals(ViewTreeRepo.ConversationListViewItem, view)) {
                     val chatNameView = ViewUtils.getChildView(view, 1, 0, 0, 0)
@@ -73,16 +62,22 @@ object ListViewHooker : HookerProvider {
                 }
 
                 // 联系人列表
-                if (ViewTreeUtils.equals(ViewTreeRepo.ContactListViewItem, view)) {
+                else if (ViewTreeUtils.equals(ViewTreeRepo.ContactListViewItem, view)) {
                     val headTextView = ViewUtils.getChildView(view, 0) as TextView
                     val titleView = ViewUtils.getChildView(view, 1, 0, 3)
 //                    log("headTextView=$headTextView,titleView=$titleView")
                     headTextView.setTextColor(headTextColor)
                     XposedHelpers.callMethod(titleView, "setNickNameTextColor", ColorStateList.valueOf(titleTextColor))
+                    // 修改背景
+                    val contentView = ViewUtils.getChildView(view, 1) as ViewGroup
+                    contentView.background = defaultImageRippleDrawable
+                    val innerView = ViewUtils.getChildView(contentView, 0) as View
+                    // 去掉分割线
+                    innerView.background = transparentDrawable
                 }
 
                 // 发现 设置 item
-                if (ViewTreeUtils.equals(ViewTreeRepo.DiscoverViewItem, view)) {
+                else if (ViewTreeUtils.equals(ViewTreeRepo.DiscoverViewItem, view)) {
                     val iconImageView = ViewUtils.getChildView(view, 0, 0, 0, 0) as View
                     if (iconImageView.visibility == View.VISIBLE) {
                         val titleView = ViewUtils.getChildView(view, 0, 0, 0, 1, 0, 0) as TextView
@@ -91,7 +86,7 @@ object ListViewHooker : HookerProvider {
                 }
 
                 // 设置 头像
-                if (ViewTreeUtils.equals(ViewTreeRepo.SettingAvatarView, view)) {
+                else if (ViewTreeUtils.equals(ViewTreeRepo.SettingAvatarView, view)) {
                     val nickNameView = ViewUtils.getChildView(view, 0, 1, 0)
                     val wechatTextView = ViewUtils.getChildView(view, 0, 1, 1) as TextView
                     if (wechatTextView.text.startsWith("微信号")) {
@@ -99,6 +94,32 @@ object ListViewHooker : HookerProvider {
                         XposedHelpers.callMethod(nickNameView, "setTextColor", titleTextColor)
                     }
                 }
+
+                // 聊天消息 item
+                else if (ViewTreeUtils.equals(ViewTreeRepo.ChatRightMessageItem, view)) {
+                    val chatMsgRightTextColor = HookConfig.get_hook_chat_text_color_right
+                    val msgView = ViewUtils.getChildView(view, 3, 1, 1, 3) as View
+//                    log("msgView=$msgView")
+                    XposedHelpers.callMethod(msgView, "setTextColor", chatMsgRightTextColor)
+                    XposedHelpers.callMethod(msgView, "setLinkTextColor", chatMsgRightTextColor)
+                    XposedHelpers.callMethod(msgView, "setHintTextColor", chatMsgRightTextColor)
+//                    val mText = XposedHelpers.getObjectField(msgView, "mText")
+//                    log("msg right text=$mText")
+                    val bubble = WeChatHelper.getRightBubble(msgView.resources)
+                    msgView.background = bubble
+                } else if (ViewTreeUtils.equals(ViewTreeRepo.ChatLeftMessageItem, view)) {
+                    val chatMsgLeftTextColor = HookConfig.get_hook_chat_text_color_left
+                    val msgView = ViewUtils.getChildView(view, 3, 1, 1) as View
+//                    log("msgView=$msgView")
+                    XposedHelpers.callMethod(msgView, "setTextColor", chatMsgLeftTextColor)
+                    XposedHelpers.callMethod(msgView, "setLinkTextColor", chatMsgLeftTextColor)
+                    XposedHelpers.callMethod(msgView, "setHintTextColor", chatMsgLeftTextColor)
+//                    val mText = XposedHelpers.getObjectField(msgView, "mText")
+//                    log("msg left text=$mText")
+                    val bubble = WeChatHelper.getLeftBubble(msgView.resources)
+                    msgView.background = bubble
+                }
+
             }
         })
     }
