@@ -1,6 +1,8 @@
 package com.blanke.mdwechat.hookers
 
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
@@ -14,6 +16,7 @@ import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.util.LogUtil
+import com.blanke.mdwechat.util.ViewUtils
 import com.gcssloop.widget.RCRelativeLayout
 import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
 import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
@@ -23,6 +26,8 @@ import de.robv.android.xposed.XposedHelpers.getObjectField
 
 object ContactHooker : HookerProvider {
     const val keyInit = "key_init"
+    private var headTextColor = Color.BLUE
+    private var titleTextColor = Color.RED
 
     override fun provideStaticHookers(): List<Hooker>? {
         return listOf(resumeHook)
@@ -63,6 +68,8 @@ object ContactHooker : HookerProvider {
                                                 continue
                                             }
                                             val itemContent = item.getChildAt(0)
+                                            var titleTextView: View? = null
+                                            var headTextView: View? = null
                                             if (itemContent != null) {
                                                 // 新的朋友 等几个 item
                                                 itemContent.background = defaultImageRippleDrawable
@@ -73,6 +80,7 @@ object ContactHooker : HookerProvider {
                                                     val childView = itemContent.getChildAt(0)
                                                     childView.background = transparentDrawable
                                                     if (childView is TextView) {// 企业号
+                                                        headTextView = childView // 我的企业 textView
                                                         itemContent.background = transparentDrawable
                                                         val lll = (itemContent.getChildAt(1) as ViewGroup)
                                                         for (m in 0 until lll.childCount) {
@@ -81,20 +89,32 @@ object ContactHooker : HookerProvider {
                                                             ll.background = defaultImageRippleDrawable
                                                             // 去掉分割线
                                                             ll.getChildAt(0).background = transparentDrawable
+                                                            titleTextView = ViewUtils.getChildView(ll, 0, 1)
+                                                            titleTextView?.apply {
+                                                                if (this is TextView) {
+                                                                    this.setTextColor(titleTextColor)
+                                                                }
+                                                            }
                                                         }
+                                                        headTextView.setTextColor(headTextColor)
                                                     } else if (childView is ViewGroup) {// 新的朋友 群聊 公众号
                                                         val maskLayout = childView.getChildAt(0)
+                                                        titleTextView = childView.getChildAt(1) // 公众号 textView
                                                         if (maskLayout is ViewGroup) {
                                                             val iv = maskLayout.getChildAt(0)
                                                             if (iv is ImageView) {
                                                                 val roundLayout = RCRelativeLayout(Objects.Main.LauncherUI.get())
                                                                 roundLayout.isRoundAsCircle = true
-                                                                maskLayout.addView(roundLayout,iv.layoutParams)
+                                                                maskLayout.addView(roundLayout, iv.layoutParams)
                                                                 maskLayout.removeView(iv)
                                                                 roundLayout.addView(iv)
                                                             }
                                                         }
-
+                                                        titleTextView?.apply {
+                                                            if (this is TextView) {
+                                                                this.setTextColor(titleTextColor)
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
