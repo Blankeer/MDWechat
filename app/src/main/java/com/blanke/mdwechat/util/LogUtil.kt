@@ -85,6 +85,7 @@ object LogUtil {
         } else if (view is ViewGroup) {
             sb.append(" childCount = ${view.childCount}")
         }
+        sb.append(" desc= ${view.contentDescription}")
         return sb.toString()
     }
 
