@@ -10,8 +10,8 @@ class WechatHook : IXposedHookLoadPackage {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         try {
-            log("hook wechat success")
             if (SpellBook.isImportantWechatProcess(lpparam)) {
+                log("hook wechat success")
                 WeChatHelper.initPrefs()
                 val hookers = mutableListOf(
                         LauncherUIHooker,
