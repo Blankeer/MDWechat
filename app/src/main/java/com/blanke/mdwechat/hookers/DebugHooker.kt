@@ -1,5 +1,6 @@
 package com.blanke.mdwechat.hookers
 
+import android.view.MotionEvent
 import android.view.View
 import com.blanke.mdwechat.util.LogUtil.logView
 import com.gh0u1l5.wechatmagician.spellbook.C
@@ -18,7 +19,10 @@ object DebugHooker : HookerProvider {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
-                logView(view)
+                val event = param.args[0] as MotionEvent
+                if (event.action == MotionEvent.ACTION_UP) {
+                    logView(view)
+                }
             }
         })
     }
