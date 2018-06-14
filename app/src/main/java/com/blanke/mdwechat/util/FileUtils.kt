@@ -1,6 +1,7 @@
 package com.blanke.mdwechat.util
 
 import android.content.Context
+import de.robv.android.xposed.XposedBridge
 import java.io.*
 
 /**
@@ -67,5 +68,24 @@ object FileUtils {
             }
             out.write(buffer, 0, read)
         } while (true)
+    }
+
+    fun write(fileName: String, content: String, append: Boolean = false) {
+        var writer: FileWriter? = null
+        try {
+            // 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
+            writer = FileWriter(fileName, append)
+            writer.write(content)
+        } catch (e: IOException) {
+            XposedBridge.log(e)
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close()
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
     }
 }

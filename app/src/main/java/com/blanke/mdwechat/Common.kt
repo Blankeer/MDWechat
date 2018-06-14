@@ -15,6 +15,7 @@ object Common {
     val CONFIG_DIR = "config"
     val CONFIG_WECHAT_DIR = "config" + File.separator + "wechat"
     val CONFIG_VIEW_DIR = "config" + File.separator + "view"
+    val LOGS_DIR = "logs"
     val ICON_DIR = "icon"
     val CONVERSATION_BACKGROUND_FILENAME = "conversation.png"
     val CONTACT_BACKGROUND_FILENAME = "contact.png"

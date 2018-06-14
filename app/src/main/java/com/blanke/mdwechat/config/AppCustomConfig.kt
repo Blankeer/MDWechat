@@ -28,6 +28,10 @@ object AppCustomConfig {
         return Common.APP_DIR_PATH + Common.CONFIG_VIEW_DIR + File.separator + fileName
     }
 
+    fun getLogFile(date: String): String {
+        return Common.APP_DIR_PATH + Common.LOGS_DIR + File.separator + "MDWechat_log_$date.txt"
+    }
+
     fun getTabIcon(index: Int): Bitmap? {
         return getScaleBitmap(getIcon(Common.FILE_NAME_TAB_PREFIX + "$index.png"))
     }

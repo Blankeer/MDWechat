@@ -12,7 +12,7 @@ import de.robv.android.xposed.XposedBridge
 
 object LogUtil {
     fun log(msg: String) {
-        XposedBridge.log("MDWechat:\t" + msg + "\tts=" + System.currentTimeMillis())
+        XposedBridge.log("MDWechat:\t$msg")
     }
 
     fun log(e: Throwable) {
