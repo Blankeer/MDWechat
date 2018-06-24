@@ -13,8 +13,6 @@ import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.config.HookConfig
-import com.blanke.mdwechat.util.LogUtil
-import com.blanke.mdwechat.util.LogUtil.log
 import com.blanke.mdwechat.util.ViewTreeUtils
 import com.blanke.mdwechat.util.ViewUtils
 import com.gh0u1l5.wechatmagician.spellbook.C
@@ -41,9 +39,9 @@ object ListViewHooker : HookerProvider {
             override fun afterHookedMethod(param: MethodHookParam?) {
                 val view = param?.result as View
                 view.background = defaultImageRippleDrawable
-                log("--------------------")
-                LogUtil.logViewStackTraces(view)
-                log("--------------------")
+//                log("--------------------")
+//                LogUtil.logViewStackTraces(view)
+//                log("--------------------")
 
                 // ConversationFragment 聊天列表 item
                 if (ViewTreeUtils.equals(ViewTreeRepo.ConversationListViewItem, view)) {

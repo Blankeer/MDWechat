@@ -1,5 +1,7 @@
 package com.blanke.mdwechat.hookers
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +30,17 @@ object ActionBarHooker : HookerProvider {
     private val actionBarHooker = Hooker {
         findAndHookMethod(ActionBarContainer, "setPrimaryBackground", Drawable::class.java, object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                param.args[0] = colorPrimaryDrawable
+                val drawable = param.args[0]
+                var needHook = true
+                if (drawable is ColorDrawable) {
+                    if (drawable.color == Color.parseColor("#F2F2F2")
+                            || drawable.color == Color.TRANSPARENT) {
+                        needHook = false
+                    }
+                }
+                if (needHook) {
+                    param.args[0] = colorPrimaryDrawable
+                }
                 val actionBar = param.thisObject as ViewGroup
                 actionBar.elevation = 5F
                 val context = actionBar.context

@@ -1,11 +1,13 @@
 package com.blanke.mdwechat.hookers
 
+import android.graphics.Color
 import android.view.Window
 import com.blanke.mdwechat.Classes.PhoneWindow
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.WeChatHelper.colorPrimary
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ColorUtils
+import com.blanke.mdwechat.util.LogUtil
 import com.gh0u1l5.wechatmagician.spellbook.C
 import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
 import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
@@ -23,8 +25,13 @@ object StatusBarHooker : HookerProvider {
         findAndHookMethod(PhoneWindow, "setStatusBarColor", C.Int, object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
-                val color = getStatueBarColor()
                 val oldColor = param?.args!![0] as Int
+                LogUtil.log("status color=$oldColor,${Color.parseColor("#F2F2F2")}")
+                if (oldColor == Color.parseColor("#F2F2F2")
+                        || oldColor == 0) {
+                    return
+                }
+                val color = getStatueBarColor()
                 if (color != oldColor) {
                     WeChatHelper.reloadPrefs()
                     val window = param.thisObject as Window
