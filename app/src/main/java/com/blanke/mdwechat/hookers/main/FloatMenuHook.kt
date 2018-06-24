@@ -9,12 +9,15 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.blanke.mdwechat.Common
+import com.blanke.mdwechat.Objects
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.bean.FLoatButtonConfigItem
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ConvertUtils
+import com.blanke.mdwechat.util.LogUtil
 import com.blanke.mdwechat.util.LogUtil.log
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionButton.SIZE_MINI
@@ -128,7 +131,10 @@ object FloatMenuHook {
         try {
             WeChatHelper.startActivity(item.type)
         } catch (e: Throwable) {
-            log(e)
+            LogUtil.log(e)
+            Objects.Main.LauncherUI.get()?.apply {
+                Toast.makeText(this, "跳转失败，请检查类名是否正确", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
