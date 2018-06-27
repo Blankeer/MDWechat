@@ -3,8 +3,10 @@ package com.blanke.mdwechat
 import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.view.MenuItem
+import android.view.SubMenu
 import android.view.View
 import android.view.animation.Animation
 import android.widget.*
@@ -169,5 +171,15 @@ object Classes {
 
     val NoMeasuredTextView: Class<*> by WechatGlobal.wxLazy("NoMeasuredTextView") {
         ReflectionUtil.findClassIfExists("com.tencent.mm.ui.base.NoMeasuredTextView", WechatGlobal.wxLoader!!)
+    }
+
+    val ActionMenuView: Class<*> by WechatGlobal.wxLazy("ActionMenuView") {
+        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "android.support.v7.view.menu")
+                .filterByField(CharSequence::class.java.name)
+                .filterByField(Drawable::class.java.name)
+                .filterByMethod(MenuItem::class.java, "add", CharSequence::class.java)
+                .filterByMethod(MenuItem::class.java, "add", Int::class.java, Int::class.java, Int::class.java, Int::class.java)
+                .filterByMethod(SubMenu::class.java, "addSubMenu", CharSequence::class.java)
+                .firstOrNull()
     }
 }

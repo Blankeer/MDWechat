@@ -4,10 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
 import com.blanke.mdwechat.Common
@@ -22,6 +19,7 @@ import com.blanke.mdwechat.util.LogUtil.log
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionButton.SIZE_MINI
 import com.github.clans.fab.FloatingActionMenu
+import de.robv.android.xposed.XposedHelpers
 
 object FloatMenuHook {
 
@@ -128,12 +126,27 @@ object FloatMenuHook {
     }
 
     private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
-        try {
-            WeChatHelper.startActivity(item.type)
-        } catch (e: Throwable) {
-            LogUtil.log(e)
-            Objects.Main.LauncherUI.get()?.apply {
-                Toast.makeText(this, "跳转失败，请检查类名是否正确", Toast.LENGTH_SHORT).show()
+        when (item.type) {
+            "weiX" -> {
+                Objects.Main.LauncherUI_mWechatXMenuItem.get()?.run {
+                    this::class.java.declaredFields
+                            .firstOrNull { it.type == MenuItem.OnMenuItemClickListener::class.java }
+                            ?.apply {
+                                this.isAccessible = true
+                                val listener = this.get(this@run)
+                                XposedHelpers.callMethod(listener, "onMenuItemClick", this@run)
+                            }
+                }
+            }
+            else -> {
+                try {
+                    WeChatHelper.startActivity(item.type)
+                } catch (e: Throwable) {
+                    LogUtil.log(e)
+                    Objects.Main.LauncherUI.get()?.apply {
+                        Toast.makeText(this, "跳转失败，请检查类名是否正确", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }

@@ -7,7 +7,6 @@ import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.WeChatHelper.colorPrimary
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ColorUtils
-import com.blanke.mdwechat.util.LogUtil
 import com.gh0u1l5.wechatmagician.spellbook.C
 import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
 import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
@@ -26,7 +25,6 @@ object StatusBarHooker : HookerProvider {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                 val oldColor = param?.args!![0] as Int
-                LogUtil.log("status color=$oldColor,${Color.parseColor("#F2F2F2")}")
                 if (oldColor == Color.parseColor("#F2F2F2")
                         || oldColor == 0) {
                     return

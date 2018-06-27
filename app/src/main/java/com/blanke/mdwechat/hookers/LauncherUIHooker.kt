@@ -1,6 +1,8 @@
 package com.blanke.mdwechat.hookers
 
 import android.app.Activity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -34,7 +36,7 @@ object LauncherUIHooker : HookerProvider {
     const val keyInit = "key_init"
 
     override fun provideStaticHookers(): List<Hooker>? {
-        return listOf(launcherLifeHooker, mainTabUIPageAdapterHook)
+        return listOf(launcherLifeHooker, mainTabUIPageAdapterHook, actionMenuHooker)
     }
 
     private val launcherLifeHooker = Hooker {
@@ -173,5 +175,34 @@ object LauncherUIHooker : HookerProvider {
                 }
             }
         })
+    }
+
+    private val actionMenuHooker = Hooker {
+        //hide menu item in actionBar
+        XposedHelpers.findAndHookMethod(Classes.LauncherUI, "onCreateOptionsMenu", C.Menu, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
+                if (!HookConfig.is_hook_float_button) {
+                    return
+                }
+                val menu = param.args[0] as Menu
+//                LogUtil.log("menu= $menu")
+                menu.removeItem(2)
+            }
+        })
+        XposedHelpers.findAndHookMethod(com.blanke.mdwechat.Classes.ActionMenuView, "add",
+                Int::class.java, Int::class.java, Int::class.java, CharSequence::class.java,
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if (param.args.size == 4) {
+                            val str = param.args[3]
+                            val menuItem = param.result as MenuItem
+                            if (str == "微X模块") {
+                                menuItem.isVisible = false
+                                Objects.Main.LauncherUI_mWechatXMenuItem = WeakReference(menuItem)
+                            }
+                        }
+                    }
+                })
     }
 }
