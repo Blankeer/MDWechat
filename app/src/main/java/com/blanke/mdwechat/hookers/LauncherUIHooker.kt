@@ -36,6 +36,7 @@ import java.lang.ref.WeakReference
 
 object LauncherUIHooker : HookerProvider {
     const val keyInit = "key_init"
+    private var disablePageScrolledHook = false
 
     override fun provideStaticHookers(): List<Hooker>? {
         return listOf(launcherLifeHooker, mainTabUIPageAdapterHook, actionMenuHooker)
@@ -131,6 +132,10 @@ object LauncherUIHooker : HookerProvider {
                 val positionOffset = param?.args!![1] as Float
                 val position = param.args[0]
                 log("MainTabUIPageAdapter_onPageScrolled ,positionOffset=$positionOffset,startScrollPosition=$position")
+                if (disablePageScrolledHook || positionOffset.toString().contains("E")) {// ?
+                    disablePageScrolledHook = true
+                    return
+                }
                 LauncherUI_mTabLayout.get()?.apply {
                     startScrollPosition = position as Int
                     indicatorOffset = positionOffset
