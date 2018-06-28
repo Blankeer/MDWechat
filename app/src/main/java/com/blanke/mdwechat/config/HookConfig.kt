@@ -43,6 +43,9 @@ object HookConfig {
     private val key_hook_chat_text_color_right = "key_hook_chat_text_color_right"
     private val key_hook_statusbar_transparent = "key_hook_statusbar_transparent"
     private val key_hook_log = "key_hook_log"
+    private val key_hook_main_textcolor = "key_hook_main_textcolor"
+    private val key_main_textcolor_title = "key_main_textcolor_title"
+    private val key_main_textcolor_content = "key_main_textcolor_content"
 
     val is_hook_switch: Boolean
         get() {
@@ -185,5 +188,17 @@ object HookConfig {
     val is_hook_log: Boolean
         get() {
             return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_log, false)
+        }
+    val is_hook_main_textcolor: Boolean
+        get() {
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_main_textcolor, false)
+        }
+    val get_main_text_color_title: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_main_textcolor_title, Color.BLACK)
+        }
+    val get_main_text_color_content: Int
+        get() {
+            return WeChatHelper.XMOD_PREFS.getInt(key_main_textcolor_content, Color.BLACK)
         }
 }

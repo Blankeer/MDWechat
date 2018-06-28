@@ -22,8 +22,15 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
 object ListViewHooker : HookerProvider {
-    private var headTextColor = Color.BLUE
-    private var titleTextColor = Color.RED
+    private var headTextColor = Color.BLACK
+        get() {
+            return HookConfig.get_main_text_color_content
+        }
+
+    private var titleTextColor = Color.BLACK
+        get() {
+            return HookConfig.get_main_text_color_title
+        }
 
     override fun provideStaticHookers(): List<Hooker>? {
         return listOf(listViewHook)

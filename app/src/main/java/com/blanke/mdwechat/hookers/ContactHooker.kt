@@ -15,6 +15,7 @@ import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
+import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.LogUtil
 import com.blanke.mdwechat.util.ViewUtils
 import com.gcssloop.widget.RCRelativeLayout
@@ -26,8 +27,16 @@ import de.robv.android.xposed.XposedHelpers.getObjectField
 
 object ContactHooker : HookerProvider {
     const val keyInit = "key_init"
-    private var headTextColor = Color.BLUE
-    private var titleTextColor = Color.RED
+
+    private var headTextColor = Color.BLACK
+        get() {
+            return HookConfig.get_main_text_color_content
+        }
+
+    private var titleTextColor = Color.BLACK
+        get() {
+            return HookConfig.get_main_text_color_title
+        }
 
     override fun provideStaticHookers(): List<Hooker>? {
         return listOf(resumeHook)
