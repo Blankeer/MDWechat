@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
+import com.blanke.mdwechat.Classes.MainTabUIPageAdapter
 import com.blanke.mdwechat.Classes.WxViewPager
 import com.blanke.mdwechat.Fields
 import com.blanke.mdwechat.Fields.HomeUI_mMainTabUI
 import com.blanke.mdwechat.Fields.LauncherUI_mHomeUI
 import com.blanke.mdwechat.Fields.MainTabUI_mCustomViewPager
+import com.blanke.mdwechat.Methods.MainTabUIPageAdapter_onPageScrolled
 import com.blanke.mdwechat.Methods.WxViewPager_selectedPage
 import com.blanke.mdwechat.Objects
 import com.blanke.mdwechat.Objects.Main.LauncherUI_mTabLayout
@@ -64,7 +66,7 @@ object LauncherUIHooker : HookerProvider {
                             log("LauncherUI 已经hook过")
                             return
                         }
-                        log("LauncherUI start hook")
+                        log("LauncherUI onResume(), start hook")
                         XposedHelpers.setAdditionalInstanceField(activity, keyInit, true)
                         initHookLauncherUI(activity)
                     }
@@ -82,28 +84,31 @@ object LauncherUIHooker : HookerProvider {
                         // remove tabView
                         val linearViewGroup = viewPager.parent as ViewGroup
                         val tabView = linearViewGroup.getChildAt(1)
-                        log("tabView=$tabView")
                         linearViewGroup.removeView(tabView)
+                        log("移除 tabView $tabView")
 
                         val contentViewGroup = linearViewGroup.parent as ViewGroup
-                        log("contentViewGroup=$contentViewGroup")
 
                         // hide actionBar
                         if (HookConfig.is_hook_hide_actionbar) {
                             val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
-//                            log("actionBar=$actionBar")
+                            log("隐藏 actionBar $actionBar")
                             XposedHelpers.callMethod(actionBar, "hide")
                         }
                         if (HookConfig.is_hook_tab) {
                             try {
+                                log("添加 TabLayout")
                                 TabLayoutHook.addTabLayout(linearViewGroup)
                             } catch (e: Throwable) {
+                                log("添加 TabLayout 报错")
                                 log(e)
                             }
                         }
                         try {
+                            log("添加 FloatMenu")
                             FloatMenuHook.addFloatMenu(contentViewGroup)
                         } catch (e: Throwable) {
+                            log("添加 FloatMenu 报错")
                             log(e)
                         }
                     }
@@ -121,17 +126,17 @@ object LauncherUIHooker : HookerProvider {
                 }
             }
         })
-//        XposedHelpers.findAndHookMethod(MainTabUIPageAdapter, MainTabUIPageAdapter_onPageScrolled.name, C.Int, Float::class.java, C.Int, object : XC_MethodHook() {
-//            override fun afterHookedMethod(param: MethodHookParam?) {
-//                val positionOffset = param?.args!![1] as Float
-//                val position = param.args[0]
-//                log("MainTabUIPageAdapter_onPageScrolled ,positionOffset=$positionOffset,startScrollPosition=$position")
-//                LauncherUI_mTabLayout.get()?.apply {
-//                    startScrollPosition = position as Int
-//                    indicatorOffset = positionOffset
-//                }
-//            }
-//        })
+        XposedHelpers.findAndHookMethod(MainTabUIPageAdapter, MainTabUIPageAdapter_onPageScrolled.name, C.Int, Float::class.java, C.Int, object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                val positionOffset = param?.args!![1] as Float
+                val position = param.args[0]
+                log("MainTabUIPageAdapter_onPageScrolled ,positionOffset=$positionOffset,startScrollPosition=$position")
+                LauncherUI_mTabLayout.get()?.apply {
+                    startScrollPosition = position as Int
+                    indicatorOffset = positionOffset
+                }
+            }
+        })
 
         XposedHelpers.findAndHookMethod(TextView::class.java, "setText", CharSequence::class.java, object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
@@ -145,7 +150,7 @@ object LauncherUIHooker : HookerProvider {
                     ViewUtils.getParentView(tv, 3)?.apply {
                         val tabViewItemParent = this.parent as ViewGroup
                         val position = tabViewItemParent.indexOfChild(this)
-                        log("unread position= $position,count = $text")
+//                        log("unread position= $position,count = $text")
                         val number = if (text.length == 0) 0 else text.toIntOrNull()
                         LauncherUI_mTabLayout.get()?.apply {
                             showMsg(position, number ?: 99)
@@ -163,7 +168,7 @@ object LauncherUIHooker : HookerProvider {
                     ViewUtils.getParentView(view, 3)?.apply {
                         val tabViewItemParent = this.parent as ViewGroup
                         val position = tabViewItemParent.indexOfChild(this)
-                        log("unread position= $position,visible = ${visible == View.VISIBLE}")
+//                        log("unread position= $position,visible = ${visible == View.VISIBLE}")
                         LauncherUI_mTabLayout.get()?.apply {
                             if (visible == View.VISIBLE) {
                                 showMsg(position, -1)
@@ -186,7 +191,6 @@ object LauncherUIHooker : HookerProvider {
                     return
                 }
                 val menu = param.args[0] as Menu
-//                LogUtil.log("menu= $menu")
                 menu.removeItem(2)
             }
         })
@@ -198,6 +202,7 @@ object LauncherUIHooker : HookerProvider {
                             val str = param.args[3]
                             val menuItem = param.result as MenuItem
                             if (str == "微X模块") {
+                                log("检测到 微X模块")
                                 menuItem.isVisible = false
                                 Objects.Main.LauncherUI_mWechatXMenuItem = WeakReference(menuItem)
                             }

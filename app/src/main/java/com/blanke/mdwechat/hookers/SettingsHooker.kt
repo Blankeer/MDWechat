@@ -3,7 +3,6 @@ package com.blanke.mdwechat.hookers
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import com.blanke.mdwechat.Classes
-import com.blanke.mdwechat.Classes.SettingsFragment
 import com.blanke.mdwechat.Fields.PreferenceFragment_mListView
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
@@ -21,14 +20,12 @@ object SettingsHooker : HookerProvider {
     }
 
     private val resumeHook = Hooker {
-        LogUtil.log("SettingsFragment=$SettingsFragment,PreferenceFragment_mListView=$PreferenceFragment_mListView")
         XposedHelpers.findAndHookMethod(Classes.Fragment, "performResume", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam?) {
                 val fragment = param?.thisObject ?: return
                 if (fragment.javaClass.name != Classes.SettingsFragment.name) {
                     return
                 }
-                LogUtil.log("SettingsFragment fragment=$fragment")
                 val isInit = XposedHelpers.getAdditionalInstanceField(fragment, keyInit)
                 if (isInit != null) {
                     LogUtil.log("SettingsFragment 已经hook过")

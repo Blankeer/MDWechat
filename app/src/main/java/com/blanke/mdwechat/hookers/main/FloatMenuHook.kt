@@ -126,6 +126,7 @@ object FloatMenuHook {
     }
 
     private fun onFloatButtonClick(item: FLoatButtonConfigItem, index: Int) {
+        log("点击悬浮按钮，index=$index,item=$item")
         when (item.type) {
             "weiX" -> {
                 Objects.Main.LauncherUI_mWechatXMenuItem.get()?.run {

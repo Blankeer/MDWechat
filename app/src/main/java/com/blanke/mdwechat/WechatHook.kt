@@ -1,5 +1,6 @@
 package com.blanke.mdwechat
 
+import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.*
 import com.blanke.mdwechat.util.LogUtil.log
 import com.gh0u1l5.wechatmagician.spellbook.SpellBook
@@ -11,8 +12,12 @@ class WechatHook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         try {
             if (SpellBook.isImportantWechatProcess(lpparam)) {
-                log("hook wechat success")
                 WeChatHelper.initPrefs()
+                if (!HookConfig.is_hook_switch) {
+                    log("模块总开关已关闭")
+                    return
+                }
+                log("模块加载成功")
                 val hookers = mutableListOf(
                         LauncherUIHooker,
                         ActionBarHooker,
