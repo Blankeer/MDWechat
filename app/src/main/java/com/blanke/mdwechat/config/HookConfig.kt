@@ -1,6 +1,7 @@
 package com.blanke.mdwechat.config
 
 import android.graphics.Color
+import com.blanke.mdwechat.BuildConfig
 
 import com.blanke.mdwechat.WeChatHelper
 
@@ -187,7 +188,7 @@ object HookConfig {
         }
     val is_hook_log: Boolean
         get() {
-            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_log, false)
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_log, BuildConfig.DEBUG)
         }
     val is_hook_main_textcolor: Boolean
         get() {

@@ -13,6 +13,7 @@ import com.blanke.mdwechat.R
 import com.blanke.mdwechat.util.FileUtils
 import java.io.File
 
+
 /**
  * Created by blanke on 2017/6/8.
  */
@@ -24,14 +25,15 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         preferenceManager.setSharedPreferencesName(Common.MOD_PREFS)
         addPreferencesFromResource(R.xml.pref_settings)
 
-        findPreference(getString(R.string.key_hide_launcher_icon)).onPreferenceChangeListener = this
-        findPreference(getString(R.string.key_donate)).onPreferenceClickListener = this
-        findPreference(getString(R.string.key_feedback)).onPreferenceClickListener = this
-        findPreference(getString(R.string.key_reset_wechat_config)).onPreferenceClickListener = this
-        findPreference(getString(R.string.key_reset_view_config)).onPreferenceClickListener = this
-        findPreference(getString(R.string.key_reset_icon_config)).onPreferenceClickListener = this
-        findPreference(getString(R.string.key_feedback_email)).onPreferenceClickListener = this
-        findPreference(getString(R.string.key_github)).onPreferenceClickListener = this
+        findPreference(getString(R.string.key_hide_launcher_icon))?.onPreferenceChangeListener = this
+        findPreference(getString(R.string.key_donate))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_feedback))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_reset_wechat_config))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_reset_view_config))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_reset_icon_config))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_feedback_email))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_github))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_hook_conversation_bg))?.onPreferenceClickListener = this
     }
 
     override fun onPreferenceChange(preference: Preference, o: Any): Boolean {
@@ -50,6 +52,9 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             getString(R.string.key_reset_icon_config) -> copyIcons()
             "key_feedback_email" -> sendEmail()
             "key_github" -> gotoGithub()
+            "key_hook_main_bg" -> {
+
+            }
         }
         return true
     }

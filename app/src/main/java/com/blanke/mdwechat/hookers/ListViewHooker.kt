@@ -31,6 +31,10 @@ object ListViewHooker : HookerProvider {
         get() {
             return HookConfig.get_main_text_color_title
         }
+    private var isHookTextColor = false
+        get() {
+            return HookConfig.is_hook_main_textcolor
+        }
 
     override fun provideStaticHookers(): List<Hooker>? {
         return listOf(listViewHook)
@@ -59,11 +63,13 @@ object ListViewHooker : HookerProvider {
                     val unreadView = ViewUtils.getChildView(view, 0, 2) as ImageView
 
 //                    LogUtil.log("chatNameView=$chatNameView,chatTimeView=$chatTimeView,recentMsgView=$recentMsgView")
-                    XposedHelpers.callMethod(chatNameView, "setTextColor", Color.RED)
-                    XposedHelpers.callMethod(chatTimeView, "setTextColor", Color.BLUE)
-                    XposedHelpers.callMethod(recentMsgView, "setTextColor", Color.YELLOW)
-                    unreadCountView.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
-                    unreadView.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
+                    if (isHookTextColor) {
+                        XposedHelpers.callMethod(chatNameView, "setTextColor", titleTextColor)
+                        XposedHelpers.callMethod(chatTimeView, "setTextColor", headTextColor)
+                        XposedHelpers.callMethod(recentMsgView, "setTextColor", headTextColor)
+                        unreadCountView.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
+                        unreadView.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
+                    }
                 }
 
                 // 联系人列表
@@ -71,8 +77,10 @@ object ListViewHooker : HookerProvider {
                     val headTextView = ViewUtils.getChildView(view, 0) as TextView
                     val titleView = ViewUtils.getChildView(view, 1, 0, 3)
 //                    log("headTextView=$headTextView,titleView=$titleView")
-                    headTextView.setTextColor(headTextColor)
-                    XposedHelpers.callMethod(titleView, "setNickNameTextColor", ColorStateList.valueOf(titleTextColor))
+                    if (isHookTextColor) {
+                        headTextView.setTextColor(headTextColor)
+                        XposedHelpers.callMethod(titleView, "setNickNameTextColor", ColorStateList.valueOf(titleTextColor))
+                    }
                     // 修改背景
                     val contentView = ViewUtils.getChildView(view, 1) as ViewGroup
                     contentView.background = defaultImageRippleDrawable
@@ -86,7 +94,9 @@ object ListViewHooker : HookerProvider {
                     val iconImageView = ViewUtils.getChildView(view, 0, 0, 0, 0) as View
                     if (iconImageView.visibility == View.VISIBLE) {
                         val titleView = ViewUtils.getChildView(view, 0, 0, 0, 1, 0, 0) as TextView
-                        titleView.setTextColor(titleTextColor)
+                        if (isHookTextColor) {
+                            titleView.setTextColor(titleTextColor)
+                        }
                     }
                 }
 
@@ -94,7 +104,7 @@ object ListViewHooker : HookerProvider {
                 else if (ViewTreeUtils.equals(ViewTreeRepo.SettingAvatarView, view)) {
                     val nickNameView = ViewUtils.getChildView(view, 0, 1, 0)
                     val wechatTextView = ViewUtils.getChildView(view, 0, 1, 1) as TextView
-                    if (wechatTextView.text.startsWith("微信号")) {
+                    if (wechatTextView.text.startsWith("微信号") && isHookTextColor) {
                         wechatTextView.setTextColor(titleTextColor)
                         XposedHelpers.callMethod(nickNameView, "setTextColor", titleTextColor)
                     }

@@ -10,20 +10,9 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:dependency="@string/key_hook_switch"
-        android:key="@string/key_is_play"
-        android:summary="@string/text_info_is_play"
-        android:title="@string/text_is_play" />
-
-    <SwitchPreference
-        android:defaultValue="false"
         android:key="@string/key_hide_launcher_icon"
         android:summary="@string/text_hide_launcher_icon_info"
         android:title="@string/text_hide_launcher_icon" />
-    <Preference
-        android:key="@string/key_reset_wechat_config"
-        android:summary="@string/text_reset_wechat_config_info"
-        android:title="@string/text_reset_wechat_config" />
     <Preference
         android:key="@string/key_reset_view_config"
         android:summary="@string/text_reset_view_config_info"
@@ -70,22 +59,6 @@
             android:key="@string/key_hook_avatar"
             android:title="@string/text_hook_avatar" />
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_ripple"
-            android:title="@string/text_hook_ripple" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreference
-            android:defaultValue="@color/colorGrey"
-            android:dependency="@string/key_hook_ripple"
-            android:key="@string/key_color_ripple"
-            android:title="@string/text_color_ripple"
-            app:cpv_colorPresets="@array/colors"
-            app:cpv_showAlphaSlider="true" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_actionbar"
-            android:title="@string/text_hook_actionbar" />
-        <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_hook_statusbar_transparent"
             android:title="@string/text_hook_statusbar_transparent" />
@@ -110,10 +83,6 @@
             android:key="@string/key_hook_hide_actionbar"
             android:title="@string/text_hook_hide_actionbar" />
         <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_hook_search"
-            android:title="@string/text_hook_search" />
-        <SwitchPreference
             android:defaultValue="true"
             android:key="@string/key_hook_tab"
             android:title="@string/text_hook_tab" />
@@ -128,36 +97,37 @@
             android:title="@string/text_hook_hide_wx_tab" />
         <SwitchPreference
             android:defaultValue="false"
-            android:key="@string/key_hook_hide_wx_tab_2"
-            android:title="@string/text_hook_hide_wx_tab_2" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_hook_hide_wx_tab_3"
-            android:title="@string/text_hook_hide_wx_tab_3" />
+            android:key="@string/key_hook_main_textcolor"
+            android:title="@string/text_hook_main_textcolor" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/material_black"
+            android:dependency="@string/key_hook_main_textcolor"
+            android:key="@string/key_main_textcolor_title"
+            android:title="@string/text_main_textcolor_title"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+        <com.jaredrummler.android.colorpicker.ColorPreference
+            android:defaultValue="@color/material_black"
+            android:dependency="@string/key_hook_main_textcolor"
+            android:key="@string/key_main_textcolor_content"
+            android:title="@string/text_main_textcolor_content"
+            app:cpv_colorPresets="@array/colors"
+            app:cpv_showAlphaSlider="true" />
+        <Preference
+            android:key="@string/key_hook_main_bg"
+            android:title="@string/title_hook_conversation_bg" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:dependency="@string/key_hook_switch"
         android:title="@string/text_conversation_settings">
-
-        <com.jaredrummler.android.colorpicker.ColorPreference
-            android:defaultValue="@color/colorPressGrey"
-            android:key="@string/key_color_conversation_top"
-            android:title="@string/text_color_conversation_top"
-            app:cpv_colorPresets="@array/colors"
-            app:cpv_showAlphaSlider="true" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_hook_remove_appbrand"
             android:summary="@string/key_hook_remove_appbrand_summary"
             android:title="@string/text_hook_remove_appbrand" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_remove_foot_view"
-            android:summary="@string/text_hook_remove_foot_view_summary"
-            android:title="@string/text_hook_remove_foot_view" />
     </PreferenceCategory>
     <PreferenceCategory
         android:dependency="@string/key_hook_switch"
@@ -199,38 +169,6 @@
             android:title="@string/text_hook_chat_text_color_right"
             app:cpv_colorPresets="@array/colors"
             app:cpv_showAlphaSlider="true" />
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:dependency="@string/key_hook_switch"
-        android:title="@string/text_discover_settings">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_hook_menu_sns"
-            android:title="@string/text_hook_menu_sns" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_menu_qrcode"
-            android:title="@string/text_hook_menu_qrcode" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_menu_shake"
-            android:title="@string/text_hook_menu_shake" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_menu_near"
-            android:title="@string/text_hook_menu_near" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_menu_game"
-            android:title="@string/text_hook_menu_game" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_hook_menu_shop"
-            android:title="@string/text_hook_menu_shop" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_hook_menu_appbrand"
-            android:title="@string/text_hook_menu_appbrand" />
     </PreferenceCategory>
     <Preference />
     <Preference />

@@ -18,7 +18,7 @@
     <string name="key_hook_ripple">key_hook_ripple</string>
     <string name="text_hook_ripple">按下波纹效果</string>
     <string name="key_hook_float_button">key_hook_float_button</string>
-    <string name="text_hook_float_button">浮动按钮</string>
+    <string name="text_hook_float_button">悬浮按钮</string>
     <string name="key_hook_search">key_hook_search</string>
     <string name="text_hook_search">搜索</string>
     <string name="key_hook_tab">key_hook_tab</string>
@@ -40,7 +40,7 @@
     <string name="text_chat_group">群聊</string>
     <string name="text_friend_add">添加好友</string>
     <string name="text_app_thank">感谢</string>
-    <string name="text_app_thank_content">感谢 hzknm@coolapk 设计的 Logo.</string>
+    <string name="text_app_thank_content">感谢 hzknm@coolapk 设计的 Logo,感谢 Gh0u1L5@github.</string>
     <string name="key_hook_bubble_tint">key_hook_bubble_tint</string>
     <string name="text_hook_bubble_tint">气泡着色</string>
     <string name="text_hook_menu_qrcode">隐藏扫一扫</string>
@@ -53,7 +53,7 @@
     <string name="key_color_ripple">key_color_ripple</string>
     <string name="text_color_ripple">波纹颜色</string>
     <string name="text_main_settings">主界面设置</string>
-    <string name="text_hook_float_button_info">自定义配置参见/sdcard/mdwechat/config/floatbutton_readme.txt</string>
+    <string name="text_hook_float_button_info"></string>
     <string name="key_hook_hide_actionbar">key_hook_hide_actionbar</string>
     <string name="text_hook_hide_actionbar">隐藏 ActionBar</string>
     <string name="key_hook_float_button_move">key_hook_float_button_move</string>
@@ -114,4 +114,13 @@
     <string name="text_hook_remove_foot_view">修复消息列表背景图显示不完整(底部空白)</string>
     <string name="text_hook_remove_foot_view_summary">当消息列表显示不超过一屏时背景图会显示不完整,最低支持微信版本 6.6.1,如显示异常,尝试关闭此项</string>
     <string name="msg_permission_fail">请授予必要的存储权限,存储目录在 /sdcard/mdwechat 下.</string>
+    <string name="key_hook_conversation_bg">key_hook_conversation_bg</string>
+    <string name="title_hook_conversation_bg">背景图</string>
+    <string name="key_hook_main_bg">key_hook_main_bg</string>
+    <string name="key_hook_main_textcolor">key_hook_main_textcolor</string>
+    <string name="text_hook_main_textcolor">主界面颜色</string>
+    <string name="key_main_textcolor_title">key_main_textcolor_title</string>
+    <string name="text_main_textcolor_title">主界面标题颜色</string>
+    <string name="key_main_textcolor_content">key_main_textcolor_content</string>
+    <string name="text_main_textcolor_content">主界面内容颜色</string>
 </resources>

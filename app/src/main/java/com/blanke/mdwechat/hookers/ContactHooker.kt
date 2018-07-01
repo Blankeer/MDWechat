@@ -38,6 +38,11 @@ object ContactHooker : HookerProvider {
             return HookConfig.get_main_text_color_title
         }
 
+    private var isHookTextColor = false
+        get() {
+            return HookConfig.is_hook_main_textcolor
+        }
+
     override fun provideStaticHookers(): List<Hooker>? {
         return listOf(resumeHook)
     }
@@ -100,12 +105,14 @@ object ContactHooker : HookerProvider {
                                                             ll.getChildAt(0).background = transparentDrawable
                                                             titleTextView = ViewUtils.getChildView(ll, 0, 1)
                                                             titleTextView?.apply {
-                                                                if (this is TextView) {
+                                                                if (this is TextView && isHookTextColor) {
                                                                     this.setTextColor(titleTextColor)
                                                                 }
                                                             }
                                                         }
-                                                        headTextView.setTextColor(headTextColor)
+                                                        if (isHookTextColor) {
+                                                            headTextView.setTextColor(headTextColor)
+                                                        }
                                                     } else if (childView is ViewGroup) {// 新的朋友 群聊 公众号
                                                         val maskLayout = childView.getChildAt(0)
                                                         titleTextView = childView.getChildAt(1) // 公众号 textView
@@ -120,7 +127,7 @@ object ContactHooker : HookerProvider {
                                                             }
                                                         }
                                                         titleTextView?.apply {
-                                                            if (this is TextView) {
+                                                            if (this is TextView && isHookTextColor) {
                                                                 this.setTextColor(titleTextColor)
                                                             }
                                                         }

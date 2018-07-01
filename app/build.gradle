@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.4:sources'
 
     implementation 'com.github.Blankeer:rclayout:v1.6.0'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 }
 
 // 每次修改运行后自动让 VXP 中的模块`即时生效` ,需要将 (Debug Configurations) - Before Launch - Gradle aware Make - 修改为 :app:installDebug
