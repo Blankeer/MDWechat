@@ -13,6 +13,7 @@ object Objects {
         var LauncherUI_mTabLayout = WeakReference<CommonTabLayout>(null)
         var LauncherUI_mActionBarContainer = WeakReference<View>(null)
         var LauncherUI_mWechatXMenuItem = WeakReference<MenuItem>(null)
+        var LauncherUI_mContentLayout = WeakReference<View>(null)
     }
 
     fun clear() {
@@ -21,5 +22,6 @@ object Objects {
         Main.LauncherUI_mTabLayout.clear()
         Main.LauncherUI_mActionBarContainer.clear()
         Main.LauncherUI_mWechatXMenuItem.clear()
+        Main.LauncherUI_mContentLayout.clear()
     }
 }

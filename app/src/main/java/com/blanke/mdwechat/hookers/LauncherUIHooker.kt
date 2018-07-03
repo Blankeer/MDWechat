@@ -68,7 +68,6 @@ object LauncherUIHooker : HookerProvider {
                             return
                         }
                         log("LauncherUI onResume(), start hook")
-                        XposedHelpers.setAdditionalInstanceField(activity, keyInit, true)
                         initHookLauncherUI(activity)
                     }
 
@@ -79,7 +78,11 @@ object LauncherUIHooker : HookerProvider {
                         Objects.Main.LauncherUI = WeakReference(activity)
                         val homeUI = LauncherUI_mHomeUI.get(activity)
                         val mainTabUI = HomeUI_mMainTabUI.get(homeUI)
-                        val viewPager = MainTabUI_mCustomViewPager.get(mainTabUI) as View
+                        val viewPager = MainTabUI_mCustomViewPager.get(mainTabUI)
+                        if (viewPager == null || viewPager !is View) {
+                            log("MainTabUI_mCustomViewPager == null return;")
+                            return
+                        }
                         LauncherUI_mViewPager = WeakReference(viewPager)
 
                         // remove tabView
@@ -89,10 +92,11 @@ object LauncherUIHooker : HookerProvider {
                         log("移除 tabView $tabView")
 
                         val contentViewGroup = linearViewGroup.parent as ViewGroup
+                        Objects.Main.LauncherUI_mContentLayout = WeakReference(contentViewGroup)
 
+                        val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
                         // hide actionBar
                         if (HookConfig.is_hook_hide_actionbar) {
-                            val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
                             log("隐藏 actionBar $actionBar")
                             XposedHelpers.callMethod(actionBar, "hide")
                         }
@@ -112,8 +116,19 @@ object LauncherUIHooker : HookerProvider {
                             log("添加 FloatMenu 报错")
                             log(e)
                         }
+                        XposedHelpers.setAdditionalInstanceField(activity, keyInit, true)
                     }
                 })
+        //hide main actionBar, change paddingTop = 0
+        XposedHelpers.findAndHookMethod(View::class.java, "setPadding", C.Int, C.Int, C.Int
+                , C.Int, object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+                val view = param?.thisObject as View
+                if (view == Objects.Main.LauncherUI_mContentLayout.get() && HookConfig.is_hook_hide_actionbar) {
+                    param.args[1] = 0
+                }
+            }
+        })
     }
 
     private val mainTabUIPageAdapterHook = Hooker {
@@ -131,7 +146,7 @@ object LauncherUIHooker : HookerProvider {
             override fun afterHookedMethod(param: MethodHookParam?) {
                 val positionOffset = param?.args!![1] as Float
                 val position = param.args[0]
-                log("MainTabUIPageAdapter_onPageScrolled ,positionOffset=$positionOffset,startScrollPosition=$position")
+//                log("MainTabUIPageAdapter_onPageScrolled ,positionOffset=$positionOffset,startScrollPosition=$position")
                 if (disablePageScrolledHook || positionOffset.toString().contains("E")) {// ?
                     disablePageScrolledHook = true
                     return
@@ -164,8 +179,11 @@ object LauncherUIHooker : HookerProvider {
                 }
             }
         })
-        XposedHelpers.findAndHookMethod(ImageView::class.java, "setVisibility", C.Int, object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam?) {
+        XposedHelpers.findAndHookMethod(View::class.java, "setVisibility", C.Int, object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                if (param.thisObject !is ImageView) {
+                    return
+                }
                 val visible = param?.args!![0] as Int
                 val view = param.thisObject as ImageView
                 val tabView = ViewUtils.getParentView(view, 5)

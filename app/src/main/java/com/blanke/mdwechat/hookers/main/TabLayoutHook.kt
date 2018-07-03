@@ -13,6 +13,7 @@ import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.util.ConvertUtils
 import com.blanke.mdwechat.util.LogUtil
+import com.blanke.mdwechat.util.ViewUtils
 import com.flyco.tablayout.CommonTabLayout
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -69,5 +70,9 @@ object TabLayoutHook {
         viewPagerLinearLayout.addView(tabLayout, 0, params)
         LogUtil.log("add tableyout success")
         Objects.Main.LauncherUI_mTabLayout = WeakReference(tabLayout)
+        // change main ActionBar elevation = 0
+        val actionBarLayout = ViewUtils.getParentView(viewPagerLinearLayout, 3) as ViewGroup
+        val actionBar = actionBarLayout.getChildAt(1)
+        actionBar.elevation = 0F
     }
 }
