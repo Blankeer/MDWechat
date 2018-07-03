@@ -120,8 +120,10 @@ object ListViewHooker : HookerProvider {
                     XposedHelpers.callMethod(msgView, "setHintTextColor", chatMsgRightTextColor)
 //                    val mText = XposedHelpers.getObjectField(msgView, "mText")
 //                    log("msg right text=$mText")
-                    val bubble = WeChatHelper.getRightBubble(msgView.resources)
-                    msgView.background = bubble
+                    if (HookConfig.is_hook_bubble) {
+                        val bubble = WeChatHelper.getRightBubble(msgView.resources)
+                        msgView.background = bubble
+                    }
                 } else if (ViewTreeUtils.equals(ViewTreeRepo.ChatLeftMessageItem, view)) {
                     val chatMsgLeftTextColor = HookConfig.get_hook_chat_text_color_left
                     val msgView = ViewUtils.getChildView(view, 3, 1, 1) as View
@@ -131,8 +133,10 @@ object ListViewHooker : HookerProvider {
                     XposedHelpers.callMethod(msgView, "setHintTextColor", chatMsgLeftTextColor)
 //                    val mText = XposedHelpers.getObjectField(msgView, "mText")
 //                    log("msg left text=$mText")
-                    val bubble = WeChatHelper.getLeftBubble(msgView.resources)
-                    msgView.background = bubble
+                    if (HookConfig.is_hook_bubble) {
+                        val bubble = WeChatHelper.getLeftBubble(msgView.resources)
+                        msgView.background = bubble
+                    }
                 }
 
             }
