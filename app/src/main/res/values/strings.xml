@@ -123,4 +123,8 @@
     <string name="text_main_textcolor_title">主界面标题颜色</string>
     <string name="key_main_textcolor_content">key_main_textcolor_content</string>
     <string name="text_main_textcolor_content">主界面内容颜色</string>
+    <string name="text_settings_debug">调试</string>
+    <string name="key_hook_log">key_hook_log</string>
+    <string name="text_hook_log">日志记录</string>
+    <string name="text_hook_log_info">打开日志开关会在/sdcard/mdwechat/logs 下生成日志文件，谨慎打开，会导致运行变卡顿</string>
 </resources>

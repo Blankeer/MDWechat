@@ -170,6 +170,18 @@
             app:cpv_colorPresets="@array/colors"
             app:cpv_showAlphaSlider="true" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="@string/key_hook_switch"
+        android:title="@string/text_settings_debug">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_hook_log"
+            android:summary="@string/text_hook_log_info"
+            android:title="@string/text_hook_log" />
+
+    </PreferenceCategory>
     <Preference />
     <Preference />
 </PreferenceScreen>
