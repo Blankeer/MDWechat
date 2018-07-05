@@ -1,5 +1,6 @@
 package com.blanke.mdwechat.settings
 
+import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.widget.Toast
+import com.blanke.mdwechat.BuildConfig
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.util.FileUtils
@@ -34,6 +36,16 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_feedback_email))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_github))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_hook_conversation_bg))?.onPreferenceClickListener = this
+        if (BuildConfig.VERSION_NAME.endsWith("Beta", true)) {
+            AlertDialog.Builder(activity)
+                    .setTitle("警告")
+                    .setMessage("当前版本为${BuildConfig.VERSION_NAME}版，不是正式版本，可能会遇到各种问题/无法预估的风险等。" +
+                            "如果你想反馈问题，请打开最底部的调试开关，重启微信，将/sdcard/mdwechat/logs/目录下当天的日志发我邮箱。" +
+                            "谢谢合作！")
+                    .setPositiveButton("我知道了", null)
+                    .setCancelable(false)
+                    .show()
+        }
     }
 
     override fun onPreferenceChange(preference: Preference, o: Any): Boolean {
