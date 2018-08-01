@@ -58,6 +58,7 @@ object LauncherUIHooker : HookerProvider {
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val activity = param.thisObject as? Activity ?: return
+                        log("activity resume = $activity")
                         if (activity::class.java != Classes.LauncherUI) {
                             return
                         }

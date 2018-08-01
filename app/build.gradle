@@ -39,8 +39,8 @@ dependencies {
 
     implementation 'com.githang:status-bar-compat:0.7'
 
-    implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.4'
-    implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.4:sources'
+    implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.6'
+    implementation 'com.github.gh0u1l5:wechat-spellbook:0.0.6:sources'
 
     implementation 'com.github.Blankeer:rclayout:v1.6.0'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'

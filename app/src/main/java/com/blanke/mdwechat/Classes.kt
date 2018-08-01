@@ -11,6 +11,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.widget.*
 import com.blanke.mdwechat.CC.voidd
+import com.blanke.mdwechat.util.LogUtil
 import com.gh0u1l5.wechatmagician.spellbook.C
 import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal
 import com.gh0u1l5.wechatmagician.spellbook.mirror.com.tencent.mm.ui.Classes.MMFragmentActivity
@@ -37,7 +38,12 @@ object Classes {
     }
 
     val MainTabUIPageAdapter: Class<*> by WechatGlobal.wxLazy("MainTabUIPageAdapter") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
+        LogUtil.log("WechatGlobal.wxLoader!!=${WechatGlobal.wxLoader!!}")
+        LogUtil.log("WechatGlobal.wxClasses!!=${WechatGlobal.wxClasses!!}")
+        val findClassesFromPackage = ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
+        LogUtil.log("findClassesFromPackage=${findClassesFromPackage}")
+
+        findClassesFromPackage
                 .filterByField(MainTabUI.name)
                 .filterByField(WxViewPager.name)
                 .filterByMethod(C.Int, "getCount")
