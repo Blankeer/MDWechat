@@ -58,13 +58,13 @@ object ContactHooker : HookerProvider {
                         LogUtil.log("ContactFragment 已经hook过")
                         return
                     }
-                    XposedHelpers.setAdditionalInstanceField(fragment, keyInit, true)
                     init(fragment)
                 }
 
                 private fun init(fragment: Any) {
                     val listView = ContactFragment_mListView.get(fragment)
                     if (listView != null && listView is ListView) {
+                        XposedHelpers.setAdditionalInstanceField(fragment, keyInit, true)
                         val background = AppCustomConfig.getTabBg(1)
                         listView.background = if (background != null) BitmapDrawable(background) else whiteDrawable
 //                        LogUtil.log("ContactFragment listview= $listView, ${listView.javaClass.name}")
