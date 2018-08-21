@@ -2,10 +2,8 @@ MDWechat
 ====
 # 简介
 MDWechat 是一个能让微信 Material Design 化的 Xposed 模块.
-2.0版本基于[WechatSpellbook](https://github.com/Gh0u1L5/WechatSpellbook)
+3.x版本可是说是 1.x 和 2.x 版本的结合.
 
-~~目前只发布在了酷安上,下载地址 : [coolapk](https://www.coolapk.com/apk/com.blanke.mdwechat)~~
-(由于不可描述的原因，被下架了，[Xposed 商店](http://repo.xposed.info/module/com.blanke.mdwechat)同步更新)
 
 # 功能
 实现的功能有:
