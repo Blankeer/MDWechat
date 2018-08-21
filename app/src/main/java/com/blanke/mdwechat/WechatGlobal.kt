@@ -2,6 +2,7 @@ package com.blanke.mdwechat
 
 import android.content.Context
 import com.blanke.mdwechat.config.WxVersionConfig
+import com.blanke.mdwechat.util.LogUtil
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -31,7 +32,11 @@ object WechatGlobal {
 
     fun <T> wxLazy(name: String, initializer: () -> T?): Lazy<T> {
         return lazy(LazyThreadSafetyMode.PUBLICATION) {
-            initializer() ?: throw Error("Failed to evaluate $name")
+            val res = initializer()
+            if (res == null) {
+                LogUtil.log("$name == null ")
+            }
+            res!!
         }
     }
 }
