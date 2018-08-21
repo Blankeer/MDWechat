@@ -193,7 +193,6 @@ object Classes {
                     .filterByField(SharedPreferences::class.java.name)
                     .filterByField(CC.ListView.name)
                     .filterByField(CC.Boolean.name)
-                    .filterByField(CC.Long.name)
                     .filterByMethod(CC.Int, "getLayoutId")
                     .filterByMethod(CC.View, "getLayoutView")
                     .filterByMethod(voidd, "onResume")
