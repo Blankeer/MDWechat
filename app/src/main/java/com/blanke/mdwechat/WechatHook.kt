@@ -7,7 +7,6 @@ import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil.log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import java.io.IOException
 
 class WechatHook : IXposedHookLoadPackage {
     @Throws(Throwable::class)
@@ -50,8 +49,8 @@ class WechatHook : IXposedHookLoadPackage {
         WechatGlobal.init(lpparam)
         try {
             WechatGlobal.wxVersionConfig = WxVersionConfig.loadConfig(WechatGlobal.wxVersion)
-        } catch (e: IOException) {
-            log("${WechatGlobal.wxVersion} 配置文件不存在")
+        } catch (e: Exception) {
+            log("${WechatGlobal.wxVersion} 配置文件不存在或解析失败")
             return
         }
         log("wechat version=" + WechatGlobal.wxVersion
