@@ -6,9 +6,9 @@ import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Fields.PreferenceFragment_mListView
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
+import com.blanke.mdwechat.hookers.base.Hooker
+import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil
-import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
-import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 

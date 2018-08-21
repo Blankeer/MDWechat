@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.TextView
+import com.blanke.mdwechat.CC
 import com.blanke.mdwechat.ViewTreeRepo
 import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.hookers.base.Hooker
+import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.ViewTreeUtils
 import com.blanke.mdwechat.util.ViewUtils
-import com.gh0u1l5.wechatmagician.spellbook.C
-import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
-import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -46,7 +46,7 @@ object ListViewHooker : HookerProvider {
                 param?.args!![0] = transparentDrawable
             }
         })
-        XposedHelpers.findAndHookMethod(AbsListView::class.java, "obtainView", C.Int, BooleanArray::class.java, object : XC_MethodHook() {
+        XposedHelpers.findAndHookMethod(AbsListView::class.java, "obtainView", CC.Int, BooleanArray::class.java, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam?) {
                 val view = param?.result as View
                 view.background = defaultImageRippleDrawable

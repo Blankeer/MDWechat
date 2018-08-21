@@ -16,11 +16,11 @@ import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.hookers.base.Hooker
+import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil
 import com.blanke.mdwechat.util.ViewUtils
 import com.gcssloop.widget.RCRelativeLayout
-import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
-import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.getObjectField

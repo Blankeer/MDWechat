@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import com.blanke.mdwechat.Classes.ActionBarContainer
 import com.blanke.mdwechat.WeChatHelper.colorPrimaryDrawable
-import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
-import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
+import com.blanke.mdwechat.hookers.base.Hooker
+import com.blanke.mdwechat.hookers.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 

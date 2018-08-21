@@ -3,9 +3,9 @@ package com.blanke.mdwechat.hookers
 import android.util.Log
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.hookers.base.Hooker
+import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.FileUtils
-import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
-import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import java.io.File

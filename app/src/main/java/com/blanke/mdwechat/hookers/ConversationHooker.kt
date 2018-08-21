@@ -4,6 +4,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import com.blanke.mdwechat.CC
 import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Fields.ConversationFragment_mListView
@@ -12,10 +13,9 @@ import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.hookers.base.Hooker
+import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil
-import com.gh0u1l5.wechatmagician.spellbook.C
-import com.gh0u1l5.wechatmagician.spellbook.base.Hooker
-import com.gh0u1l5.wechatmagician.spellbook.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -56,7 +56,7 @@ object ConversationHooker : HookerProvider {
 
     private val disableAppBrand = Hooker {
         XposedHelpers.findAndHookMethod(ConversationWithAppBrandListView,
-                ConversationWithAppBrandListView_isAppBrandHeaderEnable.name, C.Boolean, object : XC_MethodHook() {
+                ConversationWithAppBrandListView_isAppBrandHeaderEnable.name, CC.Boolean, object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam?) {
                 if (HookConfig.is_hook_remove_appbrand) {
                     param?.result = false
@@ -66,7 +66,7 @@ object ConversationHooker : HookerProvider {
     }
 
     private val headViewHook = Hooker {
-        XposedHelpers.findAndHookMethod(C.ListView, "addHeaderView", C.View, C.Object, C.Boolean,
+        XposedHelpers.findAndHookMethod(CC.ListView, "addHeaderView", CC.View, CC.Object, CC.Boolean,
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam?) {
                         val listView = param?.thisObject

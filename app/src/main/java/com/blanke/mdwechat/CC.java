@@ -10,6 +10,15 @@ public class CC {
     public static final Class ProgressBar = android.widget.ProgressBar.class;
     public static final Class ViewStub = android.view.ViewStub.class;
     public static final Class View = android.view.View.class;
+    public static final Class String = String.class;
+    public static final Class Boolean = boolean.class;
+    public static final Class ListView = android.widget.ListView.class;
+    public static final Class Object = Object.class;
+    public static final Class MotionEvent = android.view.MotionEvent.class;
+    public static final Class Activity = android.app.Activity.class;
+    public static final Class Int = int.class;
+    public static final Class Float = float.class;
+    public static final Class Menu = android.view.Menu.class;
 
 
 }

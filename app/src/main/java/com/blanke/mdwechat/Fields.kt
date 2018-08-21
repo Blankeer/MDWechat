@@ -1,62 +1,69 @@
 package com.blanke.mdwechat
 
-import android.widget.ListView
-import android.widget.TextView
 import com.blanke.mdwechat.Classes.ContactFragment
 import com.blanke.mdwechat.Classes.ConversationFragment
-import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
-import com.blanke.mdwechat.Classes.CustomViewPager
 import com.blanke.mdwechat.Classes.HomeUI
+import com.blanke.mdwechat.Classes.LauncherUI
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
 import com.blanke.mdwechat.Classes.MainTabUI
 import com.blanke.mdwechat.Classes.PreferenceFragment
-import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal.wxLazy
-import com.gh0u1l5.wechatmagician.spellbook.mirror.com.tencent.mm.ui.Classes.LauncherUI
-import com.gh0u1l5.wechatmagician.spellbook.util.ReflectionUtil.findFieldsWithType
+import com.blanke.mdwechat.WechatGlobal.wxLazy
 import java.lang.reflect.Field
 
 object Fields {
+    private fun findFieldsWithType(clazz: Class<*>?, typeName: String?): List<Field> {
+        clazz ?: return listOf()
+        return clazz.declaredFields.filter {
+            it.type.name == typeName
+        }.map {
+            it.isAccessible = true
+            it
+        }
+    }
+
+    private fun findFieldsWithName(clazz: Class<*>?, name: String?): Field? {
+        clazz ?: return null
+        return clazz.declaredFields.find { it.name == name }?.apply { isAccessible = true }
+    }
+
+    private fun findFieldsWithName(clazz: Class<*>?, names: List<String>?): List<Field> {
+        clazz ?: return listOf()
+        names ?: return listOf()
+        return clazz.declaredFields.filter { names.contains(it.name) }.map {
+            it.isAccessible = true
+            it
+        }
+    }
 
     val LauncherUI_mHomeUI: Field by wxLazy("LauncherUI_mHomeUI") {
-        findFieldsWithType(
-                LauncherUI, HomeUI.name)
-                .firstOrNull()?.apply { isAccessible = true }
+        findFieldsWithName(LauncherUI, WechatGlobal.wxVersionConfig.fields.LauncherUI_mHomeUI)
     }
 
     val HomeUI_mMainTabUI: Field by wxLazy("HomeUI_mMainTabUI") {
-        findFieldsWithType(
-                HomeUI, MainTabUI.name)
-                .firstOrNull()?.apply { isAccessible = true }
+        findFieldsWithName(HomeUI, WechatGlobal.wxVersionConfig.fields.HomeUI_mMainTabUI)
     }
 
     val MainTabUI_mCustomViewPager: Field by wxLazy("MainTabUI_mCustomViewPager") {
-        findFieldsWithType(
-                MainTabUI, CustomViewPager.name)
-                .firstOrNull()?.apply { isAccessible = true }
+        findFieldsWithName(MainTabUI, WechatGlobal.wxVersionConfig.fields.MainTabUI_mCustomViewPager)
     }
 
     val HomeUI_mActionBar: Field by wxLazy("HomeUI_mActionBar") {
-        findFieldsWithType(
-                HomeUI, "android.support.v7.app.ActionBar")
-                .firstOrNull()?.apply { isAccessible = true }
+        findFieldsWithName(HomeUI, WechatGlobal.wxVersionConfig.fields.HomeUI_mActionBar)
     }
 
     val LauncherUIBottomTabViewItem_mTextViews: List<Field> by wxLazy("LauncherUIBottomTabViewItem_mTextViews") {
-        findFieldsWithType(LauncherUIBottomTabViewItem, TextView::class.java.name)
+        findFieldsWithName(LauncherUIBottomTabViewItem, WechatGlobal.wxVersionConfig.fields.LauncherUIBottomTabViewItem_mTextViews)
     }
 
     val ConversationFragment_mListView: Field by wxLazy("ConversationFragment_mListView") {
-        findFieldsWithType(ConversationFragment, ConversationWithAppBrandListView.name)
-                .firstOrNull()?.apply { isAccessible = true }
+        findFieldsWithName(ConversationFragment, WechatGlobal.wxVersionConfig.fields.ConversationFragment_mListView)
     }
 
     val ContactFragment_mListView: Field by wxLazy("ContactFragment_mListView") {
-        findFieldsWithType(ContactFragment, ListView::class.java.name)
-                .firstOrNull()?.apply { isAccessible = true }
+        findFieldsWithName(ContactFragment, WechatGlobal.wxVersionConfig.fields.ContactFragment_mListView)
     }
 
     val PreferenceFragment_mListView: Field by wxLazy("PreferenceFragment_mListView") {
-        findFieldsWithType(PreferenceFragment, ListView::class.java.name)
-                .firstOrNull()?.apply { isAccessible = true }
+        findFieldsWithName(PreferenceFragment, WechatGlobal.wxVersionConfig.fields.PreferenceFragment_mListView)
     }
 }

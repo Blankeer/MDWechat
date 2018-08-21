@@ -1,58 +1,72 @@
 package com.blanke.mdwechat
 
-import android.graphics.Bitmap
-import com.blanke.mdwechat.CC.voidd
 import com.blanke.mdwechat.Classes.AvatarUtils
 import com.blanke.mdwechat.Classes.ContactFragment
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
-import com.blanke.mdwechat.Classes.LauncherUIBottomTabViewItem
 import com.blanke.mdwechat.Classes.MainTabUIPageAdapter
 import com.blanke.mdwechat.Classes.WxViewPager
-import com.gh0u1l5.wechatmagician.spellbook.C
-import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal
-import com.gh0u1l5.wechatmagician.spellbook.util.ReflectionUtil.findMethodsByExactParameters
 import java.lang.reflect.Method
-import java.lang.reflect.Modifier
 
 object Methods {
+    private fun findMethodsByName(clazz: Class<*>?, name: String?, vararg parameterTypes: Class<*>): Method? {
+        name ?: return null
+        clazz ?: return null
+        return clazz.getDeclaredMethod(name, *parameterTypes)?.apply { isAccessible = true }
+    }
+
+    private fun findMethodsByName(clazz: Class<*>?, names: List<String>?, vararg parameterTypes: Class<*>): List<Method> {
+        clazz ?: return listOf()
+        names ?: return listOf()
+        return names.map {
+            findMethodsByName(clazz, it, *parameterTypes)
+        }.filter { it != null }.map { it!! }
+    }
+
     val MainTabUIPageAdapter_getCount: Method by WechatGlobal.wxLazy("MainTabUIPageAdapter_getCount") {
-        MainTabUIPageAdapter.getMethod("getCount", C.Int)
+        findMethodsByName(MainTabUIPageAdapter,
+                WechatGlobal.wxVersionConfig.methods.MainTabUIPageAdapter_getCount,
+                CC.Int)
     }
 
     val MainTabUIPageAdapter_onPageScrolled: Method by WechatGlobal.wxLazy("MainTabUIPageAdapter_onPageScrolled") {
-        findMethodsByExactParameters(MainTabUIPageAdapter, voidd, C.Int, Float::class.java, C.Int)
-                .firstOrNull()?.apply { isAccessible = true }
+        findMethodsByName(MainTabUIPageAdapter,
+                WechatGlobal.wxVersionConfig.methods.MainTabUIPageAdapter_onPageScrolled,
+                CC.Int, CC.Float, CC.Int)
     }
 
     val WxViewPager_selectedPage: Method by WechatGlobal.wxLazy("WxViewPager_selectedPage") {
-        findMethodsByExactParameters(WxViewPager, voidd, C.Int, C.Boolean, C.Boolean, C.Int)
-                .firstOrNull()?.apply { isAccessible = true }
+        findMethodsByName(WxViewPager,
+                WechatGlobal.wxVersionConfig.methods.WxViewPager_selectedPage,
+                CC.Int, CC.Boolean, CC.Boolean, CC.Int)
     }
 
     val LauncherUIBottomTabView_getTabItemView: Method by WechatGlobal.wxLazy("LauncherUIBottomTabView_getTabItemView") {
-        findMethodsByExactParameters(LauncherUIBottomTabView, LauncherUIBottomTabViewItem, C.Int)
-                .firstOrNull()?.apply { isAccessible = true }
+        findMethodsByName(LauncherUIBottomTabView,
+                WechatGlobal.wxVersionConfig.methods.WxViewPager_selectedPage,
+                CC.Int)
     }
 
     val AvatarUtils_getDefaultAvatarBitmap: Method by WechatGlobal.wxLazy("AvatarUtils_getDefaultAvatarBitmap") {
-        findMethodsByExactParameters(AvatarUtils, Bitmap::class.java)
-                .firstOrNull()?.apply { isAccessible = true }
+        findMethodsByName(AvatarUtils,
+                WechatGlobal.wxVersionConfig.methods.AvatarUtils_getDefaultAvatarBitmap)
     }
 
     val AvatarUtils_getAvatarBitmaps: List<Method> by WechatGlobal.wxLazy("AvatarUtils_getAvatarBitmaps") {
-        findMethodsByExactParameters(AvatarUtils, Bitmap::class.java, C.String)
+        findMethodsByName(AvatarUtils,
+                WechatGlobal.wxVersionConfig.methods.AvatarUtils_getAvatarBitmaps,
+                CC.String)
     }
 
     val ConversationWithAppBrandListView_isAppBrandHeaderEnable: Method by WechatGlobal.wxLazy("ConversationWithAppBrandListView_isAppBrandHeaderEnable") {
-        findMethodsByExactParameters(ConversationWithAppBrandListView, C.Boolean, C.Boolean)
-                .firstOrNull()?.apply { isAccessible = true }
+        findMethodsByName(ConversationWithAppBrandListView,
+                WechatGlobal.wxVersionConfig.methods.ConversationWithAppBrandListView_isAppBrandHeaderEnable,
+                CC.Boolean)
     }
 
     // 所有生命周期方法
     val HomeFragment_lifecycles: List<Method> by WechatGlobal.wxLazy("ContactFragment_lifecycles") {
-        findMethodsByExactParameters(ContactFragment, voidd)
-                .filter { it.modifiers and Modifier.FINAL != 0 }
-                .filter { it.modifiers and Modifier.PROTECTED != 0 }
+        findMethodsByName(ContactFragment,
+                WechatGlobal.wxVersionConfig.methods.HomeFragment_lifecycles)
     }
 }

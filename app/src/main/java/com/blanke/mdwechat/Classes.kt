@@ -1,191 +1,116 @@
 package com.blanke.mdwechat
 
-import android.app.ProgressDialog
-import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.os.Handler
-import android.view.MenuItem
-import android.view.SubMenu
-import android.view.View
-import android.view.animation.Animation
-import android.widget.*
-import com.blanke.mdwechat.CC.voidd
-import com.blanke.mdwechat.util.LogUtil
-import com.gh0u1l5.wechatmagician.spellbook.C
-import com.gh0u1l5.wechatmagician.spellbook.WechatGlobal
-import com.gh0u1l5.wechatmagician.spellbook.mirror.com.tencent.mm.ui.Classes.MMFragmentActivity
-import com.gh0u1l5.wechatmagician.spellbook.util.ReflectionUtil
+import com.blanke.mdwechat.util.LogUtil.log
+import de.robv.android.xposed.XposedHelpers
 
 object Classes {
+    private fun findClass(className: String?): Class<*>? {
+        className ?: return null
+        try {
+            return XposedHelpers.findClass(className, com.blanke.mdwechat.WechatGlobal.wxLoader)
+        } catch (e: Exception) {
+            log("$className = null")
+            return null
+        }
+    }
+
     val HomeUI: Class<*> by WechatGlobal.wxLazy("HomeUI") {
-        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.HomeUI", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.HomeUI)
+    }
+
+    val LauncherUI: Class<*> by WechatGlobal.wxLazy("LauncherUI") {
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.LauncherUI)
     }
 
     val WxViewPager: Class<*> by WechatGlobal.wxLazy("WxViewPager") {
-        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.mogic.WxViewPager", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.WxViewPager)
     }
 
     val CustomViewPager: Class<*> by WechatGlobal.wxLazy("CustomViewPager") {
-        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.base.CustomViewPager", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.CustomViewPager)
     }
 
     val MainTabUI: Class<*> by WechatGlobal.wxLazy("MainTabUI") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
-                .filterByField(CustomViewPager.name)
-                .filterByField(MMFragmentActivity.name)
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.MainTabUI)
     }
 
     val MainTabUIPageAdapter: Class<*> by WechatGlobal.wxLazy("MainTabUIPageAdapter") {
-        LogUtil.log("WechatGlobal.wxLoader!!=${WechatGlobal.wxLoader!!}")
-        LogUtil.log("WechatGlobal.wxClasses!!=${WechatGlobal.wxClasses!!}")
-        val findClassesFromPackage = ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
-        LogUtil.log("findClassesFromPackage=${findClassesFromPackage}")
-
-        findClassesFromPackage
-                .filterByField(MainTabUI.name)
-                .filterByField(WxViewPager.name)
-                .filterByMethod(C.Int, "getCount")
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.MainTabUIPageAdapter)
     }
 
     val LauncherUIBottomTabView: Class<*> by WechatGlobal.wxLazy("LauncherUIBottomTabView") {
-        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.LauncherUIBottomTabView", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.LauncherUIBottomTabView)
     }
 
     val TabIconView: Class<*> by WechatGlobal.wxLazy("TabIconView") {
-        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.TabIconView", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.TabIconView)
     }
 
     val ThreadExecutor: Class<*> by WechatGlobal.wxLazy("ThreadExecutor") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.sdk.platformtools")
-                .filterByMethod(voidd, "run")
-                .filterByField(Thread::class.java.name)
-                .filterByField(Handler::class.java.name)
-                .filterByField(Runnable::class.java.name)
-                .filterByField(Long::class.java.name)
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ThreadExecutor)
     }
 
     val LauncherUIBottomTabViewItem: Class<*> by WechatGlobal.wxLazy("LauncherUIBottomTabViewItem") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
-                .filterByField(TabIconView.name)
-                .filterByField(C.View.name)
-                .filterByField(TextView::class.java.name)
-                .filterByField(ImageView::class.java.name)
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.LauncherUIBottomTabViewItem)
     }
 
     val ActionBarContainer: Class<*> by WechatGlobal.wxLazy("ActionBarContainer") {
-        ReflectionUtil.findClassIfExists("android.support.v7.widget.ActionBarContainer", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ActionBarContainer)
     }
 
     val ScrollingTabContainerView: Class<*> by WechatGlobal.wxLazy("ScrollingTabContainerView") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "android.support.v7.widget")
-                .filterBySuper(HorizontalScrollView::class.java)
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ScrollingTabContainerView)
     }
 
     val PhoneWindow: Class<*> by WechatGlobal.wxLazy("PhoneWindow") {
-        ReflectionUtil.findClassIfExists("com.android.internal.policy.PhoneWindow", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.PhoneWindow)
     }
 
     val AvatarUtils: Class<*> by WechatGlobal.wxLazy("AvatarUtils") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.app")
-                .filterByField(Bitmap::class.java.name)
-                .filterByMethod(Bitmap::class.java)
-                .filterByMethod(Bitmap::class.java, C.String)
-                .filterByMethod(Bitmap::class.java, C.String, C.Int, C.Int, C.Int)
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.AvatarUtils)
     }
 
     val NoDrawingCacheLinearLayout: Class<*> by WechatGlobal.wxLazy("NoDrawingCacheLinearLayout") {
-        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.NoDrawingCacheLinearLayout", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.NoDrawingCacheLinearLayout)
     }
 
     val ConversationWithAppBrandListView: Class<*> by WechatGlobal.wxLazy("ConversationWithAppBrandListView") {
-        ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.conversation.ConversationWithAppBrandListView", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ConversationWithAppBrandListView)
     }
 
     val ConversationFragment: Class<*> by WechatGlobal.wxLazy("ConversationFragment") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui.conversation")
-                .filterByField(ConversationWithAppBrandListView.name)
-                .filterByField(TextView::class.java.name)
-                .filterByMethod(voidd, "onResume")
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ConversationFragment)
     }
 
     val ContactFragment: Class<*> by WechatGlobal.wxLazy("ContactFragment") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui.contact")
-                .filterByField(ProgressDialog::class.java.name)
-                .filterByField(TextView::class.java.name)
-                .filterByField(Animation::class.java.name)
-                .filterByField(ListView::class.java.name)
-                .filterByField(LinearLayout::class.java.name)
-                .filterByMethod(C.Int, "getLayoutId")
-                .filterByMethod(C.Boolean, "noActionBar")
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ContactFragment)
     }
 
     val FragmentActivity: Class<*> by WechatGlobal.wxLazy("FragmentActivity") {
-        ReflectionUtil.findClassIfExists("android.support.v4.app.FragmentActivity", WechatGlobal.wxLoader!!)
+        findClass("android.support.v4.app.FragmentActivity")
     }
 
     val Fragment: Class<*> by WechatGlobal.wxLazy("Fragment") {
-        ReflectionUtil.findClassIfExists("android.support.v4.app.Fragment", WechatGlobal.wxLoader!!)
+        findClass("android.support.v4.app.Fragment")
     }
 
     val DiscoverFragment: Class<*> by WechatGlobal.wxLazy("DiscoverFragment") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
-                .filterByField(CheckBox::class.java.name)
-                .filterByField(TextView::class.java.name)
-                .filterByField(View::class.java.name)
-                .filterByField(C.Int.name)
-                .filterByField(C.String.name)
-                .filterByField(C.Boolean.name)
-                .filterByField(C.Long.name)
-                .filterByMethod(voidd, "onActivityCreated", C.Bundle)
-                .filterByMethod(C.Boolean, "supportNavigationSwipeBack")
-                .filterByMethod(C.Boolean, "noActionBar")
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.DiscoverFragment)
     }
 
     val SettingsFragment: Class<*> by WechatGlobal.wxLazy("SettingsFragment") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui")
-                .filterByMethod(voidd, "onCreate", C.Bundle)
-                .filterByMethod(voidd, "onActivityCreated", C.Bundle)
-                .filterByMethod(voidd, "onDestroy")
-                .filterByMethod(C.Boolean, "supportNavigationSwipeBack")
-                .filterByMethod(C.Boolean, "noActionBar")
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.SettingsFragment)
     }
 
     val PreferenceFragment: Class<*> by WechatGlobal.wxLazy("PreferenceFragment") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "${WechatGlobal.wxPackageName}.ui.base.preference")
-                .filterByField(SharedPreferences::class.java.name)
-                .filterByField(C.ListView.name)
-                .filterByField(C.Boolean.name)
-                .filterByField(C.Long.name)
-                .filterByMethod(C.Int, "getLayoutId")
-                .filterByMethod(C.View, "getLayoutView")
-                .filterByMethod(voidd, "onResume")
-                .filterByMethod(voidd, "onActivityCreated", C.Bundle)
-                .filterByMethod(C.Boolean, "onContextItemSelected", MenuItem::class.java)
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.PreferenceFragment)
     }
 
     val NoMeasuredTextView: Class<*> by WechatGlobal.wxLazy("NoMeasuredTextView") {
-        ReflectionUtil.findClassIfExists("com.tencent.mm.ui.base.NoMeasuredTextView", WechatGlobal.wxLoader!!)
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.NoMeasuredTextView)
     }
 
     val ActionMenuView: Class<*> by WechatGlobal.wxLazy("ActionMenuView") {
-        ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader!!, WechatGlobal.wxClasses!!, "android.support.v7.view.menu")
-                .filterByField(CharSequence::class.java.name)
-                .filterByField(Drawable::class.java.name)
-                .filterByMethod(MenuItem::class.java, "add", CharSequence::class.java)
-                .filterByMethod(MenuItem::class.java, "add", Int::class.java, Int::class.java, Int::class.java, Int::class.java)
-                .filterByMethod(SubMenu::class.java, "addSubMenu", CharSequence::class.java)
-                .firstOrNull()
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ActionMenuView)
     }
 }
