@@ -25,7 +25,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:appcompat-v7:23.0.0'
 
     compileOnly 'de.robv.android.xposed:api:53'
     compileOnly 'de.robv.android.xposed:api:53:sources'
@@ -38,7 +38,13 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation 'com.github.Blankeer:rclayout:v1.6.0'
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation('com.afollestad.material-dialogs:core:0.9.6.0') {
+        exclude group: 'com.android.support'
+    }
+
+    implementation 'net.dongliu:apk-parser:2.5.3'
+    implementation 'com.blankj:utilcode:1.17.3'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
 
 // 每次修改运行后自动让 VXP 中的模块`即时生效` ,需要将 (Debug Configurations) - Before Launch - Gradle aware Make - 修改为 :app:installDebug

@@ -8,11 +8,20 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
+import android.view.View
+import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
 import com.blanke.mdwechat.BuildConfig
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
+import com.blanke.mdwechat.auto_search.Main
+import com.blanke.mdwechat.auto_search.bean.LogEvent
 import com.blanke.mdwechat.util.FileUtils
+import com.blankj.utilcode.util.ToastUtils
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 
 
@@ -23,6 +32,7 @@ import java.io.File
 class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
 //        preferenceManager.setSharedPreferencesMode(Context.MODE_WORLD_READABLE)
         preferenceManager.setSharedPreferencesName(Common.MOD_PREFS)
         addPreferencesFromResource(R.xml.pref_settings)
@@ -36,6 +46,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_feedback_email))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_github))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_hook_conversation_bg))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_generate_wechat_config))?.onPreferenceClickListener = this
         if (BuildConfig.VERSION_NAME.endsWith("Beta", true)) {
             AlertDialog.Builder(activity)
                     .setTitle("警告")
@@ -67,8 +78,44 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             "key_hook_main_bg" -> {
 
             }
+            getString(R.string.key_generate_wechat_config) -> {
+                generateWechatFile()
+            }
         }
         return true
+    }
+
+    private var generateWechatLogView: TextView? = null
+    private var generateWechatLogScrollView:ScrollView ?=null
+
+    private fun generateWechatFile() {
+        generateWechatLogScrollView = ScrollView(activity)
+        generateWechatLogView = TextView(activity)
+        generateWechatLogView?.setPadding(15, 0, 15, 0)
+        generateWechatLogScrollView?.addView(generateWechatLogView)
+        AlertDialog.Builder(activity)
+                .setView(generateWechatLogScrollView)
+                .setTitle(R.string.text_generate_wechat_config)
+                .setCancelable(false)
+                .setPositiveButton(R.string.text_confirm, null)
+                .show()
+        val outputPath = Common.APP_DIR_PATH + Common.CONFIG_WECHAT_DIR
+        val pm = activity.packageManager
+        try {
+            val ai = pm.getApplicationInfo(Common.WECHAT_PACKAGENAME, 0)
+            val wechatApkPath = ai.publicSourceDir
+            Main().main(activity.applicationContext, wechatApkPath, outputPath)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ToastUtils.showShort(R.string.msg_wechat_notfound)
+            generateWechatLogView?.append(getString(R.string.msg_wechat_notfound) + "\n\n")
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onGerateWechatLogEvent(e: LogEvent) {
+        generateWechatLogView?.append(e.msg + "\n\n")
+        generateWechatLogScrollView?.fullScroll(View.FOCUS_DOWN)
     }
 
     private fun copyWechatConfig() {
@@ -153,6 +200,10 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         startActivity(Intent(Intent.ACTION_VIEW, uri))
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
 
     private val weChatVersion: String
         get() = "unKnow"

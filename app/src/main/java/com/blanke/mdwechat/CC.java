@@ -1,5 +1,7 @@
 package com.blanke.mdwechat;
 
+import android.os.Bundle;
+
 public class CC {
     public static final Class voidd = void.class;
     public static final Class LinearLayout = android.widget.LinearLayout.class;
@@ -19,6 +21,8 @@ public class CC {
     public static final Class Int = int.class;
     public static final Class Float = float.class;
     public static final Class Menu = android.view.Menu.class;
+    public static final Class Long = long.class;
+    public static final Class Bundle = android.os.Bundle.class;
 
 
 }

@@ -18,6 +18,10 @@
         android:summary="@string/text_reset_view_config_info"
         android:title="@string/text_reset_view_config" />
     <Preference
+        android:key="@string/key_generate_wechat_config"
+        android:summary="@string/text_generate_wechat_config_info"
+        android:title="@string/text_generate_wechat_config" />
+    <Preference
         android:key="@string/key_reset_icon_config"
         android:summary="@string/text_reset_icon_config_info"
         android:title="@string/text_reset_icon_config" />
