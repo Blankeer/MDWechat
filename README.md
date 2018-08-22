@@ -2,8 +2,10 @@ MDWechat
 ====
 # 简介
 MDWechat 是一个能让微信 Material Design 化的 Xposed 模块.
-3.x版本可是说是 1.x 和 2.x 版本的结合.
 
+3.x 版本可是说是 1.x 和 2.x 版本的结合.
+
+由于 3.x 不依赖 WechatSpellbook，部分代码参(chao)考(xi) WechatSpellbook
 
 # 功能
 实现的功能有:
@@ -43,9 +45,10 @@ MDWechat 是一个能让微信 Material Design 化的 Xposed 模块.
 2. 悬浮按钮在某些机型(魅族/中兴)上显示异常,在聊天页面会显示
 
 # 感谢
-1. [WechatUI](https://www.coolapk.com/apk/ce.hesh.wechatUI)
-2. [群消息助手](https://github.com/zhudongya123/WechatChatroomHelper)
-3. [WechatMagician](https://github.com/Gh0u1L5/WechatMagician)
+1. [WechatSpellbook](https://github.com/Gh0u1L5/WechatSpellbook)
+2. [WechatUI](https://www.coolapk.com/apk/ce.hesh.wechatUI)
+3. [群消息助手](https://github.com/zhudongya123/WechatChatroomHelper)
+4. [WechatMagician](https://github.com/Gh0u1L5/WechatMagician)
 
 
 
