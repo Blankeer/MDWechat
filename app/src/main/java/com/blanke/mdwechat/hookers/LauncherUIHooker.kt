@@ -85,8 +85,12 @@ object LauncherUIHooker : HookerProvider {
                         // remove tabView
                         val linearViewGroup = viewPager.parent as ViewGroup
                         val tabView = linearViewGroup.getChildAt(1)
-                        // 672报错
-                        tabView.visibility = View.GONE
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            // 672报错
+                            tabView.visibility = View.GONE
+                        } else {
+                            linearViewGroup.removeView(tabView)
+                        }
                         log("移除 tabView $tabView")
 
                         val contentViewGroup = linearViewGroup.parent as ViewGroup
