@@ -129,7 +129,7 @@
     <string name="text_hook_log_info">打开日志开关会在/sdcard/mdwechat/logs 下生成日志文件，谨慎打开，会导致运行变卡顿</string>
     <string name="key_generate_wechat_config">key_generate_view_config</string>
     <string name="text_generate_wechat_config">生成本机微信配置文件</string>
-    <string name="text_generate_wechat_config_info">根据当前安装微信版本自动生成适配文件</string>
+    <string name="text_generate_wechat_config_info">根据当前安装微信版本自动生成适配文件，第一次使用/升级微信版本必须重新生成！！</string>
     <string name="msg_wechat_notfound">本机未安装微信，生成失败</string>
     <string name="text_confirm"> 确定</string>
 </resources>

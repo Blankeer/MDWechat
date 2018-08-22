@@ -6,25 +6,25 @@
   "items": [
     {
       "order": 1,
-      "type": "walletcoin",
+      "type": "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI",
       "text": "收付款",
       "icon": "ic_money.png"
     },
     {
       "order": 2,
-      "type": "scan",
+      "type": "com.tencent.mm.plugin.scanner.ui.BaseScanUI",
       "text": "扫一扫",
       "icon": "ic_scan.png"
     },
     {
       "order": 3,
-      "type": "chatgroup",
+      "type": "com.tencent.mm.ui.contact.SelectContactUI",
       "text": "群聊",
       "icon": "ic_chat.png"
     },
     {
       "order": 4,
-      "type": "addfriend",
+      "type": "com.tencent.mm.plugin.subapp.ui.pluginapp.AddMoreFriendsUI",
       "text": "添加好友",
       "icon": "ic_person_add.png"
     }
