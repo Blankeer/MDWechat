@@ -88,7 +88,8 @@ object LauncherUIHooker : HookerProvider {
                         // remove tabView
                         val linearViewGroup = viewPager.parent as ViewGroup
                         val tabView = linearViewGroup.getChildAt(1)
-                        linearViewGroup.removeView(tabView)
+                        // 672报错
+                        tabView.visibility = View.GONE
                         log("移除 tabView $tabView")
 
                         val contentViewGroup = linearViewGroup.parent as ViewGroup
