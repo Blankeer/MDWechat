@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.blanke.mdwechat.Common
-import com.blanke.mdwechat.Methods
+import com.blanke.mdwechat.*
 import com.blanke.mdwechat.Objects
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
@@ -66,8 +66,19 @@ object TabLayoutHook {
         })
 
         val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.height = ConvertUtils.dp2px(resContext, 48f)
-        viewPagerLinearLayout.addView(tabLayout, 0, params)
+        val px48 = ConvertUtils.dp2px(resContext, 48f)
+        params.height = px48
+        if (WechatGlobal.wxVersion!! < Version("6.7.2")) {
+            viewPagerLinearLayout.addView(tabLayout, 0, params)
+        } else {// 672 wx布局更改
+            val mockLayout = FrameLayout(context)
+            mockLayout.setPadding(0, px48, 0, 0)
+            val viewpager = viewPagerLinearLayout.getChildAt(0)
+            viewPagerLinearLayout.removeViewAt(0)
+            mockLayout.addView(tabLayout, params)
+            mockLayout.addView(viewpager)
+            viewPagerLinearLayout.addView(mockLayout, 0)
+        }
         LogUtil.log("add tableyout success")
         Objects.Main.LauncherUI_mTabLayout = WeakReference(tabLayout)
         // change main ActionBar elevation = 0
