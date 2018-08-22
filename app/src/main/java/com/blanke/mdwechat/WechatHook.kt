@@ -48,7 +48,7 @@ class WechatHook : IXposedHookLoadPackage {
     private fun hookMain(lpparam: XC_LoadPackage.LoadPackageParam, plugins: List<HookerProvider>) {
         WechatGlobal.init(lpparam)
         try {
-            WechatGlobal.wxVersionConfig = WxVersionConfig.loadConfig(WechatGlobal.wxVersion)
+            WechatGlobal.wxVersionConfig = WxVersionConfig.loadConfig(WechatGlobal.wxVersion!!.toString())
         } catch (e: Exception) {
             log("${WechatGlobal.wxVersion} 配置文件不存在或解析失败")
             return

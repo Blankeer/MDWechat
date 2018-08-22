@@ -8,7 +8,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object WechatGlobal {
     @Volatile
-    var wxVersion: String = ""
+    var wxVersion: Version? = null
     @Volatile
     var wxPackageName: String = ""
     @Volatile
@@ -22,7 +22,8 @@ object WechatGlobal {
         val context = XposedHelpers.callMethod(
                 XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null),
                         "currentActivityThread"), "getSystemContext") as Context
-        wxVersion = context.packageManager.getPackageInfo(wxPackageName, 0)?.versionName ?: ""
+        wxVersion = Version(context.packageManager.getPackageInfo(wxPackageName, 0)?.versionName
+                ?: "")
         wxLoader = lpparam.classLoader
     }
 
