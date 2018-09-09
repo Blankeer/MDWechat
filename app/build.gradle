@@ -8,8 +8,8 @@ android {
         applicationId "com.blanke.mdwechat"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 30
-        versionName "2.0.0Beta"
+        versionCode 31
+        versionName "3.0.0"
     }
     buildTypes {
         release {
