@@ -1,10 +1,10 @@
 package com.blanke.mdwechat.util
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import de.robv.android.xposed.XposedBridge
 
 /**
  * Created by blanke on 2017/10/3.
@@ -12,11 +12,11 @@ import de.robv.android.xposed.XposedBridge
 
 object LogUtil {
     fun log(msg: String) {
-        XposedBridge.log("MDWechat:\t$msg")
+        Log.i("MDWechat", msg)
     }
 
-    fun log(e: Throwable) {
-        XposedBridge.log(e)
+    fun log(t: Throwable) {
+        Log.e("MDWechat", Log.getStackTraceString(t))
     }
 
     fun bundleToString(bundle: Bundle?): String? {
