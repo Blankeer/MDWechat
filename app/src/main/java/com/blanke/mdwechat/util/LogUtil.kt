@@ -11,6 +11,7 @@ import android.widget.TextView
  */
 
 object LogUtil {
+    @JvmStatic
     fun log(msg: String) {
         Log.i("MDWechat", msg)
     }

@@ -19,8 +19,6 @@ import com.blanke.mdwechat.Common;
 import java.io.File;
 import java.util.Arrays;
 
-import de.robv.android.xposed.XposedBridge;
-
 /**
  * Created by blanke on 2017/9/2.
  */
@@ -40,7 +38,7 @@ public class DrawableUtils {
 //        return NinePatchBitmapFactory.createNinePatchDrawable(resources, bitmap);
         byte[] chunk = bitmap.getNinePatchChunk();
         boolean result = NinePatch.isNinePatchChunk(chunk);
-        XposedBridge.log("chunk=" + Arrays.toString(chunk) + "result=" + result);
+        LogUtil.log("chunk=" + Arrays.toString(chunk) + "result=" + result);
 //        if (chunk == null || !result) {
 //            return null;
 //        }

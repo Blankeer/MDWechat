@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.TextView
-import com.blanke.mdwechat.CC
-import com.blanke.mdwechat.ViewTreeRepo
-import com.blanke.mdwechat.WeChatHelper
+import com.blanke.mdwechat.*
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.config.HookConfig
@@ -123,6 +121,9 @@ object ListViewHooker : HookerProvider {
                     if (HookConfig.is_hook_bubble) {
                         val bubble = WeChatHelper.getRightBubble(msgView.resources)
                         msgView.background = bubble
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            msgView.setPadding(30, 25, 40, 25)
+                        }
                     }
                 } else if (ViewTreeUtils.equals(ViewTreeRepo.ChatLeftMessageItem, view)) {
                     val chatMsgLeftTextColor = HookConfig.get_hook_chat_text_color_left
@@ -136,6 +137,9 @@ object ListViewHooker : HookerProvider {
                     if (HookConfig.is_hook_bubble) {
                         val bubble = WeChatHelper.getLeftBubble(msgView.resources)
                         msgView.background = bubble
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            msgView.setPadding(40, 25, 30, 25)
+                        }
                     }
                 }
 
