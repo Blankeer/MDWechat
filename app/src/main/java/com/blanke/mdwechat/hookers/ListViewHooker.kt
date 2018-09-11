@@ -20,6 +20,8 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
 object ListViewHooker : HookerProvider {
+    private val excludeContext = arrayOf("com.tencent.mm.plugin.mall.ui.MallIndexUI")
+
     private var headTextColor = Color.BLACK
         get() {
             return HookConfig.get_main_text_color_content
@@ -47,8 +49,14 @@ object ListViewHooker : HookerProvider {
         XposedHelpers.findAndHookMethod(AbsListView::class.java, "obtainView", CC.Int, BooleanArray::class.java, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam?) {
                 val view = param?.result as View
+                val context = view.context
+                val tmp = excludeContext.find { context::class.java.name.contains(it) }
+                if (tmp != null) {
+                    return
+                }
                 view.background = defaultImageRippleDrawable
 //                log("--------------------")
+//                log("context=" + view.context)
 //                LogUtil.logViewStackTraces(view)
 //                log("--------------------")
 
