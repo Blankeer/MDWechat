@@ -122,7 +122,7 @@ object ListViewHooker : HookerProvider {
                         val bubble = WeChatHelper.getRightBubble(msgView.resources)
                         msgView.background = bubble
                         if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
-                            msgView.setPadding(30, 25, 40, 25)
+                            msgView.setPadding(30, 25, 45, 25)
                         }
                     }
                 } else if (ViewTreeUtils.equals(ViewTreeRepo.ChatLeftMessageItem, view)) {
@@ -138,7 +138,7 @@ object ListViewHooker : HookerProvider {
                         val bubble = WeChatHelper.getLeftBubble(msgView.resources)
                         msgView.background = bubble
                         if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
-                            msgView.setPadding(40, 25, 30, 25)
+                            msgView.setPadding(45, 25, 30, 25)
                         }
                     }
                 }
