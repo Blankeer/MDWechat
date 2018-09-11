@@ -24,6 +24,7 @@ object StatusBarHooker : HookerProvider {
             override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
                 val oldColor = param?.args!![0] as Int
                 if (oldColor == Color.parseColor("#F2F2F2")
+                        || oldColor == Color.parseColor("#FFFAFAFA")
                         || oldColor == 0) {
                     return
                 }

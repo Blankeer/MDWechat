@@ -23,7 +23,9 @@ object ActionBarHooker : HookerProvider {
                 val drawable = param.args[0]
                 var needHook = true
                 if (drawable is ColorDrawable) {
+//                    LogUtil.log("actionbar color=" + Integer.toHexString(drawable.color))
                     if (drawable.color == Color.parseColor("#F2F2F2")
+                            || drawable.color == Color.parseColor("#FFFAFAFA")
                             || drawable.color == Color.TRANSPARENT) {
                         needHook = false
                     }
