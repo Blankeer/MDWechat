@@ -72,7 +72,11 @@ object TabLayoutHook {
             viewPagerLinearLayout.addView(tabLayout, 0, params)
         } else {// 672 wx布局更改
             val mockLayout = FrameLayout(context)
-            mockLayout.setPadding(0, px48, 0, 0)
+            var paddingTop = px48
+            if (HookConfig.is_hook_hide_actionbar) {
+                paddingTop = 0
+            }
+            mockLayout.setPadding(0, paddingTop, 0, 0)
             val viewpager = viewPagerLinearLayout.getChildAt(0)
             viewPagerLinearLayout.removeViewAt(0)
             mockLayout.addView(tabLayout, params)
