@@ -113,12 +113,14 @@ object LauncherUIHooker : HookerProvider {
                                 log(e)
                             }
                         }
-                        try {
-                            log("添加 FloatMenu")
-                            FloatMenuHook.addFloatMenu(contentViewGroup)
-                        } catch (e: Throwable) {
-                            log("添加 FloatMenu 报错")
-                            log(e)
+                        if (HookConfig.is_hook_float_button) {
+                            try {
+                                log("添加 FloatMenu")
+                                FloatMenuHook.addFloatMenu(contentViewGroup)
+                            } catch (e: Throwable) {
+                                log("添加 FloatMenu 报错")
+                                log(e)
+                            }
                         }
                         XposedHelpers.setAdditionalInstanceField(activity, keyInit, true)
                     }
