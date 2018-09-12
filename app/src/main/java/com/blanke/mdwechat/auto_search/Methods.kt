@@ -9,6 +9,7 @@ import com.blanke.mdwechat.auto_search.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.auto_search.Classes.LauncherUIBottomTabView
 import com.blanke.mdwechat.auto_search.Classes.LauncherUIBottomTabViewItem
 import com.blanke.mdwechat.auto_search.Classes.MainTabUIPageAdapter
+import com.blanke.mdwechat.auto_search.Classes.WXCustomSchemeEntryActivity
 import com.blanke.mdwechat.auto_search.Classes.WxViewPager
 import com.blanke.mdwechat.util.ReflectionUtil.findMethodsByExactParameters
 import java.lang.reflect.Method
@@ -62,5 +63,11 @@ object Methods {
             return findMethodsByExactParameters(ContactFragment!!, voidd)
                     .filter { it.modifiers and Modifier.FINAL != 0 }
                     .filter { it.modifiers and Modifier.PROTECTED != 0 }
+        }
+
+    val WXCustomSchemeEntryActivity_entry: Method?
+        get() {
+            return findMethodsByExactParameters(WXCustomSchemeEntryActivity!!, CC.Boolean, CC.Intent)
+                    .firstOrNull()?.apply { isAccessible = true }
         }
 }

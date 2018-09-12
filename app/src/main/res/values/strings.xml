@@ -7,8 +7,8 @@
     <string name="text_settings">设置</string>
     <string name="text_color_primary">主色</string>
     <string name="text_settings_info">修改之后停止微信重启生效.</string>
-    <string name="text_donate">捐赠</string>
-    <string name="text_donate_info">支持下我开发吧,目前仅支持支付宝,金额随意,可以请我喝瓶柠檬茶续命,谢谢!</string>
+    <string name="text_donate">捐赠(支付宝)</string>
+    <string name="text_donate_wechat">捐赠(微信)</string>
     <string name="key_donate">key_donate</string>
     <string name="text_category_settings">设置</string>
     <string name="key_hook_actionbar">key_hook_actionbar</string>
@@ -132,4 +132,5 @@
     <string name="text_generate_wechat_config_info">根据当前安装微信版本自动生成适配文件，第一次使用/升级微信版本必须重新生成！！</string>
     <string name="msg_wechat_notfound">本机未安装微信，生成失败</string>
     <string name="text_confirm"> 确定</string>
+    <string name="key_donate_wechat">key_donate_wechat</string>
 </resources>

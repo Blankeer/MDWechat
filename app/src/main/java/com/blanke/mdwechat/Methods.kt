@@ -5,6 +5,7 @@ import com.blanke.mdwechat.Classes.ContactFragment
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Classes.LauncherUIBottomTabView
 import com.blanke.mdwechat.Classes.MainTabUIPageAdapter
+import com.blanke.mdwechat.Classes.WXCustomSchemeEntryActivity
 import com.blanke.mdwechat.Classes.WxViewPager
 import java.lang.reflect.Method
 
@@ -68,5 +69,11 @@ object Methods {
     val HomeFragment_lifecycles: List<Method> by WechatGlobal.wxLazy("ContactFragment_lifecycles") {
         findMethodsByName(ContactFragment,
                 WechatGlobal.wxVersionConfig.methods.HomeFragment_lifecycles)
+    }
+
+    val WXCustomSchemeEntryActivity_entry: Method by WechatGlobal.wxLazy("WXCustomSchemeEntryActivity_entry") {
+        findMethodsByName(WXCustomSchemeEntryActivity,
+                WechatGlobal.wxVersionConfig.methods.WXCustomSchemeEntryActivity_entry,
+                CC.Intent)
     }
 }

@@ -113,4 +113,12 @@ object Classes {
     val ActionMenuView: Class<*> by WechatGlobal.wxLazy("ActionMenuView") {
         findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ActionMenuView)
     }
+
+    val WXCustomSchemeEntryActivity: Class<*> by WechatGlobal.wxLazy("WXCustomSchemeEntryActivity") {
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.WXCustomSchemeEntryActivity)
+    }
+
+    val RemittanceAdapterUI: Class<*> by WechatGlobal.wxLazy("RemittanceAdapterUI") {
+        findClass("com.tencent.mm.plugin.remittance.ui.RemittanceAdapterUI")
+    }
 }

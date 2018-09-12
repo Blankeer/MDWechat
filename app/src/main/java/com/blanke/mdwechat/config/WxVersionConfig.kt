@@ -32,6 +32,7 @@ class WxVersionConfig {
         var TabIconView: String? = null
         var ThreadExecutor: String? = null
         var WxViewPager: String? = null
+        var WXCustomSchemeEntryActivity: String? = null
     }
 
     class Fields {
@@ -54,6 +55,7 @@ class WxVersionConfig {
         var MainTabUIPageAdapter_getCount: String? = null
         var MainTabUIPageAdapter_onPageScrolled: String? = null
         var WxViewPager_selectedPage: String? = null
+        var WXCustomSchemeEntryActivity_entry: String? = null
     }
 
     companion object {

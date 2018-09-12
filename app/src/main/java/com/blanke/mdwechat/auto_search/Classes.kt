@@ -216,4 +216,9 @@ object Classes {
                     .filterByMethod(SubMenu::class.java, "addSubMenu", CharSequence::class.java)
                     .firstOrNull()
         }
+
+    val WXCustomSchemeEntryActivity: Class<*>?
+        get() {
+            return ReflectionUtil.findClassIfExists("com.tencent.mm.plugin.base.stub.WXCustomSchemeEntryActivity", WechatGlobal.wxLoader)
+        }
 }

@@ -27,8 +27,11 @@
         android:title="@string/text_reset_icon_config" />
     <Preference
         android:key="@string/key_donate"
-        android:summary="@string/text_donate_info"
         android:title="@string/text_donate" />
+
+    <Preference
+        android:key="@string/key_donate_wechat"
+        android:title="@string/text_donate_wechat" />
 
     <Preference
         android:summary="@string/text_app_thank_content"

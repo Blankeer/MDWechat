@@ -47,6 +47,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_github))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_hook_conversation_bg))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_generate_wechat_config))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_donate_wechat))?.onPreferenceClickListener = this
         if (BuildConfig.VERSION_NAME.endsWith("Beta", true)) {
             AlertDialog.Builder(activity)
                     .setTitle("警告")
@@ -81,12 +82,15 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             getString(R.string.key_generate_wechat_config) -> {
                 generateWechatFile()
             }
+            getString(R.string.key_donate_wechat) -> {
+                donateWechat()
+            }
         }
         return true
     }
 
     private var generateWechatLogView: TextView? = null
-    private var generateWechatLogScrollView:ScrollView ?=null
+    private var generateWechatLogScrollView: ScrollView? = null
 
     private fun generateWechatFile() {
         generateWechatLogScrollView = ScrollView(activity)
@@ -168,6 +172,22 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         }
         intent.data = Uri.parse(payUrl.toLowerCase())
         startActivity(intent)
+    }
+
+    private fun donateWechat() {
+        val wechatPayCode = "f2f0YjlNObKWk7zwpDQoGtBDBe-Cper5cndi"
+        val className = "com.tencent.mm.plugin.base.stub.WXCustomSchemeEntryActivity"
+        val componentName = ComponentName("com.tencent.mm", className)
+        try {
+            view.context.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                component = componentName
+                data = Uri.parse("weixin://mdwechat/donate/$wechatPayCode")
+                flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
+            })
+            Toast.makeText(view.context, "模块生效会自动跳转到微信捐赠页面", Toast.LENGTH_SHORT).show()
+        } catch (t: Throwable) {
+            Toast.makeText(view.context, "模块未生效,捐赠失败", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun feedback() {

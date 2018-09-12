@@ -23,6 +23,7 @@ public class CC {
     public static final Class Menu = android.view.Menu.class;
     public static final Class Long = long.class;
     public static final Class Bundle = android.os.Bundle.class;
+    public static final Class Intent = android.content.Intent.class;
 
 
 }
