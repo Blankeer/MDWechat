@@ -4,13 +4,16 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.ListView
 import com.blanke.mdwechat.CC
 import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Fields.ConversationFragment_mListView
 import com.blanke.mdwechat.Methods.ConversationWithAppBrandListView_isAppBrandHeaderEnable
+import com.blanke.mdwechat.Version
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.whiteDrawable
+import com.blanke.mdwechat.WechatGlobal
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.base.Hooker
@@ -57,9 +60,25 @@ object ConversationHooker : HookerProvider {
     private val disableAppBrand = Hooker {
         XposedHelpers.findAndHookMethod(ConversationWithAppBrandListView,
                 ConversationWithAppBrandListView_isAppBrandHeaderEnable.name, CC.Boolean, object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam?) {
+            override fun beforeHookedMethod(param: MethodHookParam) {
                 if (HookConfig.is_hook_remove_appbrand) {
-                    param?.result = false
+                    try {
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            val listView = param.thisObject as ListView
+                            val mHeaderViewInfos = XposedHelpers.getObjectField(listView, "mHeaderViewInfos") as List<*>
+                            if (mHeaderViewInfos.isNotEmpty()) {
+                                val firstHeadView = mHeaderViewInfos[0] as ListView.FixedViewInfo
+                                val mAppBrandDesktopHalfContainer = firstHeadView.view as ViewGroup
+//                                LogUtil.log("firstHeadView=${firstHeadView.view}")
+                                if (mAppBrandDesktopHalfContainer::class.java.name.contains("AppBrandDesktopHalfContainer")) {
+                                    mAppBrandDesktopHalfContainer.getChildAt(1)?.visibility = View.GONE
+                                }
+                            }
+                        }
+                    } catch (t: Throwable) {
+                        LogUtil.log(t)
+                    }
+                    param.result = false
                 }
             }
         })
