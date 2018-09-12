@@ -118,9 +118,6 @@
             android:title="@string/text_main_textcolor_content"
             app:cpv_colorPresets="@array/colors"
             app:cpv_showAlphaSlider="true" />
-        <Preference
-            android:key="@string/key_hook_main_bg"
-            android:title="@string/title_hook_conversation_bg" />
     </PreferenceCategory>
 
     <PreferenceCategory
