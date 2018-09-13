@@ -3,17 +3,12 @@ package com.blanke.mdwechat.util;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.os.Environment;
 
-import com.blanke.mdwechat.Common;
-
-import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -21,15 +16,6 @@ import java.util.Arrays;
  */
 
 public class DrawableUtils {
-    private static Bitmap getExternalStorageBitmap(String filePath) {
-        String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        LogUtil.log("bitmap path=" + sd + File.separator + filePath);
-        return BitmapFactory.decodeFile(sd + File.separator + filePath);
-    }
-
-    public static Bitmap getExternalStorageAppBitmap(String filePath) {
-        return getExternalStorageBitmap(Common.INSTANCE.getAPP_DIR() + File.separator + filePath);
-    }
 
     public static Drawable getNineDrawable(Resources resources, Bitmap bitmap) {
         return NinePatchBitmapFactory.createNinePatchDrawable(resources, bitmap);
