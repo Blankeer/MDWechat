@@ -14,11 +14,11 @@ import android.widget.Toast
 import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.config.AppCustomConfig
-import com.blanke.mdwechat.hookers.LauncherUIHooker
 import com.blanke.mdwechat.util.FileUtils
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import kotlin.concurrent.thread
 
 
 /**
@@ -31,6 +31,7 @@ class SettingsActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        Common.APP_DIR_PATH
         verifyStoragePermissions(this)
         fab = findViewById(R.id.fab)
         fab.setOnClickListener {
@@ -70,17 +71,15 @@ class SettingsActivity : Activity() {
     }
 
     private fun copyConfig() {
-        Thread {
-            kotlin.run {
-                FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_WECHAT_DIR)
-                FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_VIEW_DIR)
-                FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.ICON_DIR)
-                copySharedPrefences()
-                Handler(Looper.getMainLooper()).post {
-                    showSettingsFragment()
-                }
+        thread {
+            FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_WECHAT_DIR)
+            FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.CONFIG_VIEW_DIR)
+            FileUtils.copyAssets(this, Common.APP_DIR_PATH, Common.ICON_DIR)
+            copySharedPrefences()
+            Handler(Looper.getMainLooper()).post {
+                showSettingsFragment()
             }
-        }.start()
+        }
     }
 
     private val REQUEST_EXTERNAL_STORAGE = 1

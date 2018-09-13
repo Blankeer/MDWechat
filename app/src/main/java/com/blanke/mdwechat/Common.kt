@@ -1,6 +1,8 @@
 package com.blanke.mdwechat
 
 import android.os.Environment
+import com.blanke.mdwechat.util.LogUtil
+import com.blanke.mdwechat.util.VXPUtils
 import java.io.File
 
 /**
@@ -12,6 +14,7 @@ object Common {
     val WECHAT_PACKAGENAME = "com.tencent.mm"
     val MOD_PREFS = "md_wechat_settings"
     val APP_DIR = "mdwechat"
+    val APP_VXP_DIR = "mdwechat_vxp_debug"
     val CONFIG_DIR = "config"
     val CONFIG_WECHAT_DIR = "config" + File.separator + "wechat"
     val CONFIG_VIEW_DIR = "config" + File.separator + "view"
@@ -27,8 +30,15 @@ object Common {
     val FILE_NAME_TAB_BG_PREFIX = "tab_bg"
     val FILE_NAME_FLOAT_BUTTON = "floatbutton.txt"
 
-    val APP_DIR_PATH: String
-        get() {
-            return Environment.getExternalStorageDirectory().absolutePath + File.separator + APP_DIR + File.separator
-        }
+    val isVXPEnv: Boolean by lazy {
+        VXPUtils.isVXPEnv()
+    }
+
+    val APP_DIR_PATH: String by lazy {
+        // debug VXP 环境下，区分目录
+        val appDir = if (isVXPEnv && BuildConfig.DEBUG) APP_VXP_DIR else APP_DIR
+        LogUtil.log("isVXPEnv = $isVXPEnv")
+        LogUtil.log("app dir = $appDir")
+        Environment.getExternalStorageDirectory().absolutePath + File.separator + appDir + File.separator
+    }
 }

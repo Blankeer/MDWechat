@@ -23,6 +23,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+import kotlin.concurrent.thread
 
 
 /**
@@ -123,33 +124,27 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
     }
 
     private fun copyWechatConfig() {
-        Thread {
-            kotlin.run {
-                FileUtils.copyAssets(activity, Common.APP_DIR_PATH, Common.CONFIG_WECHAT_DIR, true)
-            }
-        }.start()
+        thread {
+            FileUtils.copyAssets(activity, Common.APP_DIR_PATH, Common.CONFIG_WECHAT_DIR, true)
+        }
         Toast.makeText(activity, R.string.msg_reset_ok, Toast.LENGTH_SHORT).show()
     }
 
     private fun copyViewConfig() {
-        Thread {
-            kotlin.run {
-                FileUtils.copyAssets(activity, Common.APP_DIR_PATH, Common.CONFIG_VIEW_DIR, true)
-            }
-        }.start()
+        thread {
+            FileUtils.copyAssets(activity, Common.APP_DIR_PATH, Common.CONFIG_VIEW_DIR, true)
+        }
         Toast.makeText(activity, R.string.msg_reset_ok, Toast.LENGTH_SHORT).show()
     }
 
     private fun copyIcons() {
-        Thread {
-            kotlin.run {
-                FileUtils.copyAssets(activity, Common.APP_DIR_PATH, Common.ICON_DIR, true)
-                val nomediaFile = File(Common.APP_DIR_PATH + Common.ICON_DIR + File.separator + ".nomedia")
-                if (!nomediaFile.exists()) {
-                    nomediaFile.createNewFile()
-                }
+        thread {
+            FileUtils.copyAssets(activity, Common.APP_DIR_PATH, Common.ICON_DIR, true)
+            val nomediaFile = File(Common.APP_DIR_PATH + Common.ICON_DIR + File.separator + ".nomedia")
+            if (!nomediaFile.exists()) {
+                nomediaFile.createNewFile()
             }
-        }.start()
+        }
         Toast.makeText(activity, R.string.msg_reset_ok, Toast.LENGTH_SHORT).show()
     }
 
