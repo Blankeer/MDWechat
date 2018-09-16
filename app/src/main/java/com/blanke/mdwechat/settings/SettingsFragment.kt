@@ -17,6 +17,7 @@ import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.auto_search.Main
 import com.blanke.mdwechat.auto_search.bean.LogEvent
+import com.blanke.mdwechat.settings.view.DownloadWechatDialog
 import com.blanke.mdwechat.util.FileUtils
 import com.blankj.utilcode.util.ToastUtils
 import org.greenrobot.eventbus.EventBus
@@ -49,6 +50,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_hook_conversation_bg))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_generate_wechat_config))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_donate_wechat))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_download_wechat_config))?.onPreferenceClickListener = this
         if (BuildConfig.VERSION_NAME.endsWith("Beta", true)) {
             AlertDialog.Builder(activity)
                     .setTitle("警告")
@@ -86,8 +88,15 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             getString(R.string.key_donate_wechat) -> {
                 donateWechat()
             }
+            getString(R.string.key_download_wechat_config) -> {
+                downloadWechatConfig()
+            }
         }
         return true
+    }
+
+    private fun downloadWechatConfig() {
+        DownloadWechatDialog.show(activity)
     }
 
     private var generateWechatLogView: TextView? = null

@@ -13,48 +13,61 @@
         android:key="@string/key_hide_launcher_icon"
         android:summary="@string/text_hide_launcher_icon_info"
         android:title="@string/text_hide_launcher_icon" />
-    <Preference
-        android:key="@string/key_reset_view_config"
-        android:summary="@string/text_reset_view_config_info"
-        android:title="@string/text_reset_view_config" />
-    <Preference
-        android:key="@string/key_generate_wechat_config"
-        android:summary="@string/text_generate_wechat_config_info"
-        android:title="@string/text_generate_wechat_config" />
-    <Preference
-        android:key="@string/key_reset_icon_config"
-        android:summary="@string/text_reset_icon_config_info"
-        android:title="@string/text_reset_icon_config" />
-    <Preference
-        android:key="@string/key_donate"
-        android:title="@string/text_donate" />
 
-    <Preference
-        android:key="@string/key_donate_wechat"
-        android:title="@string/text_donate_wechat" />
+    <PreferenceCategory android:title="@string/text_feedback_donate_settings">
+        <Preference
+            android:key="@string/key_donate"
+            android:title="@string/text_donate" />
 
-    <Preference
-        android:summary="@string/text_app_thank_content"
-        android:title="@string/text_app_thank" />
+        <Preference
+            android:key="@string/key_donate_wechat"
+            android:title="@string/text_donate_wechat" />
 
-    <Preference
-        android:key="@string/key_feedback"
-        android:title="@string/text_feedback" />
+        <Preference
+            android:key="@string/key_feedback"
+            android:title="@string/text_feedback" />
 
-    <Preference
-        android:key="@string/key_feedback_email"
-        android:summary="@string/text_feedback_email_info"
-        android:title="@string/text_feedback_email" />
+        <Preference
+            android:key="@string/key_feedback_wechat"
+            android:summary="@string/text_feedback_wechat_info"
+            android:title="@string/text_feedback_wechat" />
 
-    <Preference
-        android:key="@string/key_github"
-        android:summary="@string/text_github_info"
-        android:title="@string/text_github" />
+       <Preference
+            android:key="@string/key_feedback_email"
+            android:summary="@string/text_feedback_email_info"
+            android:title="@string/text_feedback_email" />
+
+        <Preference
+            android:key="@string/key_github"
+            android:summary="@string/text_github_info"
+            android:title="@string/text_github" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="@string/key_hook_switch"
+        android:title="@string/text_wechat_config_settings">
+        <Preference
+            android:key="@string/key_generate_wechat_config"
+            android:summary="@string/text_generate_wechat_config_info"
+            android:title="@string/text_generate_wechat_config" />
+        <Preference
+            android:key="@string/key_download_wechat_config"
+            android:summary="@string/text_download_wechat_config_info"
+            android:title="@string/text_download_wechat_config" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:dependency="@string/key_hook_switch"
         android:title="@string/text_common_settings">
+        <Preference
+            android:key="@string/key_reset_view_config"
+            android:summary="@string/text_reset_view_config_info"
+            android:title="@string/text_reset_view_config" />
 
+        <Preference
+            android:key="@string/key_reset_icon_config"
+            android:summary="@string/text_reset_icon_config_info"
+            android:title="@string/text_reset_icon_config" />
         <com.jaredrummler.android.colorpicker.ColorPreference
             android:defaultValue="@color/colorPrimary"
             android:key="@string/key_color_primary"
@@ -186,6 +199,9 @@
             android:title="@string/text_hook_log" />
 
     </PreferenceCategory>
-    <Preference />
-    <Preference />
+    <PreferenceCategory android:title="@string/text_about_settings">
+        <Preference
+            android:summary="@string/text_app_thank_content"
+            android:title="@string/text_app_thank" />
+    </PreferenceCategory>
 </PreferenceScreen>

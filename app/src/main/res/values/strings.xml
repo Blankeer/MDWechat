@@ -133,4 +133,13 @@
     <string name="msg_wechat_notfound">本机未安装微信，生成失败</string>
     <string name="text_confirm"> 确定</string>
     <string name="key_donate_wechat">key_donate_wechat</string>
+    <string name="key_download_wechat_config">key_download_wechat_config</string>
+    <string name="text_download_wechat_config">下载共享的微信配置文件</string>
+    <string name="text_download_wechat_config_info">上面生成失败的可以尝试下载，配置文件作者维护，更新可能不及时，欢迎贡献配置文件(发邮件给作者)</string>
+    <string name="text_wechat_config_settings">微信适配文件</string>
+    <string name="text_feedback_donate_settings">反馈和捐赠</string>
+    <string name="text_about_settings">关于</string>
+    <string name="key_feedback_wechat">key_feedback_wechat</string>
+    <string name="text_feedback_wechat">微信交流群</string>
+    <string name="text_feedback_wechat_info">添加微信 CSYJZF，回复 MDWechat 即可加入，点击复制微信号</string>
 </resources>
