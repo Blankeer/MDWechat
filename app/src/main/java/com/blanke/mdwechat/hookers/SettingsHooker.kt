@@ -1,14 +1,13 @@
 package com.blanke.mdwechat.hookers
 
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Fields.PreferenceFragment_mListView
-import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil
+import com.blanke.mdwechat.util.NightModeUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -39,7 +38,7 @@ object SettingsHooker : HookerProvider {
                 val listView = PreferenceFragment_mListView.get(fragment)
                 if (listView != null && listView is View) {
                     val background = AppCustomConfig.getTabBg(3)
-                    listView.background = if (background != null) BitmapDrawable(background) else whiteDrawable
+                    listView.background = NightModeUtils.getBackgroundDrawable(background)
                 }
             }
         })

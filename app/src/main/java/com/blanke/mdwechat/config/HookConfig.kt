@@ -47,6 +47,7 @@ object HookConfig {
     private val key_hook_main_textcolor = "key_hook_main_textcolor"
     private val key_main_textcolor_title = "key_main_textcolor_title"
     private val key_main_textcolor_content = "key_main_textcolor_content"
+    private val key_hook_night_mode = "key_hook_night_mode"
 
     val is_hook_switch: Boolean
         get() {
@@ -201,5 +202,9 @@ object HookConfig {
     val get_main_text_color_content: Int
         get() {
             return WeChatHelper.XMOD_PREFS.getInt(key_main_textcolor_content, Color.BLACK)
+        }
+    val is_hook_night_mode: Boolean
+        get() {
+            return WeChatHelper.XMOD_PREFS.getBoolean(key_hook_night_mode, false)
         }
 }

@@ -149,4 +149,6 @@
     <string name="key_help_float_button">key_help_float_button</string>
     <string name="key_help_icon">key_help_icon</string>
     <string name="key_help_bubble">key_help_bubble</string>
+    <string name="key_hook_night_mode">key_hook_night_mode</string>
+    <string name="text_hook_night_mode">夜间模式(实验性,仅适用主界面)</string>
 </resources>

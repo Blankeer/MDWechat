@@ -134,6 +134,10 @@
             android:title="@string/text_main_textcolor_content"
             app:cpv_colorPresets="@array/colors"
             app:cpv_showAlphaSlider="true" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_hook_night_mode"
+            android:title="@string/text_hook_night_mode" />
     </PreferenceCategory>
 
     <PreferenceCategory

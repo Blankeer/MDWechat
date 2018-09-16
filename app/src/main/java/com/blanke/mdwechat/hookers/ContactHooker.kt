@@ -1,7 +1,6 @@
 package com.blanke.mdwechat.hookers
 
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,12 +12,12 @@ import com.blanke.mdwechat.Methods.HomeFragment_lifecycles
 import com.blanke.mdwechat.Objects
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
 import com.blanke.mdwechat.WeChatHelper.transparentDrawable
-import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil
+import com.blanke.mdwechat.util.NightModeUtils
 import com.blanke.mdwechat.util.ViewUtils
 import com.gcssloop.widget.RCRelativeLayout
 import de.robv.android.xposed.XC_MethodHook
@@ -30,17 +29,16 @@ object ContactHooker : HookerProvider {
 
     private var headTextColor = Color.BLACK
         get() {
-            return HookConfig.get_main_text_color_content
+            return NightModeUtils.getContentTextColor()
         }
 
     private var titleTextColor = Color.BLACK
         get() {
-            return HookConfig.get_main_text_color_title
+            return NightModeUtils.getTitleTextColor()
         }
-
     private var isHookTextColor = false
         get() {
-            return HookConfig.is_hook_main_textcolor
+            return HookConfig.is_hook_main_textcolor || NightModeUtils.isNightMode()
         }
 
     override fun provideStaticHookers(): List<Hooker>? {
@@ -66,7 +64,7 @@ object ContactHooker : HookerProvider {
                     if (listView != null && listView is ListView) {
                         XposedHelpers.setAdditionalInstanceField(fragment, keyInit, true)
                         val background = AppCustomConfig.getTabBg(1)
-                        listView.background = if (background != null) BitmapDrawable(background) else whiteDrawable
+                        listView.background = NightModeUtils.getBackgroundDrawable(background)
 //                        LogUtil.log("ContactFragment listview= $listView, ${listView.javaClass.name}")
                         if (listView.headerViewsCount > 0) {
                             val mHeaderViewInfos = getObjectField(listView, "mHeaderViewInfos") as ArrayList<ListView.FixedViewInfo>

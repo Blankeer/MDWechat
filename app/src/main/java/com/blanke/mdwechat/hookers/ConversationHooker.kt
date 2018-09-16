@@ -1,6 +1,5 @@
 package com.blanke.mdwechat.hookers
 
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -12,13 +11,13 @@ import com.blanke.mdwechat.Fields.ConversationFragment_mListView
 import com.blanke.mdwechat.Methods.ConversationWithAppBrandListView_isAppBrandHeaderEnable
 import com.blanke.mdwechat.Version
 import com.blanke.mdwechat.WeChatHelper.defaultImageRippleDrawable
-import com.blanke.mdwechat.WeChatHelper.whiteDrawable
 import com.blanke.mdwechat.WechatGlobal
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil
+import com.blanke.mdwechat.util.NightModeUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
@@ -51,7 +50,7 @@ object ConversationHooker : HookerProvider {
                 val listView = ConversationFragment_mListView.get(fragment)
                 if (listView != null && listView is View) {
                     val background = AppCustomConfig.getTabBg(0)
-                    listView.background = if (background != null) BitmapDrawable(background) else whiteDrawable
+                    listView.background = NightModeUtils.getBackgroundDrawable(background)
                 }
             }
         })

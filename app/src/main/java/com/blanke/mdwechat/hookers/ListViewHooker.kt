@@ -14,6 +14,7 @@ import com.blanke.mdwechat.WeChatHelper.transparentDrawable
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
+import com.blanke.mdwechat.util.NightModeUtils
 import com.blanke.mdwechat.util.ViewTreeUtils
 import com.blanke.mdwechat.util.ViewUtils
 import de.robv.android.xposed.XC_MethodHook
@@ -24,16 +25,16 @@ object ListViewHooker : HookerProvider {
 
     private var headTextColor = Color.BLACK
         get() {
-            return HookConfig.get_main_text_color_content
+            return NightModeUtils.getContentTextColor()
         }
 
     private var titleTextColor = Color.BLACK
         get() {
-            return HookConfig.get_main_text_color_title
+            return NightModeUtils.getTitleTextColor()
         }
     private var isHookTextColor = false
         get() {
-            return HookConfig.is_hook_main_textcolor
+            return HookConfig.is_hook_main_textcolor || NightModeUtils.isNightMode()
         }
 
     override fun provideStaticHookers(): List<Hooker>? {
