@@ -1,7 +1,9 @@
 package com.blanke.mdwechat.settings
 
 import android.app.AlertDialog
+import android.content.ClipboardManager
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -51,6 +53,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_generate_wechat_config))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_donate_wechat))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_download_wechat_config))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_feedback_wechat))?.onPreferenceClickListener = this
         if (BuildConfig.VERSION_NAME.endsWith("Beta", true)) {
             AlertDialog.Builder(activity)
                     .setTitle("警告")
@@ -91,12 +94,21 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             getString(R.string.key_download_wechat_config) -> {
                 downloadWechatConfig()
             }
+            getString(R.string.key_feedback_wechat) -> {
+                joinWechatGroup()
+            }
         }
         return true
     }
 
     private fun downloadWechatConfig() {
         DownloadWechatDialog.show(activity)
+    }
+
+    private fun joinWechatGroup() {
+        val manager = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        manager.text = "CSYJZF"
+        ToastUtils.showShort("已复制微信号")
     }
 
     private var generateWechatLogView: TextView? = null
