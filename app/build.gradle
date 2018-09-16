@@ -40,9 +40,12 @@ dependencies {
     implementation 'com.github.Blankeer:rclayout:v1.6.0'
 
     implementation 'net.dongliu:apk-parser:2.5.3'
-    implementation 'com.blankj:utilcode:1.17.3'
+    implementation 'com.blankj:utilcode:1.19.3'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+
+    implementation 'ru.noties:markwon:1.1.0'
+    implementation 'ru.noties:markwon-image-loader:1.1.0'
 }
 
 // 每次修改运行后自动让 VXP 中的模块`即时生效` ,需要将 (Debug Configurations) - Before Launch - Gradle aware Make - 修改为 :app:installDebug

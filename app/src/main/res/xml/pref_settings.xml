@@ -32,7 +32,7 @@
             android:summary="@string/text_feedback_wechat_info"
             android:title="@string/text_feedback_wechat" />
 
-       <Preference
+        <Preference
             android:key="@string/key_feedback_email"
             android:summary="@string/text_feedback_email_info"
             android:title="@string/text_feedback_email" />
@@ -198,6 +198,17 @@
             android:summary="@string/text_hook_log_info"
             android:title="@string/text_hook_log" />
 
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/text_help_settings">
+        <Preference
+            android:key="@string/key_help_float_button"
+            android:title="@string/text_help_float_button" />
+        <Preference
+            android:key="@string/key_help_icon"
+            android:title="@string/text_help_icon" />
+        <Preference
+            android:key="@string/key_help_bubble"
+            android:title="@string/text_help_bubble" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/text_about_settings">
         <Preference

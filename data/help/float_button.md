@@ -30,5 +30,11 @@ type 为跳转后的 Activity 完整类名，可以借助 开发者助手、auto
 群聊 | com.tencent.mm.ui.contact.SelectContactUI
 添加好友 | com.tencent.mm.plugin.subapp.ui.pluginapp.AddMoreFriendsUI
 
+特殊 type：
+
+type | 说明
+---- | ---
+weiX | 微x模块
+
 ## 建议
 如果以上教程看完，还是一脸懵逼，建议你还是放弃吧。

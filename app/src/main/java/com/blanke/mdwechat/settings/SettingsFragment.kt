@@ -19,6 +19,7 @@ import com.blanke.mdwechat.Common
 import com.blanke.mdwechat.R
 import com.blanke.mdwechat.auto_search.Main
 import com.blanke.mdwechat.auto_search.bean.LogEvent
+import com.blanke.mdwechat.markdown.MarkDownActivity
 import com.blanke.mdwechat.settings.view.DownloadWechatDialog
 import com.blanke.mdwechat.util.FileUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -54,6 +55,9 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_donate_wechat))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_download_wechat_config))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_feedback_wechat))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_help_float_button))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_help_bubble))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_help_icon))?.onPreferenceClickListener = this
         if (BuildConfig.VERSION_NAME.endsWith("Beta", true)) {
             AlertDialog.Builder(activity)
                     .setTitle("警告")
@@ -97,8 +101,24 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             getString(R.string.key_feedback_wechat) -> {
                 joinWechatGroup()
             }
+            getString(R.string.key_help_float_button) -> {
+                gotoMarkDownAct(getString(R.string.text_help_float_button), Common.URL_HELP_FLOAT_BUTTON)
+            }
+
+            getString(R.string.key_help_bubble) -> {
+                gotoMarkDownAct(getString(R.string.text_help_bubble), Common.URL_HELP_BUBBLE)
+            }
+
+            getString(R.string.key_help_icon) -> {
+                gotoMarkDownAct(getString(R.string.text_help_icon), Common.URL_HELP_ICON)
+            }
+
         }
         return true
+    }
+
+    private fun gotoMarkDownAct(title: String, url: String) {
+        MarkDownActivity.start(activity, title, url)
     }
 
     private fun downloadWechatConfig() {

@@ -142,4 +142,11 @@
     <string name="key_feedback_wechat">key_feedback_wechat</string>
     <string name="text_feedback_wechat">微信交流群</string>
     <string name="text_feedback_wechat_info">添加微信 CSYJZF，回复 MDWechat 即可加入，点击复制微信号</string>
+    <string name="text_help_settings">帮助和教程</string>
+    <string name="text_help_float_button">悬浮按钮</string>
+    <string name="text_help_icon">图标</string>
+    <string name="text_help_bubble">气泡</string>
+    <string name="key_help_float_button">key_help_float_button</string>
+    <string name="key_help_icon">key_help_icon</string>
+    <string name="key_help_bubble">key_help_bubble</string>
 </resources>

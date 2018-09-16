@@ -19,6 +19,10 @@ class APIManager {
     }
 
     fun downloadWechatConfig(url: String, callback: Callback) {
+        get(url, callback)
+    }
+
+    fun get(url: String, callback: Callback) {
         val req = Request.Builder().url(url)
                 .get()
                 .build()

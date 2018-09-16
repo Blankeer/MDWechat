@@ -29,6 +29,9 @@ object Common {
     val FILE_NAME_TAB_PREFIX = "tab_icon"
     val FILE_NAME_TAB_BG_PREFIX = "tab_bg"
     val FILE_NAME_FLOAT_BUTTON = "floatbutton.txt"
+    val URL_HELP_FLOAT_BUTTON = "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/help/float_button.md"
+    val URL_HELP_ICON = "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/help/icon.md"
+    val URL_HELP_BUBBLE = "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/help/bubble.md"
 
     val isVXPEnv: Boolean by lazy {
         VXPUtils.isVXPEnv()
