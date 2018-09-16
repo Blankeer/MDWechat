@@ -52,7 +52,7 @@ class WechatHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
                     LogHooker
             )
             if (BuildConfig.DEBUG) {
-                hookers.add(DebugHooker)
+                hookers.add(0, DebugHooker)
             }
             hookMain(lpparam, hookers)
         } catch (e: Throwable) {
