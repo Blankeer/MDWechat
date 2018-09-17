@@ -8,5 +8,10 @@
     "name": "6.6.7.config",
     "desc": "6.6.7 play版",
     "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/6.6.7-play/6.6.7.config"
+  },
+  {
+    "name": "6.6.6.config",
+    "desc": "6.6.6 国内版,热心网友共享,自行测试",
+    "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/6.6.6/6.6.6.config"
   }
 ]
