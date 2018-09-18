@@ -18,9 +18,9 @@ object AppCustomConfig {
 
     fun getWxVersionConfig(version: String): WxVersionConfig {
         var configName = version + ".config"
-        if (HookConfig.is_play) {
-            configName = version + "-play.config"
-        }
+//        if (HookConfig.is_play) {
+//            configName = version + "-play.config"
+//        }
         val `is` = FileInputStream(getWxConfigFile(configName))
         return Gson().fromJson(InputStreamReader(`is`), WxVersionConfig::class.java)
     }
