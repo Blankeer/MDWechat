@@ -5,9 +5,19 @@
     "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/6.7.3/6.7.3.config"
   },
   {
+    "name": "6.7.3.config",
+    "desc": "6.7.3 play版",
+    "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/6.7.3-play/6.7.3.config"
+  },
+  {
     "name": "6.7.2.config",
     "desc": "6.7.2 国内版",
     "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/6.7.2/6.7.2.config"
+  },
+  {
+    "name": "6.7.2.config",
+    "desc": "6.7.2 play版",
+    "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/6.7.2-play/6.7.2.config"
   },
   {
     "name": "6.6.7.config",
