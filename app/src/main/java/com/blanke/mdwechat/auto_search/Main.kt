@@ -39,7 +39,7 @@ class Main {
         Logs.i("class 总数= ${wxClasses.size}")
 
         val optimizedDirectoryFile = context.getDir("dex", 0)
-        val classLoader = DexClassLoader(path, optimizedDirectoryFile.absolutePath, null, context.classLoader)
+        val classLoader = DexClassLoader(path, optimizedDirectoryFile.absolutePath, null, ClassLoader.getSystemClassLoader())
         WechatGlobal.wxPackageName = apkMeta.packageName
         WechatGlobal.wxLoader = classLoader
         WechatGlobal.wxClasses = wxClasses.map { it.classType }
