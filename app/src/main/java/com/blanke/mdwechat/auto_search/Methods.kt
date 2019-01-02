@@ -60,8 +60,8 @@ object Methods {
     // 所有生命周期方法
     val HomeFragment_lifecycles: List<Method>?
         get() {
-            return findMethodsByExactParameters(ContactFragment!!, voidd)
-                    .filter { it.modifiers and Modifier.FINAL != 0 }
+            return findMethodsByExactParameters(ContactFragment!!.superclass, voidd)
+                    .filter { it.modifiers and Modifier.ABSTRACT != 0 }
                     .filter { it.modifiers and Modifier.PROTECTED != 0 }
         }
 
