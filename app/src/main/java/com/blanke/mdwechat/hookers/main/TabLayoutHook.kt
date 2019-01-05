@@ -70,7 +70,7 @@ object TabLayoutHook {
         params.height = px48
         if (WechatGlobal.wxVersion!! < Version("6.7.2")) {
             viewPagerLinearLayout.addView(tabLayout, 0, params)
-        } else {// 672 wx布局更改
+        } else if (WechatGlobal.wxVersion!! < Version("7.0.0")) {// 672 wx布局更改
             val mockLayout = FrameLayout(context)
             var paddingTop = px48
             if (HookConfig.is_hook_hide_actionbar) {
@@ -82,6 +82,19 @@ object TabLayoutHook {
             mockLayout.addView(tabLayout, params)
             mockLayout.addView(viewpager)
             viewPagerLinearLayout.addView(mockLayout, 0)
+        } else {// 7.0.0
+            val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            params.height = px48
+            params.topMargin = ConvertUtils.dp2px(resContext, 72f)
+            if (HookConfig.is_hook_hide_actionbar) {
+                params.topMargin = 0
+            } else {
+                val viewpager = viewPagerLinearLayout.getChildAt(0)
+                val layoutParams = viewpager.layoutParams as ViewGroup.MarginLayoutParams
+                layoutParams.topMargin = px48
+                viewpager.layoutParams = layoutParams
+            }
+            viewPagerLinearLayout.addView(tabLayout, 0, params)
         }
         LogUtil.log("add tableyout success")
         Objects.Main.LauncherUI_mTabLayout = WeakReference(tabLayout)
