@@ -80,6 +80,33 @@ object ViewTreeRepo {
                 )
         )
     }
+    val ContactListViewItem_7_0_0: ViewTreeItem by lazy {
+        ViewTreeItem(
+                Classes.NoDrawingCacheLinearLayout.name,
+                arrayOf(
+                        ViewTreeItem(CC.RelativeLayout.name),
+                        ViewTreeItem(
+                                CC.LinearLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(
+                                                CC.RelativeLayout.name,
+                                                arrayOf(
+                                                        ViewTreeItem(CC.TextView.name),
+                                                        ViewTreeItem(CC.TextView.name),
+                                                        ViewTreeItem(CC.TextView.name),
+                                                        ViewTreeItem(CC.LinearLayout.name,
+                                                                arrayOf(
+                                                                        ViewTreeItem("com.tencent.mm.ui.chatting.view.AvatarImageView"),
+                                                                        ViewTreeItem("com.tencent.mm.ui.AddressView")
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                )
+        )
+    }
 
     val DiscoverViewItem: ViewTreeItem by lazy {
         ViewTreeItem(
@@ -119,6 +146,48 @@ object ViewTreeRepo {
         )
     }
 
+    val DiscoverViewItem_7_0_0: ViewTreeItem by lazy {
+        ViewTreeItem(
+                CC.LinearLayout.name,
+                arrayOf(
+                        ViewTreeItem(
+                                CC.LinearLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(
+                                                CC.LinearLayout.name,
+                                                arrayOf(
+                                                        ViewTreeItem(
+                                                                CC.LinearLayout.name,
+                                                                arrayOf(
+                                                                        ViewTreeItem("com.tencent.mm.ui.MMImageView"),
+                                                                        ViewTreeItem(
+                                                                                CC.LinearLayout.name,
+                                                                                arrayOf(
+                                                                                        ViewTreeItem(
+                                                                                                CC.LinearLayout.name,
+                                                                                                arrayOf(
+                                                                                                        ViewTreeItem(
+                                                                                                                CC.LinearLayout.name,
+                                                                                                                arrayOf(
+                                                                                                                        ViewTreeItem(CC.TextView.name),
+                                                                                                                        ViewTreeItem(CC.TextView.name),
+                                                                                                                        ViewTreeItem(CC.ImageView.name)
+                                                                                                                )
+                                                                                                        ),
+                                                                                                        ViewTreeItem(CC.TextView.name)
+                                                                                                )
+                                                                                        ))
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                )
+        )
+    }
+
     val SettingAvatarView: ViewTreeItem by lazy {
         ViewTreeItem(
                 CC.LinearLayout.name,
@@ -138,6 +207,29 @@ object ViewTreeRepo {
                                 )
                         ),
                         ViewTreeItem(CC.ImageView.name)
+                )
+        )
+    }
+    val SettingAvatarView_7_0_0: ViewTreeItem by lazy {
+        ViewTreeItem(
+                CC.RelativeLayout.name,
+                arrayOf(
+                        ViewTreeItem(CC.ImageView.name),
+                        ViewTreeItem(
+                                CC.LinearLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(CC.RelativeLayout.name,
+                                                arrayOf(
+                                                        ViewTreeItem(CC.ImageView.name),
+                                                        ViewTreeItem(CC.LinearLayout.name,
+                                                                arrayOf(
+                                                                        ViewTreeItem(Classes.NoMeasuredTextView.name),
+                                                                        ViewTreeItem(CC.TextView.name)
+                                                                ))
+
+                                                ))
+                                )
+                        )
                 )
         )
     }

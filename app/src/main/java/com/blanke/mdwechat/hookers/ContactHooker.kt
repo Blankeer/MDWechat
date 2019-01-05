@@ -103,6 +103,7 @@ object ContactHooker : HookerProvider {
                                                             ll.getChildAt(0).background = transparentDrawable
                                                             titleTextView = ViewUtils.getChildView(ll, 0, 1)
                                                             titleTextView?.apply {
+                                                                this.background = transparentDrawable
                                                                 if (this is TextView && isHookTextColor) {
                                                                     this.setTextColor(titleTextColor)
                                                                 }
@@ -124,9 +125,17 @@ object ContactHooker : HookerProvider {
                                                                 roundLayout.addView(iv)
                                                             }
                                                         }
-                                                        titleTextView?.apply {
-                                                            if (this is TextView && isHookTextColor) {
-                                                                this.setTextColor(titleTextColor)
+                                                        titleTextView.background = transparentDrawable
+                                                        if (isHookTextColor) {
+                                                            titleTextView?.apply {
+                                                                if (this is TextView) {
+                                                                    this.setTextColor(titleTextColor)
+                                                                } else if (this is ViewGroup) {
+                                                                    val tv = this.getChildAt(0)
+                                                                    if (tv is TextView) {
+                                                                        tv.setTextColor(titleTextColor)
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }

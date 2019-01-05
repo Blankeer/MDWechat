@@ -74,9 +74,11 @@ object ListViewHooker : HookerProvider {
                         XposedHelpers.callMethod(chatNameView, "setTextColor", titleTextColor)
                         XposedHelpers.callMethod(chatTimeView, "setTextColor", headTextColor)
                         XposedHelpers.callMethod(recentMsgView, "setTextColor", headTextColor)
-                        unreadCountView.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
-                        unreadView.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
                     }
+                    unreadCountView.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
+                    unreadView.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
+                    val contentView = ViewUtils.getChildView(view, 1) as ViewGroup
+                    contentView.background = transparentDrawable
                 }
 
                 // 联系人列表
@@ -96,6 +98,22 @@ object ListViewHooker : HookerProvider {
                     innerView.background = transparentDrawable
                 }
 
+                // 联系人列表 7.0.0
+                else if (ViewTreeUtils.equals(ViewTreeRepo.ContactListViewItem_7_0_0, view)) {
+                    val headLayout = ViewUtils.getChildView(view, 0) as ViewGroup
+                    headLayout.background = transparentDrawable
+                    val headTextView = ViewUtils.getChildView(headLayout, 0) as TextView
+                    val contentLayout = ViewUtils.getChildView(view, 1) as ViewGroup
+                    contentLayout.background = transparentDrawable
+                    val titleView = ViewUtils.getChildView(contentLayout, 0, 3, 1)
+                    ViewUtils.getChildView(contentLayout, 0)?.background = transparentDrawable
+                    titleView?.background = transparentDrawable
+                    if (isHookTextColor) {
+                        headTextView.setTextColor(headTextColor)
+                        XposedHelpers.callMethod(titleView, "setNickNameTextColor", ColorStateList.valueOf(titleTextColor))
+                    }
+                }
+
                 // 发现 设置 item
                 else if (ViewTreeUtils.equals(ViewTreeRepo.DiscoverViewItem, view)) {
                     val iconImageView = ViewUtils.getChildView(view, 0, 0, 0, 0) as View
@@ -107,10 +125,36 @@ object ListViewHooker : HookerProvider {
                     }
                 }
 
+                // 发现 设置 item 7.0.0
+                else if (ViewTreeUtils.equals(ViewTreeRepo.DiscoverViewItem_7_0_0, view)) {
+                    val iconImageView = ViewUtils.getChildView(view, 0, 0, 0, 0) as View
+                    if (iconImageView.visibility == View.VISIBLE) {
+                        val titleView = ViewUtils.getChildView(view, 0, 0, 0, 1, 0, 0, 0) as TextView
+                        if (isHookTextColor) {
+                            titleView.setTextColor(titleTextColor)
+                        }
+                    }
+                    val unreadPointView = ViewUtils.getChildView(view, 0, 0, 0, 1, 2, 1)
+                    val unreadCountView = ViewUtils.getChildView(view, 0, 0, 0, 1, 0, 0, 1)
+                    unreadPointView?.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
+                    unreadCountView?.backgroundTintList = ColorStateList.valueOf(HookConfig.get_color_primary)
+                }
+
                 // 设置 头像
                 else if (ViewTreeUtils.equals(ViewTreeRepo.SettingAvatarView, view)) {
                     val nickNameView = ViewUtils.getChildView(view, 0, 1, 0)
                     val wechatTextView = ViewUtils.getChildView(view, 0, 1, 1) as TextView
+                    if (wechatTextView.text.startsWith("微信号") && isHookTextColor) {
+                        wechatTextView.setTextColor(titleTextColor)
+                        XposedHelpers.callMethod(nickNameView, "setTextColor", titleTextColor)
+                    }
+                }
+
+                // 设置 头像 7.0.0
+                else if (ViewTreeUtils.equals(ViewTreeRepo.SettingAvatarView_7_0_0, view)) {
+                    ViewUtils.getChildView(view, 0)?.background = defaultImageRippleDrawable
+                    val nickNameView = ViewUtils.getChildView(view, 1, 0, 1, 0)
+                    val wechatTextView = ViewUtils.getChildView(view, 1, 0, 1, 1) as TextView
                     if (wechatTextView.text.startsWith("微信号") && isHookTextColor) {
                         wechatTextView.setTextColor(titleTextColor)
                         XposedHelpers.callMethod(nickNameView, "setTextColor", titleTextColor)
