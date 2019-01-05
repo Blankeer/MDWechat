@@ -16,7 +16,7 @@ class WechatHook : IXposedHookLoadPackage {
             if (!(lpparam.packageName.contains("com.tencent") && lpparam.packageName.contains("mm")))
                 return
             // 暂时不 hook 小程序
-            if (lpparam.processName.contains("appbrand")) {
+            if (lpparam.processName.contains(":")) {
                 return
             }
             WeChatHelper.initPrefs()

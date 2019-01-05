@@ -40,7 +40,7 @@ object StatusBarHooker : HookerProvider {
         })
     }
 
-    private fun getStatueBarColor(): Int {
+    fun getStatueBarColor(): Int {
         return if (HookConfig.is_hook_statusbar_transparent) colorPrimary else ColorUtils.getDarkerColor(colorPrimary, 0.85f)
     }
 }

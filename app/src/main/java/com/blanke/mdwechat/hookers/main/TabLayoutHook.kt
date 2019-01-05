@@ -3,7 +3,9 @@ package com.blanke.mdwechat.hookers.main
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -11,9 +13,11 @@ import com.blanke.mdwechat.*
 import com.blanke.mdwechat.Objects
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.config.HookConfig
+import com.blanke.mdwechat.hookers.StatusBarHooker
 import com.blanke.mdwechat.util.ConvertUtils
 import com.blanke.mdwechat.util.LogUtil
 import com.blanke.mdwechat.util.ViewUtils
+import com.blankj.utilcode.util.BarUtils
 import com.flyco.tablayout.CommonTabLayout
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -87,14 +91,22 @@ object TabLayoutHook {
             params.height = px48
             params.topMargin = ConvertUtils.dp2px(resContext, 72f)
             if (HookConfig.is_hook_hide_actionbar) {
-                params.topMargin = 0
+                params.topMargin = BarUtils.getStatusBarHeight()
             } else {
                 val viewpager = viewPagerLinearLayout.getChildAt(0)
                 val layoutParams = viewpager.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.topMargin = px48
                 viewpager.layoutParams = layoutParams
             }
-            viewPagerLinearLayout.addView(tabLayout, 0, params)
+            // mock status bar
+            val statusView = View(context)
+            statusView.background = ColorDrawable(StatusBarHooker.getStatueBarColor())
+            statusView.elevation = 100F
+            val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            statusParam.topMargin = 0
+            statusParam.height = BarUtils.getStatusBarHeight()
+            viewPagerLinearLayout.addView(statusView, 0, statusParam)
+            viewPagerLinearLayout.addView(tabLayout, 1, params)
         }
         LogUtil.log("add tableyout success")
         Objects.Main.LauncherUI_mTabLayout = WeakReference(tabLayout)

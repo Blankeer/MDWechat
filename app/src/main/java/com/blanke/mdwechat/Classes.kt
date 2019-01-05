@@ -121,4 +121,8 @@ object Classes {
     val RemittanceAdapterUI: Class<*> by WechatGlobal.wxLazy("RemittanceAdapterUI") {
         findClass("com.tencent.mm.plugin.remittance.ui.RemittanceAdapterUI")
     }
+
+    val Toolbar: Class<*> by WechatGlobal.wxLazy("Toolbar") {
+        findClass("android.support.v7.widget.Toolbar")
+    }
 }

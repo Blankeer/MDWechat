@@ -27,6 +27,7 @@ import com.blanke.mdwechat.hookers.main.TabLayoutHook
 import com.blanke.mdwechat.util.LogUtil.log
 import com.blanke.mdwechat.util.ViewUtils
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import java.lang.ref.WeakReference
 
@@ -49,7 +50,16 @@ object LauncherUIHooker : HookerProvider {
                 Objects.clear()
             }
         })
-
+        XposedBridge.hookAllConstructors(Classes.Toolbar, object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                val toolbar = param.thisObject as View
+                if (toolbar.context::class.java.name == Classes.LauncherUI.name) {
+                    if (HookConfig.is_hook_hide_actionbar) {
+                        toolbar.visibility = View.GONE
+                    }
+                }
+            }
+        })
         XposedHelpers.findAndHookMethod(CC.Activity, "onPostResume",
                 object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
