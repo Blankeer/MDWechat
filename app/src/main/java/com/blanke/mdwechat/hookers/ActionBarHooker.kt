@@ -4,8 +4,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
+import com.blanke.mdwechat.Classes
 import com.blanke.mdwechat.Classes.ActionBarContainer
+import com.blanke.mdwechat.Version
 import com.blanke.mdwechat.WeChatHelper.colorPrimaryDrawable
+import com.blanke.mdwechat.WechatGlobal
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
 import de.robv.android.xposed.XC_MethodHook
@@ -30,10 +33,15 @@ object ActionBarHooker : HookerProvider {
                         needHook = false
                     }
                 }
+                val actionBar = param.thisObject as ViewGroup
+                if (WechatGlobal.wxVersion!! >= Version("7.0.0")) {
+                    if (actionBar.context::class.java.name == Classes.LauncherUI.name) {
+                        needHook = true
+                    }
+                }
                 if (needHook) {
                     param.args[0] = colorPrimaryDrawable
                 }
-                val actionBar = param.thisObject as ViewGroup
                 actionBar.elevation = 5F
             }
         })
