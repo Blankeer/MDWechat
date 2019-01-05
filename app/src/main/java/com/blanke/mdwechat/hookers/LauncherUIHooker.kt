@@ -189,7 +189,9 @@ object LauncherUIHooker : HookerProvider {
 //                        log("unread position= $position,count = $text")
                         val number = if (text.length == 0) 0 else text.toIntOrNull()
                         LauncherUI_mTabLayout.get()?.apply {
-                            showMsg(position, number ?: 99)
+                            number?.apply {
+                                showMsg(position, number)
+                            }
                         }
                     }
                 }
