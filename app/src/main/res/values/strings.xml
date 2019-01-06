@@ -151,4 +151,8 @@
     <string name="key_help_bubble">key_help_bubble</string>
     <string name="key_hook_night_mode">key_hook_night_mode</string>
     <string name="text_hook_night_mode">夜间模式(实验性,仅适用主界面)</string>
+    <string name="text_app_tips">软件使用提示</string>
+    <string name="text_app_desc">本软件请在微信的用户条款下使用，遵守相关法律和微信规定，使用本软件造成的一切后果，与软件和开发者无关，如对上述有异议或疑问，请立即卸载此软件！</string>
+    <string name="text_app_donate">你已使用「MDWechat」%s，在使用过程中有任何问题欢迎加入微信群讨论。\n如果你觉得「MDWechat」很好用，是否愿意支持下作者，让我更有动力完善维护这个软件呢？</string>
+    <string name="text_app_know">我已知晓</string>
 </resources>

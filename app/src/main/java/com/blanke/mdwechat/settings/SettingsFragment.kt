@@ -22,11 +22,13 @@ import com.blanke.mdwechat.auto_search.bean.LogEvent
 import com.blanke.mdwechat.markdown.MarkDownActivity
 import com.blanke.mdwechat.settings.view.DownloadWechatDialog
 import com.blanke.mdwechat.util.FileUtils
+import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.ToastUtils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+import java.util.*
 import kotlin.concurrent.thread
 
 
@@ -68,6 +70,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
                     .setCancelable(false)
                     .show()
         }
+        showAppInfoDialog()
     }
 
     override fun onPreferenceChange(preference: Preference, o: Any): Boolean {
@@ -200,7 +203,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
     private fun donate() {
         val intent = Intent()
         intent.action = "android.intent.action.VIEW"
-        val payUrl = "HTTPS://QR.ALIPAY.COM/FKX02968MD7TU2OGNMIW5D"
+        val payUrl = "https://qr.alipay.com/tsx05730go4ditv2dmwia15"
         intent.data = Uri.parse("alipayqr://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=" + payUrl)
         if (intent.resolveActivity(activity.packageManager) != null) {
             startActivity(intent)
@@ -254,6 +257,24 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
     private fun gotoGithub() {
         val uri = Uri.parse("https://github.com/Blankeer/MDWechat")
         startActivity(Intent(Intent.ACTION_VIEW, uri))
+    }
+
+
+    private fun showAppInfoDialog() {
+        val packageManager = activity.applicationContext.packageManager
+        val packageInfo = packageManager.getPackageInfo(BuildConfig.APPLICATION_ID, 0)
+        val firstInstallTime = Date(packageInfo.firstInstallTime)
+        val installDateStr = TimeUtils.getFitTimeSpan(Date(), firstInstallTime, 4)
+        val message = getString(R.string.text_app_desc) + "\n" + getString(R.string.text_app_donate, installDateStr)
+        AlertDialog.Builder(activity)
+                .setTitle(R.string.text_app_tips)
+                .setCancelable(false)
+                .setMessage(message)
+                .setPositiveButton(R.string.text_app_know, null)
+                .setNegativeButton(R.string.text_donate_wechat) { dialog, which -> donateWechat() }
+                .setNeutralButton(R.string.text_donate) { dialog, which -> donate() }
+                .show()
+
     }
 
     override fun onDestroy() {
