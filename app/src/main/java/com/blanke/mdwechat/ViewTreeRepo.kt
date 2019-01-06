@@ -271,7 +271,7 @@ object ViewTreeRepo {
                                         ViewTreeItem(
                                                 "com.tencent.mm.ui.base.MaskLayout",
                                                 arrayOf(
-                                                        ViewTreeItem(CC.ImageView.name),
+                                                        null,
                                                         ViewTreeItem(CC.ViewStub.name),
                                                         ViewTreeItem(CC.View.name),
                                                         ViewTreeItem(CC.ImageView.name)
@@ -303,7 +303,7 @@ object ViewTreeRepo {
                                         ViewTreeItem(
                                                 "com.tencent.mm.ui.base.MaskLayout",
                                                 arrayOf(
-                                                        ViewTreeItem(CC.ImageView.name),
+                                                        null,
                                                         ViewTreeItem(CC.ViewStub.name),
                                                         ViewTreeItem(CC.View.name),
                                                         ViewTreeItem(CC.ImageView.name)
@@ -324,6 +324,86 @@ object ViewTreeRepo {
                                                         ViewTreeItem(CC.ViewStub.name)
                                                 )
                                         )
+                                )
+                        ),
+                        ViewTreeItem(CC.View.name)
+                )
+        )
+    }
+    val ChatRightAudioMessageItem: ViewTreeItem by lazy {
+        ViewTreeItem(
+                "com.tencent.mm.ui.chatting.viewitems.",
+                arrayOf(
+                        ViewTreeItem(
+                                CC.LinearLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(CC.View.name),
+                                        ViewTreeItem(CC.TextView.name),
+                                        ViewTreeItem(CC.View.name)
+                                )
+                        ),
+                        ViewTreeItem(CC.TextView.name),
+                        ViewTreeItem(CC.CheckBox.name),
+                        ViewTreeItem(
+                                CC.RelativeLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(
+                                                "com.tencent.mm.ui.base.MaskLayout",
+                                                arrayOf(
+                                                        null,
+                                                        ViewTreeItem(CC.ViewStub.name),
+                                                        ViewTreeItem(CC.View.name),
+                                                        ViewTreeItem(CC.ImageView.name)
+                                                )
+                                        ),
+                                        ViewTreeItem(CC.TextView.name),
+                                        ViewTreeItem(CC.TextView.name),
+                                        ViewTreeItem(CC.TextView.name),
+                                        ViewTreeItem(
+                                                CC.LinearLayout.name,
+                                                arrayOf(
+                                                        ViewTreeItem(CC.ProgressBar.name)
+                                                )
+                                        )
+                                )
+                        ),
+                        ViewTreeItem(CC.View.name)
+                )
+        )
+    }
+    val ChatLeftAudioMessageItem: ViewTreeItem by lazy {
+        ViewTreeItem(
+                "com.tencent.mm.ui.chatting.viewitems.",
+                arrayOf(
+                        ViewTreeItem(
+                                CC.LinearLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(CC.View.name),
+                                        ViewTreeItem(CC.TextView.name),
+                                        ViewTreeItem(CC.View.name)
+                                )
+                        ),
+                        ViewTreeItem(CC.TextView.name),
+                        ViewTreeItem(CC.CheckBox.name),
+                        ViewTreeItem(
+                                CC.RelativeLayout.name,
+                                arrayOf(
+                                        ViewTreeItem(
+                                                "com.tencent.mm.ui.base.MaskLayout",
+                                                arrayOf(
+                                                        null,
+                                                        ViewTreeItem(CC.ViewStub.name),
+                                                        ViewTreeItem(CC.View.name),
+                                                        ViewTreeItem(CC.ImageView.name)
+                                                )
+                                        ),
+                                        ViewTreeItem(CC.RelativeLayout.name
+                                                , arrayOf(
+                                                ViewTreeItem(CC.TextView.name),
+                                                ViewTreeItem(CC.TextView.name),
+                                                null,
+                                                null
+                                        ))
                                 )
                         ),
                         ViewTreeItem(CC.View.name)

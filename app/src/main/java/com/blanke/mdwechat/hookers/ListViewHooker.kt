@@ -195,7 +195,36 @@ object ListViewHooker : HookerProvider {
                         }
                     }
                 }
-
+                // 聊天消息 audio
+                else if (ViewTreeUtils.equals(ViewTreeRepo.ChatRightAudioMessageItem, view)) {
+                    val msgView = ViewUtils.getChildView(view, 3, 5, 0, 0) as View
+                    val msgAnimView = ViewUtils.getChildView(view, 3, 5, 0, 1) as View
+                    if (HookConfig.is_hook_bubble) {
+                        val bubble = WeChatHelper.getRightBubble(msgView.resources)
+                        msgView.background = bubble
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            msgView.setPadding(30, 25, 45, 25)
+                        }
+                        msgAnimView.background = bubble
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            msgAnimView.setPadding(30, 25, 45, 25)
+                        }
+                    }
+                } else if (ViewTreeUtils.equals(ViewTreeRepo.ChatLeftAudioMessageItem, view)) {
+                    val msgView = ViewUtils.getChildView(view, 3, 1, 3, 0, 0) as View
+                    val msgAnimView = ViewUtils.getChildView(view, 3, 1, 3, 0, 1) as View
+                    if (HookConfig.is_hook_bubble) {
+                        val bubble = WeChatHelper.getLeftBubble(msgView.resources)
+                        msgView.background = bubble
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            msgView.setPadding(45, 25, 30, 25)
+                        }
+                        msgAnimView.background = bubble
+                        if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
+                            msgAnimView.setPadding(45, 25, 30, 25)
+                        }
+                    }
+                }
             }
         })
     }
