@@ -1,9 +1,12 @@
 package com.blanke.mdwechat.hookers
 
-import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.NinePatchDrawable
 import android.view.View
 import com.blanke.mdwechat.CC
 import com.blanke.mdwechat.Classes
+import com.blanke.mdwechat.Fields.PreferenceFragment_mListView
+import com.blanke.mdwechat.Version
+import com.blanke.mdwechat.WechatGlobal
 import com.blanke.mdwechat.config.AppCustomConfig
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
@@ -37,20 +40,25 @@ object SettingsHooker : HookerProvider {
             }
 
             private fun init(fragment: Any) {
-//                val lv = PreferenceFragment_mListView.get(fragment)
-            }
-        })
-        XposedBridge.hookAllMethods(CC.View, "setBackground", object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                val view = param.thisObject as View
-                if (view::class.java.name.contains("PullDownListView")) {
-                    val drawable = param.args[0]
-                    if (drawable !is ColorDrawable) {
-                        val background = AppCustomConfig.getTabBg(3)
-                        param.args[0] = NightModeUtils.getBackgroundDrawable(background)
-                    }
+                val listView = PreferenceFragment_mListView.get(fragment)
+                if (listView != null && listView is View) {
+                    val background = AppCustomConfig.getTabBg(3)
+                    listView.background = NightModeUtils.getBackgroundDrawable(background)
                 }
             }
         })
+        if (WechatGlobal.wxVersion!! >= Version("7.0.0")) {
+            XposedBridge.hookAllMethods(CC.View, "setBackground", object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    val view = param.thisObject as View
+                    if (view::class.java.name.contains("PullDownListView")) {
+                        val drawable = param.args[0]
+                        if (drawable is NinePatchDrawable) {//  设置页默认的drawable
+                            param.result = null
+                        }
+                    }
+                }
+            })
+        }
     }
 }
