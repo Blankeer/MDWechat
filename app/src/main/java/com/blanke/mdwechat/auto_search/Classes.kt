@@ -12,6 +12,7 @@ import android.view.animation.Animation
 import android.widget.*
 import com.blanke.mdwechat.CC
 import com.blanke.mdwechat.CC.voidd
+import com.blanke.mdwechat.Version
 import com.blanke.mdwechat.auto_search.WechatGlobal.wxLoader
 import com.blanke.mdwechat.auto_search.WechatGlobal.wxPackageName
 import com.blanke.mdwechat.util.ReflectionUtil
@@ -130,8 +131,14 @@ object Classes {
 
     val ConversationFragment: Class<*>?
         get() {
+            if (WechatGlobal.wxVersion!! < Version("7.0.3")) {
+                return ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader, WechatGlobal.wxClasses, "${WechatGlobal.wxPackageName}.ui.conversation")
+                        .filterByField(ConversationWithAppBrandListView!!.name)
+                        .filterByField(TextView::class.java.name)
+                        .filterByMethod(voidd, "onResume")
+                        .firstOrNull()
+            }
             return ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader, WechatGlobal.wxClasses, "${WechatGlobal.wxPackageName}.ui.conversation")
-                    .filterByField(ConversationWithAppBrandListView!!.name)
                     .filterByField(TextView::class.java.name)
                     .filterByMethod(voidd, "onResume")
                     .firstOrNull()

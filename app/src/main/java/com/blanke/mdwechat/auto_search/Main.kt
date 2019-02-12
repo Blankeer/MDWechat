@@ -1,6 +1,7 @@
 package com.blanke.mdwechat.auto_search
 
 import android.content.Context
+import com.blanke.mdwechat.Version
 import com.blanke.mdwechat.auto_search.bean.OutputJson
 import com.blankj.utilcode.util.FileIOUtils
 import com.google.gson.Gson
@@ -41,6 +42,7 @@ class Main {
         val optimizedDirectoryFile = context.getDir("dex", 0)
         val classLoader = DexClassLoader(path, optimizedDirectoryFile.absolutePath, null, ClassLoader.getSystemClassLoader())
         WechatGlobal.wxPackageName = apkMeta.packageName
+        WechatGlobal.wxVersion = Version(versionName)
         WechatGlobal.wxLoader = classLoader
         WechatGlobal.wxClasses = wxClasses.map { it.classType }
 

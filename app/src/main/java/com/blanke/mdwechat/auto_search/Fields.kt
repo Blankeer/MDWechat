@@ -1,6 +1,8 @@
 package com.blanke.mdwechat.auto_search
 
+import android.widget.ListView
 import com.blanke.mdwechat.CC
+import com.blanke.mdwechat.Version
 import com.blanke.mdwechat.auto_search.Classes.ContactFragment
 import com.blanke.mdwechat.auto_search.Classes.ConversationFragment
 import com.blanke.mdwechat.auto_search.Classes.ConversationWithAppBrandListView
@@ -47,7 +49,11 @@ object Fields {
 
     val ConversationFragment_mListView: Field?
         get() {
-            return findFieldsWithType(ConversationFragment!!, ConversationWithAppBrandListView!!.name)
+            if (WechatGlobal.wxVersion!! < Version("7.0.3")) {
+                return findFieldsWithType(ConversationFragment!!, ConversationWithAppBrandListView!!.name)
+                        .firstOrNull()?.apply { isAccessible = true }
+            }
+            return findFieldsWithType(ConversationFragment!!, ListView::class.java.name)
                     .firstOrNull()?.apply { isAccessible = true }
         }
 
