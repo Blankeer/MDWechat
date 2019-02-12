@@ -86,7 +86,7 @@ object TabLayoutHook {
             mockLayout.addView(tabLayout, params)
             mockLayout.addView(viewpager)
             viewPagerLinearLayout.addView(mockLayout, 0)
-        } else {// 7.0.0
+        } else {
             val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             params.height = px48
             params.topMargin = ConvertUtils.dp2px(resContext, 72f)
@@ -98,14 +98,16 @@ object TabLayoutHook {
                 layoutParams.topMargin = px48
                 viewpager.layoutParams = layoutParams
             }
-            // mock status bar
-            val statusView = View(context)
-            statusView.background = ColorDrawable(StatusBarHooker.getStatueBarColor())
-            statusView.elevation = 1F
-            val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            statusParam.topMargin = 0
-            statusParam.height = BarUtils.getStatusBarHeight()
-            viewPagerLinearLayout.addView(statusView, 0, statusParam)
+            if (WechatGlobal.wxVersion!! == Version("7.0.0")) {
+                // mock status bar
+                val statusView = View(context)
+                statusView.background = ColorDrawable(StatusBarHooker.getStatueBarColor())
+                statusView.elevation = 1F
+                val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                statusParam.topMargin = 0
+                statusParam.height = BarUtils.getStatusBarHeight()
+                viewPagerLinearLayout.addView(statusView, 0, statusParam)
+            }
             viewPagerLinearLayout.addView(tabLayout, 1, params)
         }
         LogUtil.log("add tableyout success")
