@@ -101,7 +101,7 @@ object TabLayoutHook {
             // mock status bar
             val statusView = View(context)
             statusView.background = ColorDrawable(StatusBarHooker.getStatueBarColor())
-            statusView.elevation = 100F
+            statusView.elevation = 1F
             val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             statusParam.topMargin = 0
             statusParam.height = BarUtils.getStatusBarHeight()
