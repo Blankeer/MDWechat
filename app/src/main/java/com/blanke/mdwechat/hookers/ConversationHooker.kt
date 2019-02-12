@@ -98,10 +98,16 @@ object ConversationHooker : HookerProvider {
     private val headViewHook = Hooker {
         XposedHelpers.findAndHookMethod(CC.ListView, "addHeaderView", CC.View, CC.Object, CC.Boolean,
                 object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam?) {
+                    override fun beforeHookedMethod(param: MethodHookParam?) {
                         val listView = param?.thisObject
-                        if (listView?.javaClass?.name != ConversationWithAppBrandListView.name) {
-                            return
+                        if (WechatGlobal.wxVersion!! < Version("7.0.3")) {
+                            if (listView?.javaClass?.name != ConversationWithAppBrandListView.name) {
+                                return
+                            }
+                        } else {
+                            if (listView?.javaClass?.name != ConversationListView.name) {
+                                return
+                            }
                         }
                         val view = param?.args!![0] as View
 //                        LogUtil.log("ConversationWithAppBrandListView addHeadView = ${view}")
