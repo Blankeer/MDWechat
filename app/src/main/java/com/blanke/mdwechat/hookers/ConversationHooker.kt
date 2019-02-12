@@ -6,6 +6,7 @@ import android.view.ViewTreeObserver
 import android.widget.ListView
 import com.blanke.mdwechat.CC
 import com.blanke.mdwechat.Classes
+import com.blanke.mdwechat.Classes.ConversationListView
 import com.blanke.mdwechat.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.Fields.ConversationFragment_mListView
 import com.blanke.mdwechat.Methods.ConversationWithAppBrandListView_isAppBrandHeaderEnable
@@ -19,6 +20,7 @@ import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.LogUtil
 import com.blanke.mdwechat.util.NightModeUtils
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 
 object ConversationHooker : HookerProvider {
@@ -54,6 +56,16 @@ object ConversationHooker : HookerProvider {
                 }
             }
         })
+        if (WechatGlobal.wxVersion!! >= Version("7.0.3")) {
+            XposedBridge.hookAllMethods(CC.View, "setBackgroundColor", object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    val view = param.thisObject as View
+                    if (view::class.java.name == ConversationListView.name) {
+                        param.result = null
+                    }
+                }
+            })
+        }
     }
 
     private val disableAppBrand = Hooker {

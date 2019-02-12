@@ -1,10 +1,10 @@
 package com.blanke.mdwechat.auto_search
 
-import android.widget.ListView
 import com.blanke.mdwechat.CC
 import com.blanke.mdwechat.Version
 import com.blanke.mdwechat.auto_search.Classes.ContactFragment
 import com.blanke.mdwechat.auto_search.Classes.ConversationFragment
+import com.blanke.mdwechat.auto_search.Classes.ConversationListView
 import com.blanke.mdwechat.auto_search.Classes.ConversationWithAppBrandListView
 import com.blanke.mdwechat.auto_search.Classes.CustomViewPager
 import com.blanke.mdwechat.auto_search.Classes.HomeUI
@@ -53,7 +53,7 @@ object Fields {
                 return findFieldsWithType(ConversationFragment!!, ConversationWithAppBrandListView!!.name)
                         .firstOrNull()?.apply { isAccessible = true }
             }
-            return findFieldsWithType(ConversationFragment!!, ListView::class.java.name)
+            return findFieldsWithType(ConversationFragment!!, ConversationListView!!.name)
                     .firstOrNull()?.apply { isAccessible = true }
         }
 

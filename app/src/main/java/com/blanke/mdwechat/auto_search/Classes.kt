@@ -129,6 +129,11 @@ object Classes {
             return ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.conversation.ConversationWithAppBrandListView", WechatGlobal.wxLoader)
         }
 
+    val ConversationListView: Class<*>?
+        get() {
+            return ReflectionUtil.findClassIfExists("${WechatGlobal.wxPackageName}.ui.conversation.ConversationListView", WechatGlobal.wxLoader)
+        }
+
     val ConversationFragment: Class<*>?
         get() {
             if (WechatGlobal.wxVersion!! < Version("7.0.3")) {
@@ -139,6 +144,7 @@ object Classes {
                         .firstOrNull()
             }
             return ReflectionUtil.findClassesFromPackage(WechatGlobal.wxLoader, WechatGlobal.wxClasses, "${WechatGlobal.wxPackageName}.ui.conversation")
+                    .filterByField(ConversationListView!!.name)
                     .filterByField(TextView::class.java.name)
                     .filterByMethod(voidd, "onResume")
                     .firstOrNull()

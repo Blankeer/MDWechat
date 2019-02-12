@@ -14,6 +14,7 @@ class WxVersionConfig {
         var ContactFragment: String? = null
         var ConversationFragment: String? = null
         var ConversationWithAppBrandListView: String? = null
+        var ConversationListView: String? = null
         var CustomViewPager: String? = null
         var DiscoverFragment: String? = null
         var HomeUI: String? = null

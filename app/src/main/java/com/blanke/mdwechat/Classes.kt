@@ -78,6 +78,10 @@ object Classes {
         findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ConversationWithAppBrandListView)
     }
 
+    val ConversationListView: Class<*> by WechatGlobal.wxLazy("ConversationListView") {
+        findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ConversationListView)
+    }
+
     val ConversationFragment: Class<*> by WechatGlobal.wxLazy("ConversationFragment") {
         findClass(com.blanke.mdwechat.WechatGlobal.wxVersionConfig.classes.ConversationFragment)
     }
