@@ -99,6 +99,7 @@ object LauncherUIHooker : HookerProvider {
                             if (WechatGlobal.wxVersion!! >= Version("6.7.2")) {
                                 // 672报错
                                 tabView.visibility = View.GONE
+                                tabView.layoutParams.height = 0
                             } else {
                                 linearViewGroup.removeView(tabView)
                             }
