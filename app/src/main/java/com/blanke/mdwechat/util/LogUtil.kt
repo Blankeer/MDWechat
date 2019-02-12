@@ -103,4 +103,20 @@ object LogUtil {
             }
         }
     }
+
+    fun findTextViewStackTrace(view: View, text: String): View? {
+        if (view is TextView) {
+            if (view.text.contains(text)) {
+                return view
+            }
+        } else if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val res = findTextViewStackTrace(view.getChildAt(i), text)
+                if (res != null) {
+                    return res
+                }
+            }
+        }
+        return null
+    }
 }
