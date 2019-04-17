@@ -48,19 +48,20 @@ dependencies {
     implementation 'ru.noties:markwon-image-loader:1.1.0'
 }
 
-// 每次修改运行后自动让 VXP 中的模块`即时生效` ,需要将 (Debug Configurations) - Before Launch - Gradle aware Make - 修改为 :app:installDebug
+
 afterEvaluate {
     installDebug.doLast {
         killTargetAPP.execute()
         startTargetAPP.execute()
     }
 }
+
+def pkg = 'com.tencent.mm'
 task killTargetAPP(type: Exec) {
-    def pkg = 'com.tencent.mm'
     commandLine android.adbExecutable, 'shell', 'am', 'force-stop', pkg
 }
+
 task startTargetAPP(type: Exec) {
-    def pkg = 'com.tencent.mm'
     //adb shell monkey -p your.app.package.name -c android.intent.category.LAUNCHER 1
     commandLine android.adbExecutable, 'shell', 'monkey', '-p', pkg, '-c', 'android.intent.category.LAUNCHER', '1'
 }
