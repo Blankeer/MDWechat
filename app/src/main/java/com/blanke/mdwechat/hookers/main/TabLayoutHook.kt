@@ -17,10 +17,12 @@ import com.blanke.mdwechat.hookers.StatusBarHooker
 import com.blanke.mdwechat.util.ConvertUtils
 import com.blanke.mdwechat.util.LogUtil
 import com.blanke.mdwechat.util.ViewUtils
+import com.blanke.mdwechat.util.waitInvoke
 import com.blankj.utilcode.util.BarUtils
 import com.flyco.tablayout.CommonTabLayout
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
+import de.robv.android.xposed.XposedHelpers
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -89,26 +91,33 @@ object TabLayoutHook {
         } else {
             val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             params.height = px48
-            params.topMargin = ConvertUtils.dp2px(resContext, 72f)
-            if (HookConfig.is_hook_hide_actionbar) {
-                params.topMargin = BarUtils.getStatusBarHeight()
+            val cb = { actionHeight: Int ->
+                params.topMargin = actionHeight + BarUtils.getStatusBarHeight() - 2
+                if (WechatGlobal.wxVersion!! == Version("7.0.0")) {
+                    // mock status bar
+                    val statusView = View(context)
+                    statusView.background = ColorDrawable(StatusBarHooker.getStatueBarColor())
+                    statusView.elevation = 1F
+                    val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    statusParam.topMargin = 0
+                    statusParam.height = BarUtils.getStatusBarHeight()
+                    viewPagerLinearLayout.addView(statusView, 0, statusParam)
+                }
+                viewPagerLinearLayout.setPadding(0, 0, 0, 0)
+                viewPagerLinearLayout.requestLayout()
+                viewPagerLinearLayout.addView(tabLayout, 1, params)
+            }
+            if (!HookConfig.is_hook_hide_actionbar) {
+                val mActionBar = Objects.Main.HomeUI_mActionBar.get()
+                waitInvoke(100, true, {
+                    XposedHelpers.callMethod(mActionBar, "getHeight") as Int > 0
+                }, {
+                    val actionHeight = XposedHelpers.callMethod(mActionBar, "getHeight") as Int
+                    cb(actionHeight)
+                })
             } else {
-                val viewpager = viewPagerLinearLayout.getChildAt(0)
-                val layoutParams = viewpager.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParams.topMargin = px48
-                viewpager.layoutParams = layoutParams
+                cb(0)
             }
-            if (WechatGlobal.wxVersion!! == Version("7.0.0")) {
-                // mock status bar
-                val statusView = View(context)
-                statusView.background = ColorDrawable(StatusBarHooker.getStatueBarColor())
-                statusView.elevation = 1F
-                val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                statusParam.topMargin = 0
-                statusParam.height = BarUtils.getStatusBarHeight()
-                viewPagerLinearLayout.addView(statusView, 0, statusParam)
-            }
-            viewPagerLinearLayout.addView(tabLayout, 1, params)
         }
         LogUtil.log("add tableyout success")
         Objects.Main.LauncherUI_mTabLayout = WeakReference(tabLayout)

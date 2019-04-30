@@ -40,7 +40,7 @@
     <string name="text_chat_group">群聊</string>
     <string name="text_friend_add">添加好友</string>
     <string name="text_app_thank">感谢</string>
-    <string name="text_app_thank_content">感谢 hzknm@coolapk 设计的 Logo,感谢 Gh0u1L5@github.</string>
+    <string name="text_app_thank_content">感谢 hzknm@coolapk 设计的 Logo,感谢 Gh0u1L5@github 开源的微信巫师,感谢 weishu 对代码的贡献,感谢 @装睡 提供的精神支持</string>
     <string name="key_hook_bubble_tint">key_hook_bubble_tint</string>
     <string name="text_hook_bubble_tint">气泡着色</string>
     <string name="text_hook_menu_qrcode">隐藏扫一扫</string>

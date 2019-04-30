@@ -11,7 +11,7 @@ object Objects {
         var LauncherUI = WeakReference<Activity>(null)
         var LauncherUI_mViewPager = WeakReference<View>(null)
         var LauncherUI_mTabLayout = WeakReference<CommonTabLayout>(null)
-        var LauncherUI_mActionBarContainer = WeakReference<View>(null)
+        var HomeUI_mActionBar = WeakReference<Any>(null)
         var LauncherUI_mWechatXMenuItem = WeakReference<MenuItem>(null)
         var LauncherUI_mContentLayout = WeakReference<View>(null)
     }
@@ -20,7 +20,7 @@ object Objects {
         Main.LauncherUI.clear()
         Main.LauncherUI_mViewPager.clear()
         Main.LauncherUI_mTabLayout.clear()
-        Main.LauncherUI_mActionBarContainer.clear()
+        Main.HomeUI_mActionBar.clear()
         Main.LauncherUI_mWechatXMenuItem.clear()
         Main.LauncherUI_mContentLayout.clear()
     }

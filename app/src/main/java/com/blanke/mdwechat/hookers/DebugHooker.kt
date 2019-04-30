@@ -22,7 +22,7 @@ object DebugHooker : HookerProvider {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
                 val event = param.args[0] as MotionEvent
-                if (event.action == MotionEvent.ACTION_UP) {
+                if (event.action == MotionEvent.ACTION_DOWN) {
                     logView(view)
                 }
             }

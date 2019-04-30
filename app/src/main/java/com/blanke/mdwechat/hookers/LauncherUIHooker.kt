@@ -23,6 +23,7 @@ import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.hookers.main.FloatMenuHook
+import com.blanke.mdwechat.hookers.main.HomeActionBarHook
 import com.blanke.mdwechat.hookers.main.TabLayoutHook
 import com.blanke.mdwechat.util.LogUtil.log
 import com.blanke.mdwechat.util.ViewUtils
@@ -110,11 +111,18 @@ object LauncherUIHooker : HookerProvider {
                         Objects.Main.LauncherUI_mContentLayout = WeakReference(contentViewGroup)
 
                         val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
+                        Objects.Main.HomeUI_mActionBar = WeakReference<Any>(actionBar)
+//                        Handler(Looper.getMainLooper()).postDelayed({
+//                            log("actionBar.height = " + XposedHelpers.callMethod(actionBar, "getHeight"))
+//                        }, 3000);
                         // hide actionBar
                         if (HookConfig.is_hook_hide_actionbar) {
                             log("隐藏 actionBar $actionBar")
                             XposedHelpers.callMethod(actionBar, "hide")
                         }
+//                        if (HookConfig.is_hook_hide_actionbar || HookConfig.is_hook_tab) {
+                        HomeActionBarHook.fix(linearViewGroup)
+//                        }
                         if (HookConfig.is_hook_tab) {
                             try {
                                 log("添加 TabLayout")

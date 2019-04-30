@@ -13,11 +13,11 @@ import android.widget.TextView
 object LogUtil {
     @JvmStatic
     fun log(msg: String) {
-        Log.i("MDWechat", "MDWechat $msg")
+        Log.i("MDWechatModule", "MDWechat $msg")
     }
 
     fun log(t: Throwable) {
-        Log.e("MDWechat", "MDWechat " + Log.getStackTraceString(t))
+        Log.e("MDWechatModule", "MDWechat " + Log.getStackTraceString(t))
     }
 
     fun bundleToString(bundle: Bundle?): String? {
