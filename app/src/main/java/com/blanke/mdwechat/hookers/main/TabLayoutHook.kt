@@ -96,7 +96,7 @@ object TabLayoutHook {
                 if (WechatGlobal.wxVersion!! == Version("7.0.0")) {
                     // mock status bar
                     val statusView = View(context)
-                    statusView.background = ColorDrawable(StatusBarHooker.getStatueBarColor())
+                    statusView.background = ColorDrawable(StatusBarHooker.getStatusBarColor())
                     statusView.elevation = 1F
                     val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                     statusParam.topMargin = 0

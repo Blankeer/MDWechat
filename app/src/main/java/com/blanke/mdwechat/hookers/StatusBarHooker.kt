@@ -8,16 +8,14 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.blanke.mdwechat.CC
+import com.blanke.mdwechat.*
 import com.blanke.mdwechat.Classes.PhoneWindow
-import com.blanke.mdwechat.Version
-import com.blanke.mdwechat.WeChatHelper
 import com.blanke.mdwechat.WeChatHelper.colorPrimary
-import com.blanke.mdwechat.WechatGlobal
 import com.blanke.mdwechat.config.HookConfig
 import com.blanke.mdwechat.hookers.base.Hooker
 import com.blanke.mdwechat.hookers.base.HookerProvider
 import com.blanke.mdwechat.util.ColorUtils
+import com.blanke.mdwechat.util.mainThread
 import com.blankj.utilcode.util.BarUtils
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -30,6 +28,7 @@ object StatusBarHooker : HookerProvider {
     }
 
     private val phoneWindowHook = Hooker {
+        val color = getStatusBarColor()
         if (WechatGlobal.wxVersion!! < Version("7.0.3")) {
             findAndHookMethod(PhoneWindow, "setStatusBarColor", CC.Int, object : XC_MethodHook() {
                 @Throws(Throwable::class)
@@ -40,7 +39,6 @@ object StatusBarHooker : HookerProvider {
                             || oldColor == 0) {
                         return
                     }
-                    val color = getStatueBarColor()
                     if (color != oldColor) {
                         WeChatHelper.reloadPrefs()
                         val window = param.thisObject as Window
@@ -50,13 +48,13 @@ object StatusBarHooker : HookerProvider {
                     }
                 }
             })
-        } else {// >= 7.0.3
+        } else {
             XposedHelpers.findAndHookMethod(CC.Activity, "onCreate", CC.Bundle, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val activity = param.thisObject as Activity
 //                    LogUtil.log("activity onCreate " + activity)
                     val statusView = View(activity)
-                    statusView.background = ColorDrawable(getStatueBarColor())
+                    statusView.background = ColorDrawable(getStatusBarColor())
                     statusView.elevation = 1F
                     val statusParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                     statusParam.topMargin = 0
@@ -65,13 +63,25 @@ object StatusBarHooker : HookerProvider {
                     statusView.layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT, BarUtils.getStatusBarHeight())
                     val rootView = activity.window.decorView as ViewGroup
-                    rootView.addView(statusView)
+                    mainThread(100) {
+                        rootView.addView(statusView)
+                        val window = activity.window
+                        window.statusBarColor = color
+                        window.navigationBarColor = color
+                    }
+                    if (activity::class.java == Classes.LauncherUI) {
+                        mainThread(1000) {
+                            val window = activity.window
+                            window.statusBarColor = color
+                            window.navigationBarColor = color
+                        }
+                    }
                 }
             })
         }
     }
 
-    fun getStatueBarColor(): Int {
+    fun getStatusBarColor(): Int {
         return if (HookConfig.is_hook_statusbar_transparent) colorPrimary else ColorUtils.getDarkerColor(colorPrimary, 0.85f)
     }
 }
