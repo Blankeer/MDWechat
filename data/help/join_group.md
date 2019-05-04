@@ -1,0 +1,3 @@
+- MDWechat 交流群(QQ群：674478488)
+- 微信群(添加微信 CSYJZF,回复 MDWechat)
+- MDWechat 内测群(QQ群：661865449)

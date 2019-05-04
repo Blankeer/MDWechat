@@ -1,9 +1,7 @@
 package com.blanke.mdwechat.settings
 
 import android.app.AlertDialog
-import android.content.ClipboardManager
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -56,7 +54,7 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
         findPreference(getString(R.string.key_generate_wechat_config))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_donate_wechat))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_download_wechat_config))?.onPreferenceClickListener = this
-        findPreference(getString(R.string.key_feedback_wechat))?.onPreferenceClickListener = this
+        findPreference(getString(R.string.key_feedback_group))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_help_float_button))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_help_bubble))?.onPreferenceClickListener = this
         findPreference(getString(R.string.key_help_icon))?.onPreferenceClickListener = this
@@ -101,8 +99,8 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
             getString(R.string.key_download_wechat_config) -> {
                 downloadWechatConfig()
             }
-            getString(R.string.key_feedback_wechat) -> {
-                joinWechatGroup()
+            getString(R.string.key_feedback_group) -> {
+                gotoMarkDownAct(getString(R.string.text_feedback_group), Common.URL_JOIN_GROUP)
             }
             getString(R.string.key_help_float_button) -> {
                 gotoMarkDownAct(getString(R.string.text_help_float_button), Common.URL_HELP_FLOAT_BUTTON)
@@ -126,12 +124,6 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
 
     private fun downloadWechatConfig() {
         DownloadWechatDialog.show(activity)
-    }
-
-    private fun joinWechatGroup() {
-        val manager = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        manager.text = "CSYJZF"
-        ToastUtils.showShort("已复制微信号")
     }
 
     private var generateWechatLogView: TextView? = null

@@ -141,7 +141,9 @@
     <string name="text_about_settings">关于</string>
     <string name="key_feedback_wechat">key_feedback_wechat</string>
     <string name="text_feedback_wechat">微信交流群</string>
-    <string name="text_feedback_wechat_info">添加微信 CSYJZF，回复 MDWechat 即可加入，点击复制微信号</string>
+    <string name="text_feedback_group">加入交流群</string>
+    <string name="text_feedback_wechat_info"></string>
+    <string name="text_feedback_group_info">点击查看交流群</string>
     <string name="text_help_settings">帮助和教程</string>
     <string name="text_help_float_button">悬浮按钮</string>
     <string name="text_help_icon">图标</string>
@@ -155,4 +157,5 @@
     <string name="text_app_desc">本软件请在微信的用户条款下使用，遵守相关法律和微信规定，使用本软件造成的一切后果，与软件和开发者无关，如对上述有异议或疑问，请立即卸载此软件！</string>
     <string name="text_app_donate">你已使用「MDWechat」%s，在使用过程中有任何问题欢迎加入微信群讨论。\n如果你觉得「MDWechat」很好用，是否愿意支持下作者，让我更有动力完善维护这个软件呢？</string>
     <string name="text_app_know">我已知晓</string>
+    <string name="key_feedback_group">key_feedback_group</string>
 </resources>

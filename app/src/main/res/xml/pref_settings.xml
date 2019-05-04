@@ -23,14 +23,14 @@
             android:key="@string/key_donate_wechat"
             android:title="@string/text_donate_wechat" />
 
-        <Preference
-            android:key="@string/key_feedback"
-            android:title="@string/text_feedback" />
+        <!--<Preference-->
+        <!--android:key="@string/key_feedback"-->
+        <!--android:title="@string/text_feedback" />-->
 
         <Preference
-            android:key="@string/key_feedback_wechat"
-            android:summary="@string/text_feedback_wechat_info"
-            android:title="@string/text_feedback_wechat" />
+            android:key="@string/key_feedback_group"
+            android:summary="@string/text_feedback_group_info"
+            android:title="@string/text_feedback_group" />
 
         <Preference
             android:key="@string/key_feedback_email"
