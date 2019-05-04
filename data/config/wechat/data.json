@@ -1,5 +1,15 @@
 [
   {
+    "name": "7.0.4.config",
+    "desc": "7.0.4 国内版",
+    "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/7.0.4/7.0.4.config"
+  },
+  {
+    "name": "7.0.3.config",
+    "desc": "7.0.3 国内版",
+    "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/7.0.3/7.0.3.config"
+  },
+  {
     "name": "7.0.0.config",
     "desc": "7.0.0 国内版",
     "url": "https://raw.githubusercontent.com/Blankeer/MDWechat/v3.0/data/config/wechat/7.0.0/7.0.0.config"
