@@ -21,6 +21,11 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -46,6 +51,7 @@ dependencies {
 
     implementation 'ru.noties:markwon:1.1.0'
     implementation 'ru.noties:markwon-image-loader:1.1.0'
+    implementation 'org.jooq:jooq:3.11.11'
 }
 
 

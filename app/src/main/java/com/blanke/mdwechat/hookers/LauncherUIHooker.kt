@@ -28,7 +28,6 @@ import com.blanke.mdwechat.hookers.main.TabLayoutHook
 import com.blanke.mdwechat.util.LogUtil.log
 import com.blanke.mdwechat.util.ViewUtils
 import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import java.lang.ref.WeakReference
 
@@ -49,16 +48,6 @@ object LauncherUIHooker : HookerProvider {
                 }
                 log("LauncherUI onDestroy()")
                 Objects.clear()
-            }
-        })
-        XposedBridge.hookAllConstructors(Classes.Toolbar, object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                val toolbar = param.thisObject as View
-                if (toolbar.context::class.java.name == Classes.LauncherUI.name) {
-                    if (HookConfig.is_hook_hide_actionbar) {
-                        toolbar.visibility = View.GONE
-                    }
-                }
             }
         })
         XposedHelpers.findAndHookMethod(CC.Activity, "onPostResume",
@@ -112,17 +101,7 @@ object LauncherUIHooker : HookerProvider {
 
                         val actionBar = Fields.HomeUI_mActionBar.get(homeUI)
                         Objects.Main.HomeUI_mActionBar = WeakReference<Any>(actionBar)
-//                        Handler(Looper.getMainLooper()).postDelayed({
-//                            log("actionBar.height = " + XposedHelpers.callMethod(actionBar, "getHeight"))
-//                        }, 3000);
-                        // hide actionBar
-                        if (HookConfig.is_hook_hide_actionbar) {
-                            log("隐藏 actionBar $actionBar")
-                            XposedHelpers.callMethod(actionBar, "hide")
-                        }
-//                        if (HookConfig.is_hook_hide_actionbar || HookConfig.is_hook_tab) {
                         HomeActionBarHook.fix(linearViewGroup)
-//                        }
                         if (HookConfig.is_hook_tab) {
                             try {
                                 log("添加 TabLayout")
@@ -144,16 +123,6 @@ object LauncherUIHooker : HookerProvider {
                         XposedHelpers.setAdditionalInstanceField(activity, keyInit, true)
                     }
                 })
-        //hide main actionBar, change paddingTop = 0
-        XposedHelpers.findAndHookMethod(View::class.java, "setPadding", CC.Int, CC.Int, CC.Int
-                , CC.Int, object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam?) {
-                val view = param?.thisObject as View
-                if (view == Objects.Main.LauncherUI_mContentLayout.get() && HookConfig.is_hook_hide_actionbar) {
-                    param.args[1] = 0
-                }
-            }
-        })
     }
 
     private val mainTabUIPageAdapterHook = Hooker {
