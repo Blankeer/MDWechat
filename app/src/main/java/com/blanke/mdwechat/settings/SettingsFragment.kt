@@ -261,6 +261,11 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
 
 
     private fun showAppInfoDialog() {
+        val lastLaunchTime = preferenceManager.sharedPreferences.getLong("last_launch_time", -1)
+        preferenceManager.sharedPreferences.edit().putLong("last_launch_time", System.currentTimeMillis()).apply()
+        if (lastLaunchTime > 0 && TimeUtils.isToday(lastLaunchTime)) {
+            return
+        }
         val packageManager = activity.applicationContext.packageManager
         val packageInfo = packageManager.getPackageInfo(BuildConfig.APPLICATION_ID, 0)
         val firstInstallTime = Date(packageInfo.firstInstallTime)
@@ -274,7 +279,6 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
                 .setNegativeButton(R.string.text_donate_wechat) { dialog, which -> donateWechat() }
                 .setNeutralButton(R.string.text_donate) { dialog, which -> donate() }
                 .show()
-
     }
 
     override fun onDestroy() {
