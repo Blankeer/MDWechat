@@ -66,6 +66,17 @@ object ConversationHooker : HookerProvider {
                 }
             })
         }
+        if (WechatGlobal.wxVersion!! >= Version("7.0.4")) {
+            XposedBridge.hookAllMethods(CC.View, "setBackground", object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    val view = param.thisObject as View
+                    val pView = view.parent as View
+                    if (pView::class.java.name == ConversationListView.name) {
+                        param.result = null
+                    }
+                }
+            })
+        }
     }
 
     private val disableAppBrand = Hooker {
