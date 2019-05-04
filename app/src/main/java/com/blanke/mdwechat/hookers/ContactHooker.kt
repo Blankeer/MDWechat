@@ -113,9 +113,17 @@ object ContactHooker : HookerProvider {
                                                             headTextView.setTextColor(headTextColor)
                                                         }
                                                     } else if (childView is ViewGroup) {// 新的朋友 群聊 公众号
-                                                        val maskLayout = childView.getChildAt(0)
+                                                        var maskLayout = childView.getChildAt(0)
                                                         titleTextView = childView.getChildAt(1) // 公众号 textView
-                                                        if (maskLayout is ViewGroup) {
+//                                                        LogUtil.log("-------------")
+//                                                        LogUtil.logViewStackTraces(childView)
+//                                                        LogUtil.log("-------------")
+                                                        if (titleTextView == null) {// 企业微信联系人
+                                                            maskLayout = ViewUtils.getChildView(childView, 0, 0, 0, 0)
+                                                            titleTextView = ViewUtils.getChildView(childView, 0, 0, 0, 1)
+                                                            ViewUtils.getChildView(childView, 0, 0)?.background = transparentDrawable
+                                                        }
+                                                        if (maskLayout != null && maskLayout is ViewGroup) {
                                                             val iv = maskLayout.getChildAt(0)
                                                             if (iv is ImageView) {
                                                                 val roundLayout = RCRelativeLayout(Objects.Main.LauncherUI.get())
@@ -125,15 +133,17 @@ object ContactHooker : HookerProvider {
                                                                 roundLayout.addView(iv)
                                                             }
                                                         }
-                                                        titleTextView.background = transparentDrawable
-                                                        if (isHookTextColor) {
-                                                            titleTextView?.apply {
-                                                                if (this is TextView) {
-                                                                    this.setTextColor(titleTextColor)
-                                                                } else if (this is ViewGroup) {
-                                                                    val tv = this.getChildAt(0)
-                                                                    if (tv is TextView) {
-                                                                        tv.setTextColor(titleTextColor)
+                                                        if (titleTextView != null) {
+                                                            titleTextView.background = transparentDrawable
+                                                            if (isHookTextColor) {
+                                                                titleTextView.apply {
+                                                                    if (this is TextView) {
+                                                                        this.setTextColor(titleTextColor)
+                                                                    } else if (this is ViewGroup) {
+                                                                        val tv = this.getChildAt(0)
+                                                                        if (tv is TextView) {
+                                                                            tv.setTextColor(titleTextColor)
+                                                                        }
                                                                     }
                                                                 }
                                                             }
